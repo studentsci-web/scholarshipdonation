@@ -1,0 +1,785 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>บริจาคทุนการศึกษา คณะวิทยาศาสตร์และเทคโนโลยี มทร.รัตนโกสินทร์</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600&family=Noto+Serif+Thai:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #12273b;
+    --ink-soft: #4a5d6e;
+    --teal: #0f6b66;
+    --teal-dark: #0a524e;
+    --mint: #e4f1ee;
+    --paper: #f5f8f7;
+    --card: #ffffff;
+    --line: #cfdcd8;
+    --amber: #f2b632;
+    --amber-soft: #fff1cc;
+    --danger: #b3261e;
+    --mark: 46px; /* ขนาดโลโก้มุมซ้ายบน พื้นที่โลโก้กลางหน้าเท่ากับ 4 เท่าของค่านี้ */
+    --serif: "Noto Serif Thai", "Tahoma", serif;
+    --sans: "IBM Plex Sans Thai", "Tahoma", system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 1.0625rem;
+    line-height: 1.75;
+  }
+  img, svg { max-width: 100%; }
+  button, input, textarea { font: inherit; color: inherit; }
+  :focus-visible { outline: 3px solid var(--amber); outline-offset: 2px; }
+
+  /* placeholders the editor must replace */
+  .ph { background: var(--amber-soft); box-shadow: 0 -2px 0 var(--amber-soft); border-radius: 3px; }
+
+  .demo-banner {
+    background: var(--amber-soft);
+    border-bottom: 1px solid var(--amber);
+    padding: 10px 16px;
+    font-size: 0.9375rem;
+    line-height: 1.55;
+    text-align: center;
+  }
+  .demo-banner[hidden] { display: none; }
+
+  .site-head {
+    display: flex; align-items: center; flex-wrap: wrap; gap: 10px 14px;
+    max-width: 1080px; margin: 0 auto; padding: 18px 16px 6px;
+  }
+  .mark {
+    flex: none; width: var(--mark); height: var(--mark); border-radius: 12px;
+    background: var(--teal); color: #fff; display: grid; place-items: center;
+  }
+  .mark svg { width: 28px; height: 28px; }
+  .mark.has-img { background: transparent; }
+  .mark img { width: 100%; height: 100%; object-fit: contain; }
+  .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+  .ref-line { font-weight: 600; }
+  .site-foot a { color: inherit; }
+  /* ช่องโลโก้มหาวิทยาลัยกลางหน้า: 4 เท่าของโลโก้มุมซ้ายบน (46px x 4 = 184px) ปรับที่ --mark ตัวเดียว */
+  .logo-band { grid-column: 1 / -1; display: flex; justify-content: center; }
+  .logo-slot {
+    flex: none; width: calc(var(--mark) * 4); height: calc(var(--mark) * 4); max-width: 100%;
+    display: grid; place-content: center; gap: 2px; text-align: center; padding: 8px;
+    border: 2px dashed var(--amber); border-radius: 16px; background: var(--amber-soft);
+    color: var(--ink-soft); font-size: 0.9375rem; line-height: 1.5;
+  }
+  .logo-slot small { font-size: 0.8125rem; }
+  .logo-slot.has-logo { border: 0; background: transparent; border-radius: 0; padding: 0; }
+  .logo-slot img { width: 100%; height: 100%; object-fit: contain; display: block; }
+  @media (min-width: 900px) { .org strong { font-size: 1.25rem; } .org { font-size: 1rem; } }
+  .org { flex: 1 1 14rem; min-width: 0; margin: 0; line-height: 1.45; font-size: 0.9375rem; color: var(--ink-soft); }
+  .org strong { display: block; color: var(--ink); font-weight: 600; font-size: 1rem; }
+  .head-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-left: auto; }
+  .admin-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    min-height: 44px; padding: 0 16px; border-radius: 999px;
+    border: 1.5px solid var(--ink); background: #fff; color: var(--ink);
+    font-size: 0.9375rem; font-weight: 500; cursor: pointer;
+  }
+  .admin-btn:hover { background: var(--ink); color: #fff; }
+  .admin-btn svg { width: 18px; height: 18px; flex: none; }
+  .list-btn { border-color: var(--teal); color: var(--teal-dark); }
+  .list-btn:hover { background: var(--teal); border-color: var(--teal); color: #fff; }
+  .admin-note {
+    flex-basis: 100%; margin: 0; padding: 10px 14px; border-radius: 10px;
+    background: var(--amber-soft); font-size: 0.9375rem; line-height: 1.6;
+  }
+  .admin-note[hidden] { display: none; }
+
+
+  .layout {
+    max-width: 1080px; margin: 0 auto; padding: 18px 16px 56px;
+    display: grid; gap: 28px;
+  }
+  @media (min-width: 900px) {
+    .layout { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 48px; padding-top: 36px; align-items: start; }
+    .intro { position: sticky; top: 24px; }
+  }
+
+  /* intro */
+  .intro h1 {
+    font-family: var(--serif); font-weight: 700;
+    font-size: clamp(1.9rem, 5.2vw, 2.9rem);
+    line-height: 1.4; margin: 8px 0 14px; text-wrap: balance;
+  }
+  .intro .lead { margin: 0 0 22px; max-width: 34em; color: var(--ink-soft); }
+  .uses { list-style: none; margin: 0 0 22px; padding: 0; display: grid; gap: 10px; }
+  .uses li { display: grid; grid-template-columns: 22px 1fr; gap: 10px; align-items: start; }
+  .uses svg { width: 22px; height: 22px; margin-top: 4px; color: var(--teal); }
+  .trust {
+    border-left: 4px solid var(--teal); background: var(--mint);
+    padding: 12px 16px; border-radius: 0 10px 10px 0;
+    font-size: 0.9688rem; line-height: 1.65; margin: 0;
+  }
+
+  /* steps */
+  .step {
+    background: var(--card); border: 1px solid var(--line);
+    border-radius: 14px; padding: 20px 18px 22px;
+  }
+  .step + .step { margin-top: 16px; }
+  .step-head { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+  .step-no {
+    flex: none; width: 34px; height: 34px; border-radius: 50%;
+    background: var(--teal); color: #fff; font-weight: 600;
+    display: grid; place-items: center; line-height: 1;
+  }
+  .step-head h2 {
+    margin: 0; font-family: var(--serif); font-weight: 600;
+    font-size: 1.25rem; line-height: 1.5;
+  }
+  .hint { margin: 0 0 12px; font-size: 0.9375rem; color: var(--ink-soft); line-height: 1.6; }
+
+  /* amount */
+
+  label, .label { display: block; font-weight: 500; margin-bottom: 4px; }
+  .opt { font-weight: 400; color: var(--ink-soft); font-size: 0.9375rem; }
+  .field { margin-bottom: 16px; }
+  .field:last-child { margin-bottom: 0; }
+  input[type="text"], input[type="email"], input[type="tel"], input[type="date"], textarea {
+    width: 100%; min-height: 50px; padding: 10px 14px;
+    border: 1.5px solid var(--line); border-radius: 10px; background: #fff;
+  }
+  textarea { min-height: 96px; resize: vertical; line-height: 1.6; }
+  input:hover, textarea:hover { border-color: #9fb6b0; }
+  [aria-invalid="true"] { border-color: var(--danger) !important; }
+  .money { position: relative; }
+  .money input { padding-right: 56px; font-size: 1.25rem; font-weight: 500; }
+  .money span { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); color: var(--ink-soft); pointer-events: none; }
+  .err { margin: 4px 0 0; color: var(--danger); font-size: 0.9375rem; line-height: 1.5; min-height: 0; }
+  .err:empty { display: none; }
+
+  /* transfer */
+  .pay-total {
+    background: var(--mint); border-radius: 12px; padding: 14px 18px; margin-bottom: 16px;
+    display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+  }
+  .pay-total .t { color: var(--ink-soft); font-size: 0.9375rem; }
+  .pay-total .n { font-family: var(--serif); font-weight: 700; font-size: 2.4rem; line-height: 1.3; }
+  .pay-total .u { font-size: 1rem; margin-left: 4px; font-weight: 500; }
+  .account {
+    width: 100%; margin: 0; display: grid; gap: 12px; padding: 16px;
+    border: 1.5px solid var(--line); border-radius: 12px; background: #fbfdfc;
+  }
+  .account div { display: grid; grid-template-columns: 7.2em 1fr; gap: 8px; align-items: center; }
+  .account dt { color: var(--ink-soft); font-size: 0.9375rem; }
+  .account dd { margin: 0; font-weight: 500; word-break: break-word; }
+  .acc-row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  .copy {
+    min-height: 38px; padding: 0 14px; border-radius: 999px;
+    border: 1.5px solid var(--teal); background: #fff; color: var(--teal-dark);
+    font-size: 0.9375rem; font-weight: 500; cursor: pointer;
+  }
+  .copy:hover { background: var(--mint); }
+  .copy:disabled { border-color: var(--line); color: var(--ink-soft); cursor: not-allowed; background: #fff; }
+
+  /* slip */
+  .slip-btn {
+    display: grid; place-items: center; text-align: center; gap: 2px;
+    min-height: 92px; padding: 14px; border: 2px dashed var(--teal); border-radius: 12px;
+    background: #fbfdfc; cursor: pointer; font-weight: 500; color: var(--teal-dark);
+  }
+  .slip-btn small { font-weight: 400; color: var(--ink-soft); font-size: 0.875rem; }
+  .slip-btn:hover { background: var(--mint); }
+  .logo-btn { min-height: 72px; }
+  .slip-input { position: absolute; width: 1px; height: 1px; opacity: 0; overflow: hidden; }
+  .slip-input:focus-visible + .slip-btn { outline: 3px solid var(--amber); outline-offset: 2px; }
+  .slip-prev { display: none; align-items: center; gap: 14px; margin-top: 12px; padding: 10px; border: 1px solid var(--line); border-radius: 12px; }
+  .slip-prev.on { display: flex; }
+  .slip-prev img { width: 64px; height: 64px; object-fit: cover; border-radius: 8px; flex: none; background: var(--mint); }
+  .slip-prev .name { flex: 1; min-width: 0; font-size: 0.9375rem; line-height: 1.45; overflow-wrap: anywhere; }
+  .linkbtn { background: none; border: 0; color: var(--danger); font-weight: 500; cursor: pointer; padding: 8px; min-height: 44px; }
+  .linkbtn:hover { text-decoration: underline; }
+
+  /* checks */
+  .check { display: grid; grid-template-columns: 24px 1fr; gap: 10px; align-items: start; font-weight: 400; margin: 0; cursor: pointer; }
+  .check input { width: 22px; height: 22px; margin: 4px 0 0; accent-color: var(--teal); }
+  .check + .err { margin-left: 34px; }
+  .check-hint { margin: 4px 0 0 34px; font-size: 0.875rem; color: var(--ink-soft); line-height: 1.55; }
+  .date-hint, .tax-hint { margin: 4px 0 0; font-size: 0.9375rem; color: var(--ink-soft); line-height: 1.55; }
+  .date-hint:empty { display: none; }
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+  /* donor type (segmented choice) */
+  .seg { border: 0; padding: 0; margin: 0 0 16px; min-width: 0; }
+  .seg-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .seg-opt { position: relative; display: block; margin: 0; font-weight: 500; }
+  .seg-opt input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+  .seg-opt span {
+    display: flex; align-items: center; justify-content: center; text-align: center;
+    min-height: 52px; padding: 6px 10px; line-height: 1.4; cursor: pointer;
+    border: 1.5px solid var(--line); border-radius: 12px; background: #fff;
+    transition: background-color .15s, border-color .15s, color .15s;
+  }
+  .seg-opt span:hover { border-color: var(--teal); }
+  .seg-opt input:checked + span { background: var(--ink); border-color: var(--ink); color: #fff; }
+  .seg-opt input:focus-visible + span { outline: 3px solid var(--amber); outline-offset: 2px; }
+
+  .submit {
+    width: 100%; min-height: 56px; margin-top: 20px; border: 0; border-radius: 12px;
+    background: var(--teal); color: #fff; font-weight: 600; font-size: 1.125rem; cursor: pointer;
+    transition: background-color .15s;
+  }
+  .submit:hover { background: var(--teal-dark); }
+  .submit:disabled { background: #7aa8a4; cursor: progress; }
+  .form-error { margin: 12px 0 0; color: var(--danger); font-size: 0.9688rem; line-height: 1.6; }
+  .form-error:empty { display: none; }
+
+  /* done */
+  .done { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 28px 22px; }
+  .done[hidden] { display: none; }
+  .done h2 { font-family: var(--serif); font-size: 1.6rem; line-height: 1.5; margin: 0 0 10px; }
+  .done h2:focus { outline: none; }
+  .done p { margin: 0 0 14px; }
+  .done .demo-note { background: var(--amber-soft); padding: 10px 14px; border-radius: 10px; font-size: 0.9375rem; }
+  .again {
+    min-height: 48px; padding: 0 22px; border-radius: 999px; border: 1.5px solid var(--teal);
+    background: #fff; color: var(--teal-dark); font-weight: 600; cursor: pointer;
+  }
+  .again:hover { background: var(--mint); }
+  form[hidden] { display: none; }
+
+  .site-foot {
+    border-top: 1px solid var(--line); background: #fff;
+    padding: 24px 16px 32px; font-size: 0.9375rem; color: var(--ink-soft); line-height: 1.7;
+  }
+  .site-foot > div { max-width: 1080px; margin: 0 auto; }
+  .site-foot p { margin: 0 0 6px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; scroll-behavior: auto !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="demo-banner" id="demoBanner" role="note">
+  หน้าตัวอย่างสำหรับออกแบบ ยังไม่เชื่อมระบบรับบริจาคจริง และข้อมูลที่กรอกจะไม่ถูกส่งไปที่ใด
+  อย่าเผยแพร่จนกว่าจะแก้ข้อมูลที่ไฮไลต์สีเหลืองและเชื่อมระบบแล้ว
+</div>
+
+<header class="site-head">
+  <div class="mark" aria-hidden="true">
+    <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 4h8M14 4v8l-6.2 11.2A3 3 0 0 0 10.4 27.5h11.2a3 3 0 0 0 2.6-4.3L18 12V4"/>
+      <path d="M10.5 20h11"/>
+    </svg>
+  </div>
+  <p class="org">
+    <strong data-cfg="orgLine1">งานกิจการนักศึกษา คณะวิทยาศาสตร์และเทคโนโลยี</strong>
+    <span data-cfg="orgLine2">มหาวิทยาลัยเทคโนโลยีราชมงคลรัตนโกสินทร์</span>
+  </p>
+  <div class="head-actions">
+  <button type="button" class="admin-btn list-btn" id="donorsBtn" aria-controls="donorsNote" aria-expanded="false">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11"/><path d="M4 6h.01M4 12h.01M4 18h.01"/></svg>
+    รายนามผู้บริจาค
+  </button>
+  <button type="button" class="admin-btn" id="adminBtn" aria-controls="adminNote" aria-expanded="false">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+    สำหรับเจ้าหน้าที่ (Admin)
+  </button>
+  </div>
+  <p class="admin-note" id="donorsNote" role="status" hidden>
+    ยังไม่ได้เชื่อมหน้ารายนามผู้บริจาค ใส่ลิงก์หน้านั้นในค่า <code>donorListUrl</code> ที่ส่วนตั้งค่าท้ายไฟล์ แล้วปุ่มนี้จะเปิดหน้านั้นในแท็บใหม่
+  </p>
+  <p class="admin-note" id="adminNote" role="status" hidden>
+    ยังไม่ได้เชื่อมหน้าตรวจสลิปสำหรับเจ้าหน้าที่ ใส่ลิงก์หน้านั้นในค่า <code>adminUrl</code> ที่ส่วนตั้งค่าท้ายไฟล์ แล้วปุ่มนี้จะพาไปที่หน้านั้นทันที
+  </p>
+</header>
+
+<main class="layout" id="main">
+
+  <div class="logo-band">
+    <div class="logo-slot" id="logoSlot" role="img" aria-label="พื้นที่สำหรับโลโก้มหาวิทยาลัย (ยังไม่ได้ใส่โลโก้)">
+      <span>พื้นที่ใส่โลโก้<br>มหาวิทยาลัย</span>
+      <small>184 × 184 px</small>
+    </div>
+  </div>
+
+  <section class="intro" aria-labelledby="title">
+    <h1 id="title" data-cfg="heroTitle">ร่วมสร้างโอกาสทางการศึกษาแก่นักศึกษา</h1>
+    <p class="lead">
+      <span data-cfg="heroLead">เงินบริจาคของท่านจะนำเข้ากองทุนการศึกษา คณะวิทยาศาสตร์และเทคโนโลยี
+      เพื่อสนับสนุนค่าเล่าเรียนและอุปกรณ์การเรียนแก่นักศึกษาที่มีความจำเป็น</span>
+      <span class="ph" data-cfg="objective" data-optional>[ปรับข้อความให้ตรงกับวัตถุประสงค์ของกองทุน]</span>
+    </p>
+    <ul class="uses">
+      <li>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+        <span data-cfg="bullet1">มอบเป็นทุนการศึกษาแก่นักศึกษาของคณะ</span>
+      </li>
+      <li>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+        <span data-cfg="bullet2">เจ้าหน้าที่ตรวจสอบหลักฐานการโอนเงินทุกรายการ</span>
+      </li>
+      <li>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+        <span data-cfg="bullet3">ขั้นตอนการบริจาค ได้แก่ ระบุจำนวนเงิน โอนเงินเข้าบัญชี และแนบหลักฐานการโอนเงิน</span>
+      </li>
+    </ul>
+    <p class="trust">
+      โปรดโอนเงินเข้าบัญชีของ<span class="ph" data-cfg="trustOwner">[มหาวิทยาลัย/กองทุนการศึกษา]</span>เท่านั้น
+      และตรวจสอบชื่อบัญชีให้ถูกต้องตามขั้นตอนที่ 2 ก่อนยืนยันการโอนทุกครั้ง
+    </p>
+  </section>
+
+  <div>
+    <form id="donateForm" novalidate>
+
+      <section class="step" aria-labelledby="s1">
+        <div class="step-head"><span class="step-no" aria-hidden="true">1</span><h2 id="s1">ระบุจำนวนเงินบริจาค</h2></div>
+        <div class="field">
+          <label for="amount">จำนวนเงินที่ประสงค์จะบริจาค</label>
+          <div class="money">
+            <input id="amount" name="amount" type="text" inputmode="numeric" autocomplete="off" aria-describedby="err-amount" placeholder="0">
+            <span aria-hidden="true">บาท</span>
+          </div>
+          <p class="err" id="err-amount" role="alert"></p>
+        </div>
+      </section>
+
+      <section class="step" aria-labelledby="s2">
+        <div class="step-head"><span class="step-no" aria-hidden="true">2</span><h2 id="s2">โอนเงินเข้าบัญชีมหาวิทยาลัย</h2></div>
+        <div class="pay-total" aria-live="polite">
+          <span class="t">ยอดเงินที่ต้องโอน</span>
+          <span><span class="n" id="amountShow">–</span><span class="u">บาท</span></span>
+        </div>
+        <dl class="account">
+          <div><dt>ธนาคาร</dt><dd id="bankName" class="ph" data-cfg="bankName">[ระบุชื่อธนาคาร]</dd></div>
+          <div><dt>ชื่อบัญชี</dt><dd id="accountName" class="ph" data-cfg="accountName">[ระบุชื่อบัญชี]</dd></div>
+          <div>
+            <dt>เลขที่บัญชี</dt>
+            <dd class="acc-row"><span id="accountNumber" class="ph" data-cfg="accountNumber">[ระบุเลขบัญชี]</span><button type="button" class="copy" id="copyBtn">คัดลอกเลขที่บัญชี</button></dd>
+          </div>
+        </dl>
+        <p class="hint" style="margin:14px 0 0" data-cfg="transferHint">โปรดโอนเงินตามจำนวนที่ระบุ และเก็บหลักฐานการโอนเงิน (สลิป) ไว้เพื่อแนบในขั้นตอนที่ 3</p>
+      </section>
+
+      <section class="step" aria-labelledby="s3">
+        <div class="step-head"><span class="step-no" aria-hidden="true">3</span><h2 id="s3">แนบหลักฐานการโอนเงินและข้อมูลผู้บริจาค</h2></div>
+
+        <div class="field">
+          <span class="sr-only" id="slipLabel">สลิปการโอนเงิน</span>
+          <input class="slip-input" type="file" id="slip" name="slip" accept="image/*" aria-describedby="err-slip" aria-labelledby="slipLabel">
+          <label class="slip-btn" for="slip" id="slipBtn">
+            คลิกหรือแตะเพื่อแนบสลิปการโอนเงิน
+            <small>ไฟล์รูปภาพ JPG หรือ PNG ขนาดไม่เกิน 10 MB</small>
+          </label>
+          <div class="slip-prev" id="slipPrev">
+            <img id="slipImg" alt="ตัวอย่างสลิปที่เลือก">
+            <span class="name" id="slipName"></span>
+            <button type="button" class="linkbtn" id="slipRemove">เปลี่ยนไฟล์</button>
+          </div>
+          <p class="err" id="err-slip" role="alert"></p>
+        </div>
+
+        <div class="field">
+          <label for="transferDate">วันที่โอนเงิน</label>
+          <input id="transferDate" name="transferDate" type="date" aria-describedby="date-hint err-transferDate">
+          <p class="date-hint" id="date-hint"></p>
+          <p class="err" id="err-transferDate" role="alert"></p>
+        </div>
+
+        <fieldset class="seg">
+          <legend class="sr-only">ประเภทผู้บริจาค</legend>
+          <div class="seg-row">
+            <label class="seg-opt"><input type="radio" name="donorType" value="person" checked><span>บุคคลธรรมดา</span></label>
+            <label class="seg-opt"><input type="radio" name="donorType" value="entity"><span>นิติบุคคล</span></label>
+          </div>
+        </fieldset>
+
+        <div id="personFields">
+          <div class="field">
+            <label for="name">ชื่อ-นามสกุล</label>
+            <input id="name" name="name" type="text" autocomplete="name" aria-describedby="err-name">
+            <p class="err" id="err-name" role="alert"></p>
+          </div>
+
+          <div class="field">
+            <label for="org">ชื่อหน่วยงาน <span class="opt">(ถ้ามี)</span></label>
+            <input id="org" name="org" type="text" autocomplete="organization">
+          </div>
+        </div>
+
+        <div id="entityFields" hidden>
+          <div class="field">
+            <label for="entityName">ชื่อนิติบุคคล</label>
+            <input id="entityName" name="entityName" type="text" autocomplete="organization" aria-describedby="err-entityName">
+            <p class="err" id="err-entityName" role="alert"></p>
+          </div>
+
+          <div class="field">
+            <span class="label" id="logoLabel">ตราสัญลักษณ์ (โลโก้) นิติบุคคล <span class="opt">(ไม่บังคับ)</span></span>
+            <input class="slip-input" type="file" id="entityLogo" name="entityLogo" accept="image/png,image/jpeg,image/webp" aria-labelledby="logoLabel" aria-describedby="logo-hint err-entityLogo">
+            <label class="slip-btn logo-btn" for="entityLogo">
+              คลิกหรือแตะเพื่อแนบไฟล์โลโก้
+              <small>ไฟล์ PNG, JPG หรือ WebP ขนาดไม่เกิน 2 MB</small>
+            </label>
+            <div class="slip-prev" id="logoPrev">
+              <img id="logoImg" alt="ตัวอย่างโลโก้ที่เลือก">
+              <span class="name" id="logoName"></span>
+              <button type="button" class="linkbtn" id="logoRemove">เปลี่ยนไฟล์</button>
+            </div>
+            <p class="tax-hint" id="logo-hint">ใช้แสดงในหน้ารายนามผู้บริจาค เฉพาะกรณีที่ท่านอนุญาตให้เผยแพร่เพื่อการประชาสัมพันธ์</p>
+            <p class="err" id="err-entityLogo" role="alert"></p>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="check"><input type="checkbox" id="receipt" name="receipt"><span>ต้องการรับ e-Donation</span></label>
+        </div>
+
+        <div class="field">
+          <label for="taxId"><span id="taxLabelText">เลขบัตรประชาชน</span></label>
+          <input id="taxId" name="taxId" type="text" inputmode="numeric" autocomplete="off" maxlength="13" placeholder="ตัวเลข 13 หลัก" aria-describedby="tax-hint err-taxId">
+          <p class="tax-hint" id="tax-hint">ใช้สำหรับการดำเนินการ e-Donation เท่านั้น และจะไม่เปิดเผยในรายนามผู้บริจาค</p>
+          <p class="err" id="err-taxId" role="alert"></p>
+        </div>
+
+        <div class="field">
+          <label for="email">อีเมล <span class="opt">(ใช้แจ้งผลการตรวจสอบ และ e-Donation)</span></label>
+          <input id="email" name="email" type="email" autocomplete="email" inputmode="email" aria-describedby="err-email">
+          <p class="err" id="err-email" role="alert"></p>
+        </div>
+
+        <div class="field">
+          <label for="phone">หมายเลขโทรศัพท์ <span class="opt">(ไม่บังคับ)</span></label>
+          <input id="phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" maxlength="30" aria-describedby="err-phone">
+          <p class="err" id="err-phone" role="alert"></p>
+        </div>
+
+        <div class="field">
+          <label for="message">ข้อความถึงนักศึกษา <span class="opt">(ไม่บังคับ)</span></label>
+          <textarea id="message" name="message" maxlength="300"></textarea>
+        </div>
+
+        <div class="field">
+          <label class="check"><input type="checkbox" id="anon" name="anon"><span>ไม่ประสงค์ออกนามในรายนามผู้บริจาค</span></label>
+        </div>
+
+        <div class="field">
+          <label class="check"><input type="checkbox" id="promote" name="promote"><span>อนุญาตให้คณะวิทยาศาสตร์และเทคโนโลยีเผยแพร่ข้อมูลการบริจาคของท่าน เพื่อการประชาสัมพันธ์ผ่านเว็บไซต์และ/หรือเว็บเพจของคณะ <span class="opt">(ไม่บังคับ)</span></span></label>
+        </div>
+
+        <div class="field">
+          <label class="check"><input type="checkbox" id="consent" name="consent" aria-describedby="err-consent"><span><span data-cfg="consentText">ข้าพเจ้ายินยอมให้คณะเก็บรวบรวมและใช้ข้อมูลส่วนบุคคลข้างต้น เพื่อยืนยันการบริจาคและดำเนินการที่เกี่ยวข้อง</span> <span class="ph" data-cfg-hide="consentText">[ปรับข้อความตามนโยบายคุ้มครองข้อมูลส่วนบุคคลของมหาวิทยาลัย]</span></span></label>
+          <p class="err" id="err-consent" role="alert"></p>
+        </div>
+
+        <div class="hp" aria-hidden="true"><label>เว็บไซต์ <input type="text" id="website" name="website" tabindex="-1" autocomplete="off"></label></div>
+
+        <button type="submit" class="submit" id="submitBtn">ส่งข้อมูลการบริจาค</button>
+        <p class="form-error" id="formError" role="alert"></p>
+      </section>
+    </form>
+
+    <section class="done" id="done" hidden aria-labelledby="doneTitle">
+      <h2 id="doneTitle" tabindex="-1" data-cfg="thankTitle">ขอขอบพระคุณในความอนุเคราะห์ของท่าน</h2>
+      <p class="ref-line" id="refLine" hidden>เลขที่รายการของท่าน: <span id="refNo"></span></p>
+      <p><span data-cfg="thankBody">คณะได้รับข้อมูลการบริจาคของท่านเรียบร้อยแล้ว เจ้าหน้าที่จะดำเนินการตรวจสอบหลักฐานการโอนเงิน กรณีที่ท่านระบุอีเมล จะได้รับแจ้งผลการตรวจสอบทางอีเมลดังกล่าว</span>
+        <span data-cfg-if="reviewDays">ระยะเวลาการตรวจสอบประมาณ <span class="ph" data-cfg="reviewDays">[ระบุ]</span> วันทำการ</span></p>
+      <p class="demo-note" id="demoNote" hidden>โหมดตัวอย่าง: ข้อมูลที่กรอกยังไม่ถูกส่งไปที่ใด และยังไม่มีเลขรายการจริง</p>
+      <button type="button" class="again" id="againBtn">บริจาคเพิ่มเติม</button>
+    </section>
+  </div>
+</main>
+
+<footer class="site-foot">
+  <div>
+    <p><strong><span data-cfg="orgLine1">งานกิจการนักศึกษา คณะวิทยาศาสตร์และเทคโนโลยี</span> <span data-cfg="orgLine2">มหาวิทยาลัยเทคโนโลยีราชมงคลรัตนโกสินทร์</span></strong></p>
+    <p>สอบถามข้อมูลเพิ่มเติม <span data-cfg-if="contactPhone">โทร <span class="ph" data-cfg="contactPhone">[ระบุเบอร์]</span></span> <span data-cfg-if="contactEmail">อีเมล <span class="ph" data-cfg="contactEmail">[ระบุอีเมล]</span></span></p>
+    <p><span data-cfg="pdpaNote">ข้อมูลส่วนบุคคลของท่านจะใช้ตามวัตถุประสงค์ที่ท่านให้ความยินยอมเท่านั้น</span> <span class="ph" data-cfg-hide="pdpaUrl">[ใส่ลิงก์นโยบายคุ้มครองข้อมูลส่วนบุคคล]</span><a data-cfg-href="pdpaUrl" hidden target="_blank" rel="noopener">อ่านนโยบายคุ้มครองข้อมูลส่วนบุคคล</a></p>
+  </div>
+</footer>
+
+<script src="config.js"></script>
+<script src="site.js"></script>
+<script>
+  /* ค่าที่ใช้ในหน้านี้ (การเชื่อมต่อหลังบ้านตั้งใน config.js ส่วนข้อความ/บัญชี/รูป ตั้งจากหน้า Admin) */
+  const CONFIG = {
+    maxSlipMB: 10,      // ขนาดไฟล์ที่ผู้บริจาคเลือกได้ (ระบบย่อรูปก่อนส่ง)
+    maxLogoMB: 2
+  };
+
+  const $ = (s) => document.querySelector(s);
+  const form = $('#donateForm');
+  const demo = Site.demo;
+  $('#demoBanner').hidden = !demo;
+
+  /* ข้อความ บัญชี และรูป จากเมนูตั้งค่าหน้าเว็บ */
+  const copyBtn = $('#copyBtn');
+  function syncCopy() { copyBtn.disabled = $('#accountNumber').classList.contains('ph'); }
+  async function loadSiteConfig() {
+    if (demo) return;
+    try { Site.applyPublicConfig(await Site.get('config')); } catch (e) { /* ใช้ข้อความเดิมในหน้า */ }
+    syncCopy();
+  }
+  syncCopy();
+  loadSiteConfig();
+
+  /* คัดลอกเลขบัญชี */
+  copyBtn.addEventListener('click', async () => {
+    const num = $('#accountNumber').textContent.replace(/\s|-/g, '');
+    try { await navigator.clipboard.writeText(num); }
+    catch (e) {
+      const t = document.createElement('textarea');
+      t.value = num; document.body.appendChild(t); t.select();
+      document.execCommand('copy'); t.remove();
+    }
+    copyBtn.textContent = 'คัดลอกแล้ว';
+    setTimeout(() => (copyBtn.textContent = 'คัดลอกเลขที่บัญชี'), 1800);
+  });
+
+  /* จำนวนเงิน */
+  const amountInput = $('#amount');
+  function syncAmount() {
+    const n = parseInt(amountInput.value, 10);
+    $('#amountShow').textContent = n > 0 ? n.toLocaleString('th-TH') : '–';
+  }
+  amountInput.addEventListener('input', () => {
+    amountInput.value = amountInput.value.replace(/\D/g, '').slice(0, 7);
+    if (parseInt(amountInput.value, 10) > 0) setError('amount', '');
+    syncAmount();
+  });
+  syncAmount();
+
+  /* วันที่โอน: ระบบใส่วันที่วันนี้ให้อัตโนมัติ */
+  const dateInput = $('#transferDate');
+  const pad = (n) => String(n).padStart(2, '0');
+  function todayISO() {
+    const d = new Date();
+    return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
+  }
+  function showDateHint() {
+    const v = dateInput.value;
+    if (!v) { $('#date-hint').textContent = ''; return; }
+    const p = v.split('-').map(Number);
+    $('#date-hint').textContent = new Date(p[0], p[1] - 1, p[2])
+      .toLocaleDateString('th-TH', { day: 'numeric', month: 'long', year: 'numeric' });
+  }
+  function resetDate() {
+    dateInput.max = todayISO();
+    dateInput.value = todayISO();
+    showDateHint();
+  }
+  dateInput.addEventListener('change', () => { setError('transferDate', ''); showDateHint(); });
+  resetDate();
+
+  /* ประเภทผู้บริจาค: บุคคลธรรมดา / นิติบุคคล */
+  const donorType = () => document.querySelector('input[name="donorType"]:checked').value;
+  function syncType() {
+    const ent = donorType() === 'entity';
+    $('#personFields').hidden = ent;
+    $('#entityFields').hidden = !ent;
+    $('#taxLabelText').textContent = ent ? 'เลขประจำตัวผู้เสียภาษี' : 'เลขบัตรประชาชน';
+    ['name', 'entityName', 'entityLogo', 'taxId'].forEach((id) => setError(id, ''));
+  }
+  document.querySelectorAll('input[name="donorType"]').forEach((r) => r.addEventListener('change', syncType));
+
+  /* e-Donation และเลขประจำตัว 13 หลัก */
+  const receiptBox = $('#receipt');
+  const taxInput = $('#taxId');
+  function syncReceipt() {
+    taxInput.setAttribute('aria-required', String(receiptBox.checked));
+    if (!receiptBox.checked) setError('taxId', '');
+  }
+  receiptBox.addEventListener('change', syncReceipt);
+  taxInput.addEventListener('input', () => {
+    taxInput.value = taxInput.value.replace(/\D/g, '').slice(0, 13);
+    if (taxInput.value.length === 13) setError('taxId', '');
+  });
+  function validThaiId(s) {
+    if (!/^\d{13}$/.test(s)) return false;
+    let sum = 0;
+    for (let i = 0; i < 12; i++) sum += Number(s[i]) * (13 - i);
+    return (11 - (sum % 11)) % 10 === Number(s[12]);
+  }
+  syncType();
+  syncReceipt();
+
+  /* สลิป */
+  const slip = $('#slip');
+  let slipURL = null;
+  function clearSlip() {
+    slip.value = '';
+    if (slipURL) { URL.revokeObjectURL(slipURL); slipURL = null; }
+    $('#slipPrev').classList.remove('on');
+  }
+  slip.addEventListener('change', () => {
+    const f = slip.files[0];
+    if (!f) { clearSlip(); return; }
+    if (!f.type.startsWith('image/') || f.size > CONFIG.maxSlipMB * 1024 * 1024) {
+      clearSlip();
+      setError('slip', 'ไฟล์ต้องเป็นรูปภาพ JPG หรือ PNG ขนาดไม่เกิน ' + CONFIG.maxSlipMB + ' MB โปรดเลือกไฟล์ใหม่');
+      return;
+    }
+    setError('slip', '');
+    if (slipURL) URL.revokeObjectURL(slipURL);
+    slipURL = URL.createObjectURL(f);
+    $('#slipImg').src = slipURL;
+    $('#slipName').textContent = f.name;
+    $('#slipPrev').classList.add('on');
+  });
+  $('#slipRemove').addEventListener('click', () => { clearSlip(); slip.focus(); });
+
+  /* ตรวจข้อมูล */
+  function setError(id, msg) {
+    $('#err-' + id).textContent = msg;
+    const field = $('#' + id);
+    if (field) field.setAttribute('aria-invalid', msg ? 'true' : 'false');
+  }
+  function validate() {
+    let first = null;
+    const flag = (id, msg, focusEl) => { setError(id, msg); if (msg && !first) first = focusEl || $('#' + id); };
+
+    const n = parseInt(amountInput.value, 10);
+    flag('amount', n > 0 ? '' : 'โปรดระบุจำนวนเงินตั้งแต่ 1 บาทขึ้นไป');
+    flag('slip', slip.files[0] ? '' : 'โปรดแนบสลิปการโอนเงิน', slip);
+    const dv = dateInput.value;
+    flag('transferDate', !dv ? 'โปรดระบุวันที่โอนเงิน' : (dv > todayISO() ? 'วันที่โอนเงินต้องไม่เกินวันที่ปัจจุบัน โปรดระบุวันที่ใหม่' : ''), dateInput);
+    const ent = donorType() === 'entity';
+    if (ent) flag('entityName', $('#entityName').value.trim() ? '' : 'โปรดระบุชื่อนิติบุคคล');
+    else flag('name', $('#name').value.trim() ? '' : 'โปรดระบุชื่อ-นามสกุล');
+    const tax = taxInput.value;
+    let taxMsg = '';
+    if (tax) {
+      if (tax.length !== 13) taxMsg = 'โปรดระบุให้ครบ 13 หลัก (ระบุแล้ว ' + tax.length + ' หลัก)';
+      else if (!ent && !validThaiId(tax)) taxMsg = 'เลขบัตรประชาชนไม่ถูกต้อง โปรดตรวจสอบอีกครั้ง';
+    } else if (receiptBox.checked) {
+      taxMsg = ent ? 'โปรดระบุเลขประจำตัวผู้เสียภาษี 13 หลัก เพื่อใช้ในการดำเนินการ e-Donation'
+                   : 'โปรดระบุเลขบัตรประชาชน 13 หลัก เพื่อใช้ในการดำเนินการ e-Donation';
+    }
+    flag('taxId', taxMsg, taxInput);
+    const email = $('#email').value.trim();
+    flag('email', !email || /^[^\s@<>()",;:]+@[^\s@<>()",;:]+\.[^\s@<>()",;:]+$/.test(email) ? '' : 'รูปแบบอีเมลไม่ถูกต้อง โปรดตรวจสอบอีกครั้ง (ตัวอย่าง name@example.com)');
+    const phone = $('#phone').value.trim();
+    flag('phone', !phone || /^[0-9+\-() ]{6,30}$/.test(phone) ? '' : 'หมายเลขโทรศัพท์ไม่ถูกต้อง ใช้ได้เฉพาะตัวเลข เครื่องหมาย + - และวงเล็บ');
+    flag('consent', $('#consent').checked ? '' : 'โปรดให้ความยินยอมในการเก็บรวบรวมข้อมูลเพื่อดำเนินการต่อ');
+    return first;
+  }
+
+  /* ส่งข้อมูล: ย่อรูปก่อน แล้วส่งไปหลังบ้าน */
+  async function send() {
+    const ent = donorType() === 'entity';
+    const lf = ent ? logoIn.files[0] : null;
+    const slipData = await Site.compressImage(slip.files[0], { maxDim: 2000, quality: 0.85, mime: 'image/jpeg', keepBelow: 900 * 1024, maxBytes: 5 * 1024 * 1024 });
+    const logoData = lf ? await Site.compressImage(lf, { maxDim: 512, mime: 'image/png', keepBelow: 300 * 1024, maxBytes: 2 * 1024 * 1024 }) : null;
+    const payload = {
+      amount: parseInt(amountInput.value, 10),
+      transferDate: dateInput.value,
+      donorType: donorType(),
+      name: ent ? '' : $('#name').value.trim(),
+      org: ent ? '' : $('#org').value.trim(),
+      entityName: ent ? $('#entityName').value.trim() : '',
+      wantEDonation: receiptBox.checked,
+      taxId: taxInput.value,
+      email: $('#email').value.trim(),
+      phone: $('#phone').value.trim(),
+      message: $('#message').value.trim(),
+      anonymous: $('#anon').checked,
+      allowPromotion: $('#promote').checked,
+      consent: $('#consent').checked,
+      website: $('#website').value,
+      slip: { type: slipData.type, data: slipData.data },
+      entityLogo: logoData ? { type: logoData.type, data: logoData.data } : null
+    };
+    return Site.post('submit', payload);
+  }
+
+  const submitBtn = $('#submitBtn');
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    $('#formError').textContent = '';
+    const bad = validate();
+    if (bad) { bad.focus(); return; }
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'กำลังส่งข้อมูล…';
+    try {
+      let res = null;
+      if (demo) await new Promise((r) => setTimeout(r, 500)); else res = await send();
+      form.hidden = true;
+      $('#done').hidden = false;
+      $('#demoNote').hidden = !demo;
+      $('#refLine').hidden = !(res && res.id);
+      $('#refNo').textContent = res && res.id ? '#' + res.id : '';
+      $('#doneTitle').focus();
+      window.scrollTo({ top: 0 });
+    } catch (err) {
+      const why = err && (err.code === 'VALIDATION' || err.code === 'BUSY' || err.code === 'IMAGE') ? err.message + ' ' : '';
+      $('#formError').textContent = why
+        ? 'ไม่สามารถส่งข้อมูลได้: ' + why + 'ข้อมูลที่กรอกไว้ยังคงอยู่ครบถ้วน'
+        : 'ไม่สามารถส่งข้อมูลได้ โปรดตรวจสอบการเชื่อมต่ออินเทอร์เน็ตและส่งข้อมูลอีกครั้ง ข้อมูลที่กรอกไว้ยังคงอยู่ครบถ้วน';
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'ส่งข้อมูลการบริจาค';
+    }
+  });
+
+  /* โลโก้นิติบุคคล (ไม่บังคับ ใช้ในหน้ารายนามผู้บริจาค) */
+  const logoIn = $('#entityLogo');
+  let logoURL = null;
+  function clearLogo() {
+    logoIn.value = '';
+    if (logoURL) { URL.revokeObjectURL(logoURL); logoURL = null; }
+    $('#logoPrev').classList.remove('on');
+  }
+  logoIn.addEventListener('change', () => {
+    const f = logoIn.files[0];
+    if (!f) { clearLogo(); return; }
+    if (!/^image\/(png|jpeg|webp)$/.test(f.type) || f.size > CONFIG.maxLogoMB * 1024 * 1024) {
+      clearLogo();
+      setError('entityLogo', 'ไฟล์โลโก้ต้องเป็น PNG, JPG หรือ WebP ขนาดไม่เกิน ' + CONFIG.maxLogoMB + ' MB โปรดเลือกไฟล์ใหม่');
+      return;
+    }
+    setError('entityLogo', '');
+    if (logoURL) URL.revokeObjectURL(logoURL);
+    logoURL = URL.createObjectURL(f);
+    $('#logoImg').src = logoURL;
+    $('#logoName').textContent = f.name;
+    $('#logoPrev').classList.add('on');
+  });
+  $('#logoRemove').addEventListener('click', () => { clearLogo(); logoIn.focus(); });
+
+  /* ปุ่มรายนามผู้บริจาค (เปิดหน้าแยกในแท็บใหม่) */
+  $('#donorsBtn').addEventListener('click', (e) => {
+    if (Site.pages.donors) { window.open(Site.pages.donors, '_blank', 'noopener'); return; }
+    const note = $('#donorsNote');
+    note.hidden = !note.hidden;
+    e.currentTarget.setAttribute('aria-expanded', String(!note.hidden));
+  });
+
+  /* ปุ่มสำหรับเจ้าหน้าที่ */
+  $('#adminBtn').addEventListener('click', (e) => {
+    if (Site.pages.admin) { window.location.href = Site.pages.admin; return; }
+    const note = $('#adminNote');
+    note.hidden = !note.hidden;
+    e.currentTarget.setAttribute('aria-expanded', String(!note.hidden));
+  });
+
+  $('#againBtn').addEventListener('click', () => {
+    form.reset();
+    clearSlip();
+    clearLogo();
+    syncAmount();
+    resetDate();
+    syncType();
+    syncReceipt();
+    ['amount', 'slip', 'transferDate', 'name', 'entityName', 'taxId', 'entityLogo', 'email', 'phone', 'consent'].forEach((id) => setError(id, ''));
+    $('#done').hidden = true;
+    $('#refLine').hidden = true;
+    form.hidden = false;
+    window.scrollTo({ top: 0 });
+  });
+</script>
+</body>
+</html>

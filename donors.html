@@ -1,0 +1,507 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>รายนามผู้บริจาคทุนการศึกษา คณะวิทยาศาสตร์และเทคโนโลยี มทร.รัตนโกสินทร์</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600&family=Noto+Serif+Thai:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #12273b;
+    --ink-soft: #4a5d6e;
+    --teal: #0f6b66;
+    --teal-dark: #0a524e;
+    --mint: #e4f1ee;
+    --paper: #f5f8f7;
+    --card: #ffffff;
+    --line: #cfdcd8;
+    --amber: #f2b632;
+    --amber-soft: #fff1cc;
+    --danger: #b3261e;
+    --mark: 46px; /* ขนาดโลโก้มุมซ้ายบน พื้นที่โลโก้กลางหน้าเท่ากับ 4 เท่าของค่านี้ (เหมือนหน้าหลัก) */
+    --serif: "Noto Serif Thai", "Tahoma", serif;
+    --sans: "IBM Plex Sans Thai", "Tahoma", system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 1.0625rem;
+    line-height: 1.75;
+  }
+  img, svg { max-width: 100%; }
+  button, input { font: inherit; color: inherit; }
+  :focus-visible { outline: 3px solid var(--amber); outline-offset: 2px; }
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+  /* placeholders the editor must replace */
+  .ph { background: var(--amber-soft); box-shadow: 0 -2px 0 var(--amber-soft); border-radius: 3px; }
+
+  .demo-banner {
+    background: var(--amber-soft); border-bottom: 1px solid var(--amber);
+    padding: 10px 16px; font-size: 0.9375rem; line-height: 1.55; text-align: center;
+  }
+  .demo-banner[hidden] { display: none; }
+
+  /* header (เหมือนหน้าหลัก) */
+  .site-head {
+    display: flex; align-items: center; flex-wrap: wrap; gap: 10px 14px;
+    max-width: 1080px; margin: 0 auto; padding: 18px 16px 6px;
+  }
+  .mark {
+    flex: none; width: var(--mark); height: var(--mark); border-radius: 12px;
+    background: var(--teal); color: #fff; display: grid; place-items: center;
+  }
+  .mark svg { width: 28px; height: 28px; }
+  .mark.has-img { background: transparent; }
+  .mark img { width: 100%; height: 100%; object-fit: contain; }
+  .site-foot a { color: inherit; }
+  .org { flex: 1 1 14rem; min-width: 0; margin: 0; line-height: 1.45; font-size: 0.9375rem; color: var(--ink-soft); }
+  .org strong { display: block; color: var(--ink); font-weight: 600; font-size: 1rem; }
+  @media (min-width: 900px) { .org strong { font-size: 1.25rem; } .org { font-size: 1rem; } }
+  .head-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-left: auto; }
+  .head-btn {
+    display: inline-flex; align-items: center; gap: 8px; text-decoration: none;
+    min-height: 44px; padding: 0 18px; border-radius: 999px;
+    border: 1.5px solid var(--teal); background: var(--teal); color: #fff;
+    font-size: 0.9375rem; font-weight: 600; cursor: pointer;
+  }
+  .head-btn:hover { background: var(--teal-dark); border-color: var(--teal-dark); }
+  .head-btn svg { width: 18px; height: 18px; flex: none; }
+
+  /* university logo slot (กึ่งกลางหน้า ขนาด 4 เท่าของโลโก้มุมซ้ายบน) */
+  .logo-band { display: flex; justify-content: center; max-width: 1080px; margin: 0 auto; padding: 18px 16px 0; }
+  .logo-slot {
+    flex: none; width: calc(var(--mark) * 4); height: calc(var(--mark) * 4); max-width: 100%;
+    display: grid; place-content: center; gap: 2px; text-align: center; padding: 8px;
+    border: 2px dashed var(--amber); border-radius: 16px; background: var(--amber-soft);
+    color: var(--ink-soft); font-size: 0.9375rem; line-height: 1.5;
+  }
+  .logo-slot small { font-size: 0.8125rem; }
+  .logo-slot.has-logo { border: 0; background: transparent; border-radius: 0; padding: 0; }
+  .logo-slot img { width: 100%; height: 100%; object-fit: contain; display: block; }
+
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 18px 16px 56px; }
+
+  /* intro */
+  .intro { text-align: center; max-width: 44rem; margin: 0 auto 26px; }
+  .intro h1 {
+    font-family: var(--serif); font-weight: 700; margin: 8px 0 12px;
+    font-size: clamp(1.8rem, 5vw, 2.7rem); line-height: 1.4; text-wrap: balance;
+  }
+  .intro p { margin: 0; color: var(--ink-soft); }
+
+  /* summary */
+  .summary {
+    display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 0 0 22px; padding: 0;
+  }
+  .summary > div {
+    background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; text-align: center;
+  }
+  .summary dt { font-size: 0.9375rem; color: var(--ink-soft); line-height: 1.5; }
+  .summary dd { margin: 2px 0 0; font-family: var(--serif); font-weight: 700; font-size: 1.7rem; line-height: 1.4; overflow-wrap: anywhere; }
+  .summary dd small { font-family: var(--sans); font-weight: 500; font-size: 0.9375rem; margin-left: 4px; }
+  .summary dd.date { font-size: 1.1rem; padding-top: 6px; }
+  @media (max-width: 640px) { .summary { grid-template-columns: 1fr; } }
+
+  /* controls */
+  .controls { display: grid; gap: 12px; margin-bottom: 22px; }
+  @media (min-width: 720px) { .controls { grid-template-columns: minmax(0, 1fr) auto; align-items: end; } }
+  .search label { display: block; font-weight: 500; margin-bottom: 4px; }
+  .search input {
+    width: 100%; min-height: 50px; padding: 10px 14px; border: 1.5px solid var(--line);
+    border-radius: 10px; background: #fff;
+  }
+  .search input:hover { border-color: #9fb6b0; }
+  .seg { border: 0; padding: 0; margin: 0; min-width: 0; }
+  .seg-row { display: flex; flex-wrap: wrap; gap: 8px; }
+  .seg-opt { position: relative; display: block; margin: 0; font-weight: 500; }
+  .seg-opt input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+  .seg-opt span {
+    display: flex; align-items: center; justify-content: center; text-align: center;
+    min-height: 50px; padding: 6px 16px; line-height: 1.4; cursor: pointer;
+    border: 1.5px solid var(--line); border-radius: 999px; background: #fff;
+    transition: background-color .15s, border-color .15s, color .15s;
+  }
+  .seg-opt span:hover { border-color: var(--teal); }
+  .seg-opt input:checked + span { background: var(--ink); border-color: var(--ink); color: #fff; }
+  .seg-opt input:focus-visible + span { outline: 3px solid var(--amber); outline-offset: 2px; }
+
+  .status { margin: 0 0 14px; color: var(--ink-soft); font-size: 0.9375rem; min-height: 1.5em; }
+
+  /* sections */
+  .block { margin-bottom: 36px; }
+  .block[hidden] { display: none; }
+  .block h2 {
+    font-family: var(--serif); font-weight: 600; font-size: 1.35rem; line-height: 1.5;
+    margin: 0 0 14px; padding-bottom: 8px; border-bottom: 2px solid var(--teal);
+    display: flex; align-items: baseline; justify-content: space-between; gap: 12px;
+  }
+  .block h2 .n { font-family: var(--sans); font-weight: 500; font-size: 0.9375rem; color: var(--ink-soft); }
+
+  /* entity cards (มีโลโก้) */
+  .entities { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 15.5rem), 1fr)); }
+  .entity {
+    background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 16px;
+    display: grid; grid-template-columns: 76px minmax(0, 1fr); gap: 14px; align-items: center;
+  }
+  .e-logo {
+    width: 76px; height: 76px; border-radius: 12px; background: var(--mint); color: var(--teal);
+    display: grid; place-items: center; overflow: hidden;
+  }
+  .e-logo img { width: 100%; height: 100%; object-fit: contain; background: #fff; display: block; }
+  .e-logo svg { width: 36px; height: 36px; }
+  .e-name { font-weight: 600; line-height: 1.5; overflow-wrap: anywhere; }
+  .meta { font-size: 0.9375rem; color: var(--ink-soft); line-height: 1.55; }
+
+  /* person roll */
+  .people { list-style: none; margin: 0; padding: 0; display: grid; gap: 0 28px; }
+  @media (min-width: 720px) { .people { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .person {
+    display: flex; align-items: baseline; justify-content: space-between; gap: 14px;
+    padding: 10px 2px; border-bottom: 1px solid var(--line);
+  }
+  .p-name { overflow-wrap: anywhere; }
+  .p-name.anon { color: var(--ink-soft); font-style: italic; }
+  .person .meta { flex: none; text-align: right; }
+
+  .more {
+    display: block; margin: 18px auto 0; min-height: 48px; padding: 0 24px; border-radius: 999px;
+    border: 1.5px solid var(--teal); background: #fff; color: var(--teal-dark); font-weight: 600; cursor: pointer;
+  }
+  .more:hover { background: var(--mint); }
+
+  /* states */
+  .state {
+    background: var(--card); border: 1px dashed var(--line); border-radius: 14px;
+    padding: 28px 20px; text-align: center; color: var(--ink-soft);
+  }
+  .state[hidden] { display: none; }
+  .state p { margin: 0 0 12px; }
+  .state p:last-child { margin: 0; }
+  .state strong { color: var(--ink); display: block; font-family: var(--serif); font-size: 1.15rem; margin-bottom: 4px; }
+  .state.error { border-color: var(--danger); }
+
+  .note { margin: 28px 0 0; padding: 12px 16px; border-left: 4px solid var(--teal); background: var(--mint); border-radius: 0 10px 10px 0; font-size: 0.9375rem; line-height: 1.65; }
+
+  /* footer (เหมือนหน้าหลัก) */
+  .site-foot {
+    border-top: 1px solid var(--line); background: #fff;
+    padding: 24px 16px 32px; font-size: 0.9375rem; color: var(--ink-soft); line-height: 1.7;
+  }
+  .site-foot > div { max-width: 1080px; margin: 0 auto; }
+  .site-foot p { margin: 0 0 6px; }
+
+  /* โหมดฝังในเว็บอื่น (เพิ่ม ?embed=1 ต่อท้าย URL): ซ่อนส่วนหัว โลโก้ และส่วนท้าย */
+  .embed .site-head, .embed .logo-band, .embed .site-foot { display: none; }
+  .embed .wrap { padding-top: 8px; padding-bottom: 16px; }
+
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }
+</style>
+</head>
+<body>
+
+<div class="demo-banner" id="demoBanner" role="note" hidden>
+  หน้าตัวอย่างสำหรับออกแบบ รายชื่อที่แสดงเป็นข้อมูลสมมติ ยังไม่เชื่อมระบบจริง
+  อย่าเผยแพร่จนกว่าจะใส่ <code>apiUrl</code> ในไฟล์ config.js แล้ว
+</div>
+
+<header class="site-head">
+  <div class="mark" aria-hidden="true">
+    <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 4h8M14 4v8l-6.2 11.2A3 3 0 0 0 10.4 27.5h11.2a3 3 0 0 0 2.6-4.3L18 12V4"/>
+      <path d="M10.5 20h11"/>
+    </svg>
+  </div>
+  <p class="org">
+    <strong data-cfg="orgLine1">งานกิจการนักศึกษา คณะวิทยาศาสตร์และเทคโนโลยี</strong>
+    <span data-cfg="orgLine2">มหาวิทยาลัยเทคโนโลยีราชมงคลรัตนโกสินทร์</span>
+  </p>
+  <div class="head-actions">
+    <a class="head-btn" id="donateLink" href="donation.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.8 5.6a5.2 5.2 0 0 0-7.4 0L12 7l-1.4-1.4a5.2 5.2 0 0 0-7.4 7.4L12 21.8l8.8-8.8a5.2 5.2 0 0 0 0-7.4z"/></svg>
+      ร่วมบริจาคทุนการศึกษา
+    </a>
+  </div>
+</header>
+
+<div class="logo-band">
+  <div class="logo-slot" id="logoSlot" role="img" aria-label="พื้นที่สำหรับโลโก้มหาวิทยาลัย (ยังไม่ได้ใส่โลโก้)">
+    <span>พื้นที่ใส่โลโก้<br>มหาวิทยาลัย</span>
+    <small>184 × 184 px</small>
+  </div>
+</div>
+
+<main class="wrap" id="main">
+
+  <section class="intro" aria-labelledby="title">
+    <h1 id="title" data-cfg="donorsTitle">รายนามผู้บริจาคทุนการศึกษา</h1>
+    <p data-cfg="donorsIntro">
+      คณะวิทยาศาสตร์และเทคโนโลยีขอขอบพระคุณผู้มีอุปการคุณทุกท่านที่ร่วมสนับสนุนกองทุนการศึกษา
+      โดยแสดงเฉพาะรายการที่เจ้าหน้าที่ตรวจสอบการโอนเงินเรียบร้อยแล้ว
+      และผู้บริจาคได้อนุญาตให้เผยแพร่
+    </p>
+  </section>
+
+  <dl class="summary" id="summary" aria-label="สรุปผลการบริจาค" hidden>
+    <div><dt>จำนวนผู้บริจาค</dt><dd><span id="sumCount">–</span><small>ราย</small></dd></div>
+    <div id="sumTotalBox"><dt>ยอดบริจาครวม</dt><dd><span id="sumTotal">–</span><small>บาท</small></dd></div>
+    <div><dt>ปรับปรุงข้อมูลล่าสุด</dt><dd class="date" id="sumUpdated">–</dd></div>
+  </dl>
+
+  <div class="controls" id="controls" hidden>
+    <div class="search">
+      <label for="q">ค้นหารายนาม</label>
+      <input id="q" type="search" autocomplete="off" placeholder="พิมพ์ชื่อผู้บริจาค">
+    </div>
+    <fieldset class="seg">
+      <legend class="sr-only">แสดงรายนามตามประเภทผู้บริจาค</legend>
+      <div class="seg-row">
+        <label class="seg-opt"><input type="radio" name="kind" value="all" checked><span>ทั้งหมด</span></label>
+        <label class="seg-opt"><input type="radio" name="kind" value="entity"><span>นิติบุคคล</span></label>
+        <label class="seg-opt"><input type="radio" name="kind" value="person"><span>บุคคลธรรมดา</span></label>
+      </div>
+    </fieldset>
+  </div>
+
+  <p class="status" id="status" role="status" aria-live="polite"></p>
+
+  <div class="state" id="loading"><p>กำลังโหลดรายนามผู้บริจาค…</p></div>
+
+  <div class="state error" id="error" hidden role="alert">
+    <strong>ไม่สามารถแสดงรายนามได้ในขณะนี้</strong>
+    <p>โปรดตรวจสอบการเชื่อมต่ออินเทอร์เน็ตแล้วลองใหม่อีกครั้ง</p>
+    <button type="button" class="more" id="retry" style="margin-top:0">ลองใหม่</button>
+  </div>
+
+  <div class="state" id="empty" hidden>
+    <strong>ยังไม่มีรายนามผู้บริจาคที่ผ่านการตรวจสอบ</strong>
+    <p>รายนามจะปรากฏหลังเจ้าหน้าที่ตรวจสอบการโอนเงินเรียบร้อยแล้ว</p>
+  </div>
+
+  <div class="state" id="noMatch" hidden>
+    <strong>ไม่พบรายนามที่ตรงกับคำค้นหา</strong>
+    <p>โปรดตรวจสอบตัวสะกด หรือลบคำค้นหาเพื่อดูรายนามทั้งหมด</p>
+  </div>
+
+  <section class="block" id="entBlock" aria-labelledby="entTitle" hidden>
+    <h2 id="entTitle">นิติบุคคลผู้ร่วมสนับสนุน <span class="n" id="entCount"></span></h2>
+    <ul class="entities" id="entList"></ul>
+    <button type="button" class="more" id="entMore" hidden></button>
+  </section>
+
+  <section class="block" id="perBlock" aria-labelledby="perTitle" hidden>
+    <h2 id="perTitle">รายนามผู้บริจาค <span class="n" id="perCount"></span></h2>
+    <ul class="people" id="perList"></ul>
+    <button type="button" class="more" id="perMore" hidden></button>
+  </section>
+
+  <p class="note" id="privacyNote" hidden>
+    รายนามนี้แสดงเฉพาะชื่อหรือชื่อนิติบุคคล (และโลโก้ของนิติบุคคลที่ให้ความยินยอม) ของผู้ที่อนุญาตให้เผยแพร่เท่านั้น
+    ผู้ที่ไม่ประสงค์ออกนามจะแสดงเป็น “ผู้ไม่ประสงค์ออกนาม” ทั้งนี้
+    ข้อมูลเลขประจำตัว อีเมล และหมายเลขโทรศัพท์ของผู้บริจาคจะไม่ถูกเผยแพร่
+  </p>
+</main>
+
+<footer class="site-foot">
+  <div>
+    <p><strong><span data-cfg="orgLine1">งานกิจการนักศึกษา คณะวิทยาศาสตร์และเทคโนโลยี</span> <span data-cfg="orgLine2">มหาวิทยาลัยเทคโนโลยีราชมงคลรัตนโกสินทร์</span></strong></p>
+    <p>สอบถามข้อมูลเพิ่มเติม <span data-cfg-if="contactPhone">โทร <span class="ph" data-cfg="contactPhone">[ระบุเบอร์]</span></span> <span data-cfg-if="contactEmail">อีเมล <span class="ph" data-cfg="contactEmail">[ระบุอีเมล]</span></span></p>
+    <p><span data-cfg="pdpaNote">ข้อมูลส่วนบุคคลของท่านจะใช้ตามวัตถุประสงค์ที่ท่านให้ความยินยอมเท่านั้น</span> <span class="ph" data-cfg-hide="pdpaUrl">[ใส่ลิงก์นโยบายคุ้มครองข้อมูลส่วนบุคคล]</span><a data-cfg-href="pdpaUrl" hidden target="_blank" rel="noopener">อ่านนโยบายคุ้มครองข้อมูลส่วนบุคคล</a></p>
+  </div>
+</footer>
+
+<script src="config.js"></script>
+<script src="site.js"></script>
+<script>
+  /* ตั้งค่าการแสดงผล (การเชื่อมต่อหลังบ้านตั้งใน config.js)
+     หลังบ้านส่งเฉพาะรายการที่ Admin Accept แล้วและผู้บริจาคอนุญาตให้เผยแพร่
+     ไม่ส่งชื่อจริงของผู้ไม่ประสงค์ออกนาม เลขบัตร อีเมล เบอร์โทร และจำนวนเงินรายคน */
+  const CONFIG = {
+    showAmount: false,           // true = แสดงจำนวนเงินของแต่ละราย (ต้องเปิด PUBLIC_SHOW_AMOUNT ฝั่ง Apps Script ด้วย)
+    showTotal: true,             // แสดงยอดบริจาครวม
+    entityPage: 12,              // จำนวนการ์ดนิติบุคคลต่อหน้า
+    personPage: 30               // จำนวนรายชื่อบุคคลต่อหน้า
+  };
+  const ANON = 'ผู้ไม่ประสงค์ออกนาม';
+
+  /* ข้อมูลสมมติสำหรับโหมดตัวอย่าง (รายการ pending / ไม่อนุญาตเผยแพร่ ต้องไม่แสดง) */
+  const SAMPLE = { updatedAt: '2026-10-07', donors: [
+    { id: 1,  status: 'approved', allowPromotion: true,  donorType: 'entity', displayName: 'บริษัท ตัวอย่างวิทยาศาสตร์ จำกัด', amount: 50000, date: '2026-10-05' },
+    { id: 2,  status: 'approved', allowPromotion: true,  donorType: 'entity', displayName: 'มูลนิธิตัวอย่างเพื่อการศึกษา', amount: 30000, date: '2026-09-28' },
+    { id: 3,  status: 'approved', allowPromotion: true,  donorType: 'entity', displayName: 'ห้างหุ้นส่วนจำกัด ทดสอบการค้า', amount: 10000, date: '2026-09-15' },
+    { id: 4,  status: 'approved', allowPromotion: true,  donorType: 'person', displayName: 'นายตัวอย่าง ทดสอบ', amount: 1000, date: '2026-10-06' },
+    { id: 5,  status: 'approved', allowPromotion: true,  anonymous: true, donorType: 'person', displayName: 'ชื่อจริงที่ต้องไม่ถูกแสดง', amount: 5000, date: '2026-10-06' },
+    { id: 6,  status: 'approved', allowPromotion: true,  donorType: 'person', displayName: 'นางสาวสมมติ ใจดี', amount: 500, date: '2026-10-04' },
+    { id: 7,  status: 'approved', allowPromotion: true,  donorType: 'person', displayName: 'ผู้ช่วยศาสตราจารย์ ตัวอย่าง สุขสันต์', amount: 2000, date: '2026-10-02' },
+    { id: 8,  status: 'approved', allowPromotion: true,  donorType: 'person', displayName: 'นายทดสอบ รักเรียน', amount: 300, date: '2026-10-01' },
+    { id: 9,  status: 'approved', allowPromotion: true,  donorType: 'person', displayName: 'นางสมมติ มั่นคง', amount: 1500, date: '2026-09-30' },
+    { id: 10, status: 'approved', allowPromotion: true,  anonymous: true, donorType: 'person', displayName: 'อีกชื่อที่ต้องไม่ถูกแสดง', amount: 100, date: '2026-09-29' },
+    { id: 11, status: 'approved', allowPromotion: true,  donorType: 'person', displayName: 'นางสาวตัวอย่าง เรียนดี', amount: 800, date: '2026-09-27' },
+    { id: 12, status: 'approved', allowPromotion: true,  donorType: 'person', displayName: 'นายสมมติ ใจงาม', amount: 1000, date: '2026-09-25' },
+    { id: 13, status: 'approved', allowPromotion: true,  donorType: 'person', displayName: 'นางทดสอบ สว่างวงศ์', amount: 600, date: '2026-09-22' },
+    { id: 14, status: 'approved', allowPromotion: true,  donorType: 'person', displayName: 'นายตัวอย่าง ศรีสุข', amount: 200, date: '2026-09-20' },
+    { id: 90, status: 'pending',  allowPromotion: true,  donorType: 'person', displayName: 'รอตรวจสอบ ต้องไม่แสดง', amount: 999, date: '2026-10-07' },
+    { id: 91, status: 'approved', allowPromotion: false, donorType: 'person', displayName: 'ไม่อนุญาตเผยแพร่ ต้องไม่แสดง', amount: 999, date: '2026-10-07' }
+  ] };
+
+  const $ = (s) => document.querySelector(s);
+  const demo = Site.demo;
+  const embed = new URLSearchParams(location.search).get('embed') === '1';
+  if (embed) document.documentElement.classList.add('embed');
+
+  $('#demoBanner').hidden = !demo;
+  $('#donateLink').href = Site.pages.donate;
+  $('#sumTotalBox').hidden = !CONFIG.showTotal;
+
+  /* ---------- ข้อมูล ---------- */
+  let ALL = [];
+  let UPDATED = '';
+  let entShown = CONFIG.entityPage;
+  let perShown = CONFIG.personPage;
+
+  const safeImg = Site.safeImg;
+
+  /* กรองซ้ำฝั่งหน้าเว็บ (ชั้นที่สอง): ต้องผ่านการตรวจสอบและอนุญาตเผยแพร่เท่านั้น */
+  function isShown(d) {
+    return !!d && d.status === 'approved' && d.allowPromotion === true;
+  }
+  function normalize(d) {
+    const anon = d.anonymous === true;
+    const name = anon ? ANON : String(d.displayName || '').trim() || ANON;
+    const entity = d.donorType === 'entity' && !anon && name !== ANON;
+    return {
+      id: d.id,
+      name: name,
+      anon: name === ANON,
+      entity: entity,
+      logo: entity ? safeImg(d.logoUrl) : '',
+      amount: Number(d.amount) > 0 ? Number(d.amount) : 0,
+      date: /^\d{4}-\d{2}-\d{2}$/.test(String(d.date || '')) ? d.date : ''
+    };
+  }
+  function thaiDate(iso) {
+    if (!iso) return '';
+    const p = iso.split('-').map(Number);
+    return new Date(p[0], p[1] - 1, p[2]).toLocaleDateString('th-TH', { day: 'numeric', month: 'long', year: 'numeric' });
+  }
+  const baht = (n) => n.toLocaleString('th-TH');
+
+  async function fetchData() {
+    if (demo) return SAMPLE;
+    const data = await Site.get('donors');
+    Site.applyPublicConfig(data.config);
+    return data;
+  }
+
+  async function load() {
+    $('#loading').hidden = false;
+    $('#error').hidden = true;
+    $('#empty').hidden = true;
+    ['#entBlock', '#perBlock', '#noMatch'].forEach((s) => ($(s).hidden = true));
+    $('#summary').hidden = true; $('#controls').hidden = true; $('#privacyNote').hidden = true;
+    $('#status').textContent = '';
+    try {
+      const data = await fetchData();
+      const list = Array.isArray(data) ? data : (data && Array.isArray(data.donors) ? data.donors : null);
+      if (!list) throw new Error('bad data');
+      UPDATED = (data && data.updatedAt) || '';
+      ALL = list.filter(isShown).map(normalize)
+        .sort((a, b) => (b.date || '').localeCompare(a.date || '') || String(b.id).localeCompare(String(a.id)));
+      $('#loading').hidden = true;
+      if (!ALL.length) { $('#empty').hidden = false; return; }
+      const total = typeof data.total === 'number' ? data.total : ALL.reduce((s, d) => s + d.amount, 0);
+      $('#sumCount').textContent = baht(ALL.length);
+      $('#sumTotal').textContent = baht(total);
+      $('#sumUpdated').textContent = thaiDate(UPDATED) || '–';
+      $('#summary').hidden = false; $('#controls').hidden = false; $('#privacyNote').hidden = false;
+      render(true);
+    } catch (e) {
+      $('#loading').hidden = true;
+      $('#error').hidden = false;
+    }
+  }
+
+  /* ---------- แสดงผล ---------- */
+  const BUILDING = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 21V5a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v16"/><path d="M14 10h5a1 1 0 0 1 1 1v10"/><path d="M3 21h18M8 8h2M8 12h2M8 16h2M17 14h.01M17 18h.01"/></svg>';
+  function metaText(d) {
+    const parts = [];
+    if (CONFIG.showAmount && d.amount) parts.push(baht(d.amount) + ' บาท');
+    if (d.date) parts.push(thaiDate(d.date));
+    return parts.join(' · ');
+  }
+  function entityItem(d) {
+    const li = document.createElement('li'); li.className = 'entity';
+    const lg = document.createElement('div'); lg.className = 'e-logo';
+    if (d.logo) {
+      const img = document.createElement('img'); img.src = d.logo; img.alt = 'โลโก้ ' + d.name; img.loading = 'lazy';
+      img.onerror = () => { lg.innerHTML = BUILDING; };
+      lg.appendChild(img);
+    } else { lg.innerHTML = BUILDING; }
+    const box = document.createElement('div');
+    const nm = document.createElement('div'); nm.className = 'e-name'; nm.textContent = d.name;
+    const mt = document.createElement('div'); mt.className = 'meta'; mt.textContent = metaText(d);
+    box.append(nm, mt); li.append(lg, box);
+    return li;
+  }
+  function personItem(d) {
+    const li = document.createElement('li'); li.className = 'person';
+    const nm = document.createElement('span'); nm.className = 'p-name' + (d.anon ? ' anon' : ''); nm.textContent = d.name;
+    const mt = document.createElement('span'); mt.className = 'meta'; mt.textContent = metaText(d);
+    li.append(nm, mt);
+    return li;
+  }
+  function fill(list, items, make) {
+    const f = document.createDocumentFragment();
+    items.forEach((d) => f.appendChild(make(d)));
+    list.replaceChildren(f);
+  }
+  function more(btn, shown, total, step) {
+    const rest = total - shown;
+    btn.hidden = rest <= 0;
+    if (rest > 0) btn.textContent = 'แสดงเพิ่มเติม (เหลืออีก ' + baht(rest) + ' รายการ)';
+  }
+
+  function render(reset) {
+    if (reset) { entShown = CONFIG.entityPage; perShown = CONFIG.personPage; }
+    const term = $('#q').value.trim().toLowerCase();
+    const kind = document.querySelector('input[name="kind"]:checked').value;
+    const hit = (d) => !term || d.name.toLowerCase().indexOf(term) >= 0;
+    const ents = kind === 'person' ? [] : ALL.filter((d) => d.entity && hit(d));
+    const pers = kind === 'entity' ? [] : ALL.filter((d) => !d.entity && hit(d));
+
+    $('#entBlock').hidden = !ents.length;
+    $('#perBlock').hidden = !pers.length;
+    $('#noMatch').hidden = !!(ents.length || pers.length);
+    $('#entCount').textContent = baht(ents.length) + ' ราย';
+    $('#perCount').textContent = baht(pers.length) + ' ราย';
+    fill($('#entList'), ents.slice(0, entShown), entityItem);
+    fill($('#perList'), pers.slice(0, perShown), personItem);
+    more($('#entMore'), entShown, ents.length);
+    more($('#perMore'), perShown, pers.length);
+    $('#entMore').onclick = () => { entShown += CONFIG.entityPage; render(false); };
+    $('#perMore').onclick = () => { perShown += CONFIG.personPage; render(false); };
+    $('#status').textContent = (term || kind !== 'all')
+      ? 'พบ ' + baht(ents.length + pers.length) + ' รายการ' : '';
+  }
+
+  $('#q').addEventListener('input', () => render(true));
+  document.querySelectorAll('input[name="kind"]').forEach((r) => r.addEventListener('change', () => render(true)));
+  $('#retry').addEventListener('click', load);
+
+  /* แจ้งความสูงให้หน้าเว็บที่ฝังด้วย iframe ปรับขนาดตาม (ส่งเฉพาะตัวเลขความสูง) */
+  if (embed && window.parent !== window && 'ResizeObserver' in window) {
+    new ResizeObserver(() => {
+      window.parent.postMessage({ type: 'donor-list-height', height: document.documentElement.scrollHeight }, '*');
+    }).observe(document.body);
+  }
+
+  load();
+</script>
+</body>
+</html>

@@ -1,0 +1,1197 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>ระบบจัดการ (Admin) บริจาคทุนการศึกษา คณะวิทยาศาสตร์และเทคโนโลยี</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600&family=Noto+Serif+Thai:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #12273b; --ink-soft: #4a5d6e; --teal: #0f6b66; --teal-dark: #0a524e;
+    --mint: #e4f1ee; --paper: #f5f8f7; --card: #ffffff; --line: #cfdcd8;
+    --amber: #f2b632; --amber-soft: #fff1cc; --danger: #b3261e; --danger-soft: #fde8e6;
+    --mark: 46px;
+    --serif: "Noto Serif Thai", "Tahoma", serif;
+    --sans: "IBM Plex Sans Thai", "Tahoma", system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); font-size: 1.0625rem; line-height: 1.7; }
+  img, svg { max-width: 100%; }
+  button, input, textarea, select { font: inherit; color: inherit; }
+  :focus-visible { outline: 3px solid var(--amber); outline-offset: 2px; }
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+  [hidden] { display: none !important; }
+  .ph { background: var(--amber-soft); border-radius: 3px; }
+
+  .demo-banner { background: var(--amber-soft); border-bottom: 1px solid var(--amber); padding: 10px 16px; font-size: 0.9375rem; line-height: 1.55; text-align: center; }
+
+  /* header (เหมือนหน้าอื่น) */
+  .site-head { display: flex; align-items: center; flex-wrap: wrap; gap: 10px 14px; max-width: 1180px; margin: 0 auto; padding: 16px 16px 6px; }
+  .mark { flex: none; width: var(--mark); height: var(--mark); border-radius: 12px; background: var(--teal); color: #fff; display: grid; place-items: center; overflow: hidden; }
+  .mark svg { width: 28px; height: 28px; }
+  .mark img { width: 100%; height: 100%; object-fit: contain; background: #fff; }
+  .org { flex: 1 1 14rem; min-width: 0; margin: 0; line-height: 1.45; font-size: 0.9375rem; color: var(--ink-soft); }
+  .org strong { display: block; color: var(--ink); font-weight: 600; font-size: 1rem; }
+  .head-right { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 12px; margin-left: auto; }
+  .who { font-size: 0.9375rem; color: var(--ink-soft); }
+  .who b { color: var(--ink); font-weight: 600; }
+
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none;
+    min-height: 44px; padding: 0 18px; border-radius: 999px; border: 1.5px solid var(--ink);
+    background: #fff; color: var(--ink); font-size: 0.9375rem; font-weight: 500; cursor: pointer; white-space: nowrap;
+    transition: background-color .15s, color .15s, border-color .15s;
+  }
+  .btn:hover:not(:disabled) { background: var(--ink); color: #fff; }
+  .btn:disabled { border-color: var(--line); color: #8a9aa6; cursor: not-allowed; background: #f3f6f5; }
+  .btn.primary { background: var(--teal); border-color: var(--teal); color: #fff; font-weight: 600; }
+  .btn.primary:hover:not(:disabled) { background: var(--teal-dark); border-color: var(--teal-dark); }
+  .btn.primary:disabled { background: #9dbdb9; border-color: #9dbdb9; color: #fff; }
+  .btn.danger { border-color: var(--danger); color: var(--danger); }
+  .btn.danger:hover:not(:disabled) { background: var(--danger); color: #fff; }
+  .btn.teal { border-color: var(--teal); color: var(--teal-dark); }
+  .btn.teal:hover:not(:disabled) { background: var(--teal); color: #fff; }
+  .btn.sm { min-height: 40px; padding: 0 14px; }
+  .btn.sent { border-color: var(--teal); background: var(--mint); color: var(--teal-dark); }
+
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 8px 16px 90px; }
+
+  /* tabs */
+  .tabs { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0 20px; border-bottom: 2px solid var(--line); }
+  .tab {
+    display: inline-flex; align-items: center; gap: 10px; min-height: 52px; padding: 0 20px; cursor: pointer;
+    border: 0; border-bottom: 4px solid transparent; margin-bottom: -2px; background: none; font-weight: 600; font-size: 1.0625rem;
+    color: var(--ink-soft);
+  }
+  .tab:hover { color: var(--ink); }
+  .tab[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--teal); }
+  .count { display: inline-grid; place-items: center; min-width: 26px; height: 26px; padding: 0 8px; border-radius: 999px; background: var(--amber); color: var(--ink); font-size: 0.875rem; font-weight: 600; line-height: 1; }
+  .count.zero { background: var(--mint); color: var(--teal-dark); }
+
+  h1.page { font-family: var(--serif); font-size: 1.7rem; line-height: 1.4; margin: 0 0 4px; }
+  .sub { margin: 0 0 18px; color: var(--ink-soft); }
+
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 20px 18px; margin-bottom: 16px; }
+  .card h2 { font-family: var(--serif); font-weight: 600; font-size: 1.25rem; line-height: 1.5; margin: 0 0 4px; }
+  .card > .sub { margin-bottom: 14px; font-size: 0.9375rem; }
+
+  /* ---------- config: images ---------- */
+  .img-row { display: grid; gap: 14px; grid-template-columns: 120px minmax(0, 1fr); padding: 16px 0; border-top: 1px solid var(--line); align-items: start; }
+  .img-row:first-of-type { border-top: 0; padding-top: 4px; }
+  .thumb { width: 120px; height: 120px; border-radius: 12px; border: 2px dashed var(--line); background: var(--paper) center / cover no-repeat; display: grid; place-items: center; overflow: hidden; color: var(--ink-soft); font-size: 0.8125rem; text-align: center; padding: 6px; line-height: 1.4; }
+  .thumb img { width: 100%; height: 100%; object-fit: contain; background: #fff; display: block; }
+  .thumb.has { border-style: solid; }
+  .img-row h3 { margin: 0; font-size: 1.0625rem; font-weight: 600; }
+  .img-row .hint { margin: 2px 0 10px; font-size: 0.9063rem; color: var(--ink-soft); line-height: 1.55; }
+  .img-actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .file-in { position: absolute; width: 1px; height: 1px; opacity: 0; overflow: hidden; }
+  .file-in:focus-visible + label.btn { outline: 3px solid var(--amber); outline-offset: 2px; }
+  .fname { font-size: 0.875rem; color: var(--ink-soft); overflow-wrap: anywhere; }
+  .err { margin: 6px 0 0; color: var(--danger); font-size: 0.9375rem; line-height: 1.5; }
+  .err:empty { display: none; }
+
+  /* ---------- config: text ---------- */
+  details.grp { border: 1px solid var(--line); border-radius: 12px; margin-bottom: 12px; background: #fff; }
+  details.grp > summary { list-style: none; cursor: pointer; padding: 14px 16px; font-weight: 600; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; min-height: 52px; }
+  details.grp > summary::-webkit-details-marker { display: none; }
+  details.grp > summary::before { content: ""; width: 9px; height: 9px; border-right: 2px solid var(--ink-soft); border-bottom: 2px solid var(--ink-soft); transform: rotate(-45deg); transition: transform .15s; margin-right: 4px; }
+  details.grp[open] > summary::before { transform: rotate(45deg); }
+  details.grp > summary .miss { margin-left: auto; font-weight: 500; font-size: 0.875rem; background: var(--amber-soft); border: 1px solid var(--amber); border-radius: 999px; padding: 0 12px; line-height: 1.8; }
+  .grp-body { padding: 4px 16px 16px; display: grid; gap: 16px; }
+  .fld label { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; font-weight: 500; margin-bottom: 4px; }
+  .fld .need { font-weight: 500; font-size: 0.8125rem; background: var(--amber-soft); border-radius: 999px; padding: 0 10px; line-height: 1.7; }
+  .fld .need[hidden] { display: none !important; }
+  .fld .help { margin: 4px 0 0; font-size: 0.875rem; color: var(--ink-soft); line-height: 1.55; }
+  input[type="text"], input[type="search"], textarea, select {
+    width: 100%; min-height: 48px; padding: 9px 14px; border: 1.5px solid var(--line); border-radius: 10px; background: #fff;
+  }
+  textarea { min-height: 96px; resize: vertical; line-height: 1.6; }
+  input:hover, textarea:hover, select:hover { border-color: #9fb6b0; }
+  [aria-invalid="true"] { border-color: var(--danger) !important; }
+
+  .savebar {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 20; background: #fff; border-top: 1px solid var(--line);
+    padding: 10px 16px; box-shadow: 0 -4px 16px rgba(18,39,59,.06);
+  }
+  .savebar > div { max-width: 1180px; margin: 0 auto; display: flex; align-items: center; flex-wrap: wrap; gap: 10px; }
+  .savebar .state { flex: 1 1 14rem; font-size: 0.9375rem; color: var(--ink-soft); }
+  .savebar .state.dirty { color: var(--ink); font-weight: 600; }
+
+  /* ---------- review ---------- */
+  .controls { display: grid; gap: 12px; margin-bottom: 14px; }
+  @media (min-width: 900px) { .controls { grid-template-columns: minmax(0, 1fr) auto auto; align-items: end; } }
+  .controls label.l { display: block; font-weight: 500; margin-bottom: 4px; }
+  .seg-row { display: flex; flex-wrap: wrap; gap: 8px; }
+  .seg-opt { position: relative; display: block; margin: 0; font-weight: 500; }
+  .seg-opt input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+  .seg-opt span { display: flex; align-items: center; gap: 8px; min-height: 48px; padding: 4px 16px; cursor: pointer; border: 1.5px solid var(--line); border-radius: 999px; background: #fff; transition: background-color .15s, border-color .15s, color .15s; }
+  .seg-opt span:hover { border-color: var(--teal); }
+  .seg-opt input:checked + span { background: var(--ink); border-color: var(--ink); color: #fff; }
+  .seg-opt input:focus-visible + span { outline: 3px solid var(--amber); outline-offset: 2px; }
+  .seg-opt small { font-size: 0.8125rem; opacity: .85; }
+  fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
+
+  .rows { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+  .row { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; display: grid; gap: 10px 16px; align-items: center; }
+  @media (min-width: 1000px) { .row { grid-template-columns: 150px minmax(0, 1fr) 130px 120px auto; } }
+  .when { font-size: 0.9375rem; color: var(--ink-soft); line-height: 1.5; }
+  .when b { display: block; color: var(--ink); font-weight: 600; }
+  .who-name { font-weight: 600; overflow-wrap: anywhere; line-height: 1.5; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+  .chip { font-size: 0.8125rem; line-height: 1.7; padding: 0 10px; border-radius: 999px; background: var(--paper); border: 1px solid var(--line); color: var(--ink-soft); }
+  .amt { font-family: var(--serif); font-weight: 700; font-size: 1.3rem; line-height: 1.4; }
+  .amt small { font-family: var(--sans); font-weight: 500; font-size: 0.875rem; margin-left: 4px; }
+  .badge { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; font-size: 0.9063rem; line-height: 1.7; padding: 0 12px; border-radius: 999px; white-space: nowrap; }
+  .badge::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
+  .badge.pending { background: var(--amber-soft); color: #7a5600; }
+  .badge.approved { background: var(--mint); color: var(--teal-dark); }
+  .badge.declined { background: var(--danger-soft); color: var(--danger); }
+  .acts { display: flex; flex-wrap: wrap; gap: 8px; }
+  .row-note { grid-column: 1 / -1; margin: 0; font-size: 0.875rem; color: var(--ink-soft); line-height: 1.55; }
+  .sent-at { display: block; font-size: 0.75rem; font-weight: 400; line-height: 1.3; }
+  .empty { background: var(--card); border: 1px dashed var(--line); border-radius: 14px; padding: 28px 20px; text-align: center; color: var(--ink-soft); }
+  .empty strong { display: block; color: var(--ink); font-family: var(--serif); font-size: 1.1rem; }
+
+  /* ---------- dialogs ---------- */
+  dialog { border: 0; border-radius: 16px; padding: 0; width: min(100% - 24px, 760px); max-height: calc(100dvh - 24px); color: var(--ink); box-shadow: 0 20px 60px rgba(18,39,59,.3); }
+  dialog::backdrop { background: rgba(18,39,59,.55); }
+  .dlg-head { display: flex; align-items: center; gap: 12px; padding: 16px 20px; border-bottom: 1px solid var(--line); position: sticky; top: 0; background: #fff; z-index: 1; }
+  .dlg-head h2 { margin: 0; font-family: var(--serif); font-size: 1.25rem; line-height: 1.5; flex: 1; }
+  .x { width: 44px; height: 44px; border-radius: 50%; border: 0; background: var(--paper); font-size: 1.4rem; line-height: 1; cursor: pointer; }
+  .x:hover { background: var(--line); }
+  .dlg-body { padding: 16px 20px; display: grid; gap: 16px; }
+  .dlg-foot { padding: 14px 20px 18px; border-top: 1px solid var(--line); display: flex; flex-wrap: wrap; gap: 10px; justify-content: flex-end; background: #fff; }
+  .dl { display: grid; grid-template-columns: 11.5em minmax(0, 1fr); gap: 6px 14px; margin: 0; font-size: 0.9688rem; }
+  .dl dt { color: var(--ink-soft); }
+  .dl dd { margin: 0; font-weight: 500; overflow-wrap: anywhere; }
+  @media (max-width: 560px) { .dl { grid-template-columns: 1fr; gap: 0; } .dl dt { margin-top: 8px; } }
+  .slip { border: 1px solid var(--line); border-radius: 12px; background: var(--paper); padding: 8px; text-align: center; }
+  .slip img { max-height: 55vh; width: auto; margin: 0 auto; display: block; border-radius: 8px; }
+  .slip-cap { font-size: 0.875rem; color: var(--ink-soft); margin: 6px 0 0; }
+  .mask { font-variant-numeric: tabular-nums; letter-spacing: .02em; }
+  .link { background: none; border: 0; color: var(--teal-dark); text-decoration: underline; cursor: pointer; padding: 6px 4px; min-height: 36px; font-weight: 500; }
+  .notice { margin: 0; padding: 10px 14px; border-radius: 10px; background: var(--mint); border-left: 4px solid var(--teal); font-size: 0.9375rem; line-height: 1.6; }
+  .notice.warn { background: var(--amber-soft); border-left-color: var(--amber); }
+  .draft { border: 1px solid var(--line); border-radius: 12px; padding: 12px 16px; background: var(--paper); font-size: 0.9688rem; }
+  .draft .subj { font-weight: 600; margin: 0 0 6px; }
+  .draft p { margin: 0 0 8px; white-space: pre-line; }
+  .draft p:last-child { margin: 0; }
+
+  .toast { position: fixed; left: 50%; bottom: 84px; transform: translateX(-50%); z-index: 50; width: min(100% - 24px, 560px); }
+  .toast > div { padding: 12px 18px; border-radius: 12px; background: var(--ink); color: #fff; font-size: 0.9688rem; line-height: 1.6; box-shadow: 0 8px 24px rgba(18,39,59,.3); }
+  .toast > div.bad { background: var(--danger); }
+
+
+  /* ---------- email templates ---------- */
+  .vars { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 6px 16px; margin: 0; font-size: 0.9688rem; }
+  .vars dt code, .var-btn code { font-family: inherit; }
+  .vars dt { font-weight: 600; color: var(--teal-dark); white-space: nowrap; }
+  .vars dd { margin: 0; color: var(--ink-soft); }
+  .tpl-head { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 10px; margin-bottom: 4px; }
+  .tpl-grid { display: grid; gap: 20px; margin-top: 12px; }
+  @media (min-width: 1000px) { .tpl-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+  .tpl-grid label.l { display: block; font-weight: 500; margin: 12px 0 4px; }
+  .tpl-grid label.l:first-child { margin-top: 0; }
+  .var-btns { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 0; }
+  .var-btn { min-height: 38px; padding: 0 12px; border-radius: 999px; border: 1.5px solid var(--teal); background: #fff; color: var(--teal-dark); cursor: pointer; font-size: 0.875rem; font-weight: 500; }
+  .var-btn:hover { background: var(--mint); }
+  .mail-prev { border: 1px solid var(--line); border-radius: 12px; background: var(--paper); padding: 14px 16px; align-self: start; }
+  .mail-prev .cap { font-size: 0.8125rem; color: var(--ink-soft); margin: 0 0 8px; }
+  .mail-prev .hd { font-size: 0.875rem; color: var(--ink-soft); line-height: 1.6; border-bottom: 1px solid var(--line); padding-bottom: 8px; margin-bottom: 10px; overflow-wrap: anywhere; }
+  .mail-prev .sj { font-weight: 600; margin: 0 0 10px; overflow-wrap: anywhere; }
+  .mail-prev .bd { white-space: pre-line; margin: 0; font-size: 0.9688rem; overflow-wrap: anywhere; }
+  .mail-prev .att { margin: 12px 0 0; font-size: 0.875rem; color: var(--teal); font-weight: 600; }
+  .check-line { display: flex; align-items: flex-start; gap: 10px; font-weight: 500; }
+  .check-line input { width: 22px; height: 22px; margin-top: 4px; accent-color: var(--teal); flex: none; }
+
+  /* ---------- login ---------- */
+  .login { max-width: 440px; margin: 6vh auto 80px; padding: 0 16px; }
+  .login .card { padding: 26px 22px; }
+  .login h1 { font-family: var(--serif); font-size: 1.5rem; line-height: 1.4; margin: 0 0 6px; }
+  .login label { display: block; font-weight: 500; margin: 14px 0 4px; }
+  .pw-row { display: flex; gap: 8px; }
+  .pw-row input { flex: 1; }
+  input[type="password"], input[type="date"] { width: 100%; min-height: 48px; padding: 9px 14px; border: 1.5px solid var(--line); border-radius: 10px; background: #fff; }
+  .login .btn.primary { width: 100%; margin-top: 18px; min-height: 50px; font-size: 1rem; }
+  .login .demo-hint { margin: 14px 0 0; font-size: 0.875rem; color: var(--ink-soft); }
+  .page-head { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 10px 16px; }
+  .page-head .btn { margin-top: 4px; }
+  .chip.warn { background: var(--amber-soft); border-color: var(--amber); color: #6b4b00; font-weight: 600; }
+  .form-grid { display: grid; gap: 12px; }
+  .form-grid label { display: block; font-weight: 500; margin-bottom: 4px; }
+  .form-grid .two { display: grid; gap: 12px; grid-template-columns: 1fr 1fr; }
+  @media (max-width: 480px) { .form-grid .two { grid-template-columns: 1fr; } }
+  .entity-logo { max-width: 120px; max-height: 80px; border: 1px solid var(--line); border-radius: 8px; background: #fff; padding: 4px; }
+  .tpl-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+
+<div class="demo-banner" id="demoBanner" role="note" hidden>
+  โหมดตัวอย่าง: ยังไม่ได้ใส่ apiUrl ในไฟล์ config.js ข้อมูลทั้งหมดเป็นข้อมูลสมมติ ปุ่มต่างๆ ทำงานในหน้านี้เท่านั้น และยังไม่มีการส่งอีเมลจริง
+</div>
+
+<header class="site-head">
+  <div class="mark" id="smallMark" aria-hidden="true">
+    <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 4h8M14 4v8l-6.2 11.2A3 3 0 0 0 10.4 27.5h11.2a3 3 0 0 0 2.6-4.3L18 12V4"/><path d="M10.5 20h11"/>
+    </svg>
+  </div>
+  <p class="org"><strong id="orgTop">งานกิจการนักศึกษา คณะวิทยาศาสตร์และเทคโนโลยี</strong><span id="orgSub">มหาวิทยาลัยเทคโนโลยีราชมงคลรัตนโกสินทร์</span></p>
+  <div class="head-right" id="headRight" hidden>
+    <span class="who">ผู้ดูแลระบบ: <b id="adminName">–</b></span>
+    <a class="btn sm teal" id="viewDonate" href="index.html" target="_blank" rel="noopener">ดูหน้าบริจาค</a>
+    <a class="btn sm teal" id="viewDonors" href="donors.html" target="_blank" rel="noopener">ดูหน้ารายนาม</a>
+    <button type="button" class="btn sm" id="pwBtn">เปลี่ยนรหัสผ่าน</button>
+    <button type="button" class="btn sm" id="logoutBtn">ออกจากระบบ</button>
+  </div>
+</header>
+
+<!-- ============ เข้าสู่ระบบ ============ -->
+<section class="login" id="loginView" hidden aria-labelledby="loginTitle">
+  <form class="card" id="loginForm" novalidate>
+    <h1 id="loginTitle">เข้าสู่ระบบสำหรับเจ้าหน้าที่</h1>
+    <p class="sub" style="margin:0">ระบบรับบริจาคทุนการศึกษา คณะวิทยาศาสตร์และเทคโนโลยี</p>
+    <label for="loginPw">รหัสผ่าน</label>
+    <div class="pw-row">
+      <input id="loginPw" type="password" autocomplete="current-password" required aria-describedby="loginErr">
+      <button type="button" class="btn sm" id="loginShow" aria-pressed="false">แสดง</button>
+    </div>
+    <p class="err" id="loginErr" role="alert"></p>
+    <button type="submit" class="btn primary" id="loginBtn">เข้าสู่ระบบ</button>
+    <p class="demo-hint" id="loginDemo" hidden>โหมดตัวอย่าง: ใส่รหัสผ่านใดก็ได้เพื่อดูหน้าตาระบบ</p>
+  </form>
+</section>
+
+<main class="wrap" id="main" hidden>
+  <div class="tabs" role="tablist" aria-label="เมนูหลักของผู้ดูแลระบบ">
+    <button type="button" class="tab" role="tab" id="tab-review" aria-controls="panel-review" aria-selected="true">
+      ตรวจสอบรายการบริจาค <span class="count zero" id="cntPending" aria-label="รอตรวจสอบ">0</span>
+    </button>
+    <button type="button" class="tab" role="tab" id="tab-config" aria-controls="panel-config" aria-selected="false" tabindex="-1">
+      ตั้งค่าหน้าเว็บ <span class="count zero" id="cntMissing" aria-label="ข้อมูลที่ยังไม่ได้กรอก">0</span>
+    </button>
+    <button type="button" class="tab" role="tab" id="tab-mail" aria-controls="panel-mail" aria-selected="false" tabindex="-1">
+      แม่แบบอีเมล
+    </button>
+  </div>
+
+  <!-- ============ เมนู 2: ตรวจสอบ ============ -->
+  <section id="panel-review" role="tabpanel" aria-labelledby="tab-review">
+    <div class="page-head">
+      <h1 class="page">ตรวจสอบรายการบริจาค</h1>
+      <button type="button" class="btn sm teal" id="exportBtn">Export CSV</button>
+    </div>
+    <p class="sub">กด Check เพื่อดูหลักฐานการโอนเงิน แล้วเลือก Accept หรือ Decline เมื่อ Accept รายการจะแสดงในหน้ารายนามผู้บริจาคทันที (เฉพาะผู้ที่อนุญาตให้เผยแพร่)</p>
+    <p class="notice warn" id="setupNote" hidden style="margin:0 0 14px"></p>
+
+    <div class="controls">
+      <div>
+        <label class="l" for="q">ค้นหาชื่อ</label>
+        <input id="q" type="search" autocomplete="off" placeholder="พิมพ์ชื่อผู้บริจาคหรือชื่อนิติบุคคล">
+      </div>
+      <fieldset>
+        <legend class="sr-only">กรองตามสถานะ</legend>
+        <div class="seg-row" id="statusSeg"></div>
+      </fieldset>
+      <div>
+        <label class="l" for="sort">เรียงตามวันเวลาที่บริจาค</label>
+        <select id="sort"><option value="desc">ใหม่ล่าสุดก่อน</option><option value="asc">เก่าสุดก่อน</option></select>
+      </div>
+    </div>
+    <p class="sub" id="listStatus" role="status" aria-live="polite" style="margin:0 0 10px;font-size:.9375rem"></p>
+    <ul class="rows" id="rows"></ul>
+    <div class="empty" id="rowsEmpty" hidden><strong>ไม่พบรายการ</strong><span>ลองเปลี่ยนตัวกรองสถานะหรือคำค้นหา</span></div>
+    <div class="empty" id="loadErr" hidden role="alert"><strong>ไม่สามารถโหลดรายการได้</strong><span>โปรดตรวจสอบการเชื่อมต่อแล้วลองใหม่อีกครั้ง</span><br><button type="button" class="btn sm" id="reload" style="margin-top:10px">ลองใหม่</button></div>
+  </section>
+
+  <!-- ============ เมนู 1: ตั้งค่าหน้าเว็บ ============ -->
+  <section id="panel-config" role="tabpanel" aria-labelledby="tab-config" hidden>
+    <h1 class="page">ตั้งค่าหน้าเว็บ</h1>
+    <p class="sub">การเปลี่ยนแปลงจะมีผลกับหน้าบริจาคและหน้ารายนามผู้บริจาคหลังกด “บันทึกและเผยแพร่”</p>
+
+    <form id="cfgForm" novalidate>
+      <div class="card" aria-labelledby="imgTitle">
+        <h2 id="imgTitle">รูปภาพ</h2>
+        <p class="sub">รองรับไฟล์ PNG, JPG หรือ WebP ที่ไม่ใช่ไฟล์ SVG</p>
+        <div id="imgRows"></div>
+      </div>
+
+      <div class="card" aria-labelledby="txtTitle">
+        <h2 id="txtTitle">ข้อความในหน้าเว็บ</h2>
+        <p class="sub">ช่องที่มีป้าย “ยังไม่ได้กรอก” เป็นข้อมูลสำคัญที่หน้าเว็บต้องใช้ ควรกรอกก่อนเผยแพร่</p>
+        <div id="txtGroups"></div>
+      </div>
+    </form>
+
+    <div class="savebar">
+      <div>
+        <span class="state" id="saveState" role="status" aria-live="polite">ยังไม่มีการแก้ไข</span>
+        <button type="button" class="btn" id="resetBtn">คืนค่าเริ่มต้น</button>
+        <button type="button" class="btn primary" id="saveBtn">บันทึกและเผยแพร่</button>
+      </div>
+    </div>
+  </section>
+  <!-- ============ เมนู 3: แม่แบบอีเมล ============ -->
+  <section id="panel-mail" role="tabpanel" aria-labelledby="tab-mail" hidden>
+    <h1 class="page">แม่แบบอีเมล</h1>
+    <p class="sub">แก้ไขหัวเรื่องและข้อความของอีเมลที่ส่งถึงผู้บริจาค ระบบจะเติมชื่อและจำนวนเงินของผู้บริจาคแต่ละรายให้อัตโนมัติ ตามตัวแปรที่อยู่ในวงเล็บปีกกา</p>
+    <div class="card" aria-labelledby="varsTitle">
+      <h2 id="varsTitle">ตัวแปรที่ใช้ได้</h2>
+      <p class="sub">กดปุ่มตัวแปรใต้ช่องข้อความเพื่อแทรกที่ตำแหน่งเคอร์เซอร์ หรือพิมพ์เองให้ตรงกับรายการด้านล่างทุกตัวอักษร</p>
+      <dl class="vars" id="varsList"></dl>
+    </div>
+    <div id="tplRoot"></div>
+    <div class="savebar">
+      <div>
+        <span class="state" id="mailState" role="status" aria-live="polite">ยังไม่มีการแก้ไข</span>
+        <button type="button" class="btn primary" id="saveMailBtn">บันทึกแม่แบบอีเมล</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ============ Dialog: Check ============ -->
+<dialog id="checkDlg" aria-labelledby="chkTitle">
+  <div class="dlg-head"><h2 id="chkTitle">ตรวจสอบหลักฐานการโอนเงิน</h2><button type="button" class="x" id="chkX" aria-label="ปิด">×</button></div>
+  <div class="dlg-body">
+    <div class="slip"><img id="slipImg" alt="หลักฐานการโอนเงินของผู้บริจาค"><p class="slip-cap" id="slipCap"></p></div>
+    <dl class="dl" id="chkInfo"></dl>
+    <p class="notice" id="chkPublish"></p>
+    <p class="notice warn" id="chkLock" hidden></p>
+    <div id="declineBox" hidden>
+      <label for="declineReason" style="font-weight:500">เหตุผลที่ไม่ผ่าน <span style="font-weight:400;color:var(--ink-soft)">(ไม่บังคับ ใช้ในอีเมลแจ้งผลหากกดปุ่ม “แจ้งไม่ผ่าน”)</span></label>
+      <textarea id="declineReason" maxlength="300"></textarea>
+    </div>
+    <p class="err" id="chkErr" role="alert"></p>
+  </div>
+  <div class="dlg-foot">
+    <button type="button" class="btn" id="chkClose">ปิด</button>
+    <button type="button" class="btn danger" id="declineBtn">Decline</button>
+    <button type="button" class="btn primary" id="acceptBtn">Accept</button>
+  </div>
+</dialog>
+
+<!-- ============ Dialog: ยืนยัน ============ -->
+<dialog id="confirmDlg" aria-labelledby="cfTitle">
+  <div class="dlg-head"><h2 id="cfTitle"></h2><button type="button" class="x" id="cfX" aria-label="ปิด">×</button></div>
+  <div class="dlg-body" id="cfBody"></div>
+  <div class="dlg-foot">
+    <button type="button" class="btn" id="cfNo">ยกเลิก</button>
+    <button type="button" class="btn primary" id="cfYes">ยืนยัน</button>
+  </div>
+</dialog>
+
+<!-- ============ Dialog: เปลี่ยนรหัสผ่าน ============ -->
+<dialog id="pwDlg" aria-labelledby="pwTitle">
+  <form method="dialog" id="pwForm" novalidate>
+    <div class="dlg-head"><h2 id="pwTitle">เปลี่ยนรหัสผ่าน</h2><button type="button" class="x" id="pwX" aria-label="ปิด">×</button></div>
+    <div class="dlg-body form-grid">
+      <div><label for="pwOld">รหัสผ่านปัจจุบัน</label><input id="pwOld" type="password" autocomplete="current-password"></div>
+      <div><label for="pwNew">รหัสผ่านใหม่ <span style="font-weight:400;color:var(--ink-soft)">(อย่างน้อย 8 ตัวอักษร)</span></label><input id="pwNew" type="password" autocomplete="new-password"></div>
+      <div><label for="pwNew2">ยืนยันรหัสผ่านใหม่</label><input id="pwNew2" type="password" autocomplete="new-password"></div>
+      <p class="notice">เมื่อเปลี่ยนรหัสผ่าน อุปกรณ์อื่นที่เข้าสู่ระบบค้างไว้จะต้องเข้าสู่ระบบใหม่ด้วยรหัสผ่านใหม่</p>
+      <p class="err" id="pwErr" role="alert"></p>
+    </div>
+    <div class="dlg-foot">
+      <button type="button" class="btn" id="pwCancel">ยกเลิก</button>
+      <button type="submit" class="btn primary" id="pwSave">เปลี่ยนรหัสผ่าน</button>
+    </div>
+  </form>
+</dialog>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="config.js"></script>
+<script src="site.js"></script>
+<script>
+  /* การเชื่อมต่อหลังบ้านตั้งใน config.js  ค่าผู้ส่งอีเมลจริงมาจาก Apps Script หลังเข้าสู่ระบบ */
+  const CONFIG = {
+    senderEmail: 'student.sci@rmutr.ac.th',
+    senderName: 'Admin',
+    certFileName: 'ใบประกาศขอบคุณ.pdf'
+  };
+  let SERVER = { certReady: true, telegramReady: true };
+
+  /* ---------- รายการข้อความที่แก้ไขได้ (ค่าเริ่มต้น = ข้อความปัจจุบันในหน้าบริจาค) ---------- */
+  const GROUPS = [
+    { id: 'hero', title: 'หน้าบริจาค: หัวข้อ รายละเอียด และวัตถุประสงค์', open: true, fields: [
+      { k: 'orgLine1', l: 'ชื่อหน่วยงาน (บรรทัดที่ 1)', d: 'งานกิจการนักศึกษา คณะวิทยาศาสตร์และเทคโนโลยี', h: 'แสดงที่ส่วนหัวของทุกหน้า' },
+      { k: 'orgLine2', l: 'ชื่อหน่วยงาน (บรรทัดที่ 2)', d: 'มหาวิทยาลัยเทคโนโลยีราชมงคลรัตนโกสินทร์' },
+      { k: 'heroTitle', l: 'หัวข้อหลัก', d: 'ร่วมสร้างโอกาสทางการศึกษาแก่นักศึกษา' },
+      { k: 'heroLead', l: 'รายละเอียดใต้หัวข้อ', area: 1, d: 'เงินบริจาคของท่านจะนำเข้ากองทุนการศึกษา คณะวิทยาศาสตร์และเทคโนโลยี เพื่อสนับสนุนค่าเล่าเรียนและอุปกรณ์การเรียนแก่นักศึกษาที่มีความจำเป็น' },
+      { k: 'objective', l: 'วัตถุประสงค์ของกองทุน (ข้อความเพิ่มเติม)', area: 1, d: '', need: 1, h: 'ต่อท้ายรายละเอียดด้านบน เช่น ที่มาและเป้าหมายของกองทุน' },
+      { k: 'bullet1', l: 'ข้อความจุดที่ 1 (ทุนการศึกษา)', d: 'มอบเป็นทุนการศึกษาแก่นักศึกษาของคณะ' },
+      { k: 'bullet2', l: 'ข้อความจุดที่ 2 (การตรวจสอบ)', d: 'เจ้าหน้าที่ตรวจสอบหลักฐานการโอนเงินทุกรายการ' },
+      { k: 'bullet3', l: 'ข้อความจุดที่ 3 (ขั้นตอน)', d: 'ขั้นตอนการบริจาค ได้แก่ ระบุจำนวนเงิน โอนเงินเข้าบัญชี และแนบหลักฐานการโอนเงิน' },
+      { k: 'trustOwner', l: 'เจ้าของบัญชีที่ให้โอนเข้า (ข้อความเตือน)', d: '', need: 1, h: 'ใช้ในประโยค “โปรดโอนเงินเข้าบัญชีของ … เท่านั้น” เช่น มหาวิทยาลัยฯ กองทุนการศึกษา' }
+    ]},
+    { id: 'acct', title: 'หน้าบริจาค: บัญชีรับบริจาค', fields: [
+      { k: 'bankName', l: 'ธนาคาร', d: '', need: 1 },
+      { k: 'accountName', l: 'ชื่อบัญชี', d: '', need: 1 },
+      { k: 'accountNumber', l: 'เลขที่บัญชี', d: '', need: 1, h: 'ตัวเลขและเครื่องหมายขีดเท่านั้น (10–15 หลัก)', kind: 'acct' },
+      { k: 'transferHint', l: 'คำแนะนำใต้ข้อมูลบัญชี', area: 1, d: 'โปรดโอนเงินตามจำนวนที่ระบุ และเก็บหลักฐานการโอนเงิน (สลิป) ไว้เพื่อแนบในขั้นตอนที่ 3' }
+    ]},
+    { id: 'consent', title: 'หน้าบริจาค: ข้อความยินยอม (PDPA)', fields: [
+      { k: 'consentText', l: 'ข้อความยินยอมให้เก็บข้อมูลส่วนบุคคล', area: 1, d: 'ข้าพเจ้ายินยอมให้คณะเก็บรวบรวมและใช้ข้อมูลส่วนบุคคลข้างต้น เพื่อยืนยันการบริจาคและดำเนินการที่เกี่ยวข้อง', h: 'ควรให้ฝ่ายกฎหมายหรือผู้รับผิดชอบด้านข้อมูลส่วนบุคคลของมหาวิทยาลัยตรวจถ้อยคำ' }
+    ]},
+    { id: 'thanks', title: 'หน้าขอบคุณ (หลังผู้บริจาคส่งข้อมูล)', fields: [
+      { k: 'thankTitle', l: 'หัวข้อคำขอบคุณ', d: 'ขอขอบพระคุณในความอนุเคราะห์ของท่าน' },
+      { k: 'thankBody', l: 'ข้อความคำขอบคุณ', area: 1, d: 'คณะได้รับข้อมูลการบริจาคของท่านเรียบร้อยแล้ว เจ้าหน้าที่จะดำเนินการตรวจสอบหลักฐานการโอนเงิน กรณีที่ท่านระบุอีเมล จะได้รับแจ้งผลการตรวจสอบทางอีเมลดังกล่าว' },
+      { k: 'reviewDays', l: 'ระยะเวลาตรวจสอบ (วันทำการ)', d: '', need: 1, kind: 'days', h: 'ตัวเลข 1–60' }
+    ]},
+    { id: 'foot', title: 'ส่วนท้ายและช่องทางติดต่อ', fields: [
+      { k: 'contactPhone', l: 'หมายเลขโทรศัพท์ติดต่อ', d: '', need: 1, h: 'ใช้ในส่วนท้ายของเว็บ และในอีเมลแจ้ง e-Donation (กรณีต้องการใบเสร็จรับเงินบริจาค)' },
+      { k: 'contactEmail', l: 'อีเมลติดต่อ', d: '', need: 1, kind: 'email' },
+      { k: 'pdpaUrl', l: 'ลิงก์นโยบายคุ้มครองข้อมูลส่วนบุคคล', d: '', need: 1, kind: 'url', h: 'ต้องขึ้นต้นด้วย https://' },
+      { k: 'pdpaNote', l: 'ข้อความส่วนท้ายเรื่องข้อมูลส่วนบุคคล', area: 1, d: 'ข้อมูลส่วนบุคคลของท่านจะใช้ตามวัตถุประสงค์ที่ท่านให้ความยินยอมเท่านั้น' }
+    ]},
+    { id: 'donors', title: 'หน้ารายนามผู้บริจาค', fields: [
+      { k: 'donorsTitle', l: 'หัวข้อ', d: 'รายนามผู้บริจาคทุนการศึกษา' },
+      { k: 'donorsIntro', l: 'ข้อความอธิบาย', area: 1, d: 'คณะวิทยาศาสตร์และเทคโนโลยีขอขอบพระคุณผู้มีอุปการคุณทุกท่านที่ร่วมสนับสนุนกองทุนการศึกษา โดยแสดงเฉพาะรายการที่เจ้าหน้าที่ตรวจสอบการโอนเงินเรียบร้อยแล้ว และผู้บริจาคได้อนุญาตให้เผยแพร่' }
+    ]}
+  ];
+  const FIELDS = GROUPS.flatMap((g) => g.fields.map((f) => Object.assign({ g: g.id }, f)));
+  const IMAGES = [
+    { k: 'smallLogo', t: 'โลโก้เล็ก (มุมซ้ายบนสุด)', h: 'แสดงขนาด 46 × 46 px แนะนำไฟล์สี่เหลี่ยมจัตุรัส อย่างน้อย 128 × 128 px พื้นหลังโปร่งใส', max: 10, z: { maxDim: 256, mime: 'image/png', keepBelow: 200 * 1024, maxBytes: 1024 * 1024 } },
+    { k: 'uniLogo', t: 'โลโก้มหาวิทยาลัย (กึ่งกลางหน้า)', h: 'แสดงขนาด 184 × 184 px แนะนำอย่างน้อย 368 × 368 px พื้นหลังโปร่งใส', max: 10, z: { maxDim: 600, mime: 'image/png', keepBelow: 400 * 1024, maxBytes: 2 * 1024 * 1024 } },
+    { k: 'background', t: 'ภาพพื้นหลัง', h: 'แนะนำอย่างน้อย 1920 × 1080 px สีอ่อนหรือไม่มีลายถี่ เพื่อให้ตัวอักษรอ่านง่าย (ระบบย่อขนาดไฟล์ให้อัตโนมัติ)', max: 10, z: { maxDim: 2400, mime: 'image/jpeg', quality: 0.82, keepBelow: 600 * 1024, maxBytes: 3 * 1024 * 1024 } }
+  ];
+  const IMG_TYPES = ['image/png', 'image/jpeg', 'image/webp'];
+
+  /* ---------- ข้อมูลสมมติ ---------- */
+  const svgSlip = (n) => 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(
+    '<svg xmlns="http://www.w3.org/2000/svg" width="360" height="520" viewBox="0 0 360 520"><rect width="360" height="520" fill="#f7f7f7"/><rect x="0" y="0" width="360" height="70" fill="#7b4fb0"/><text x="180" y="44" font-size="22" text-anchor="middle" fill="#fff" font-family="sans-serif">สลิปตัวอย่าง (สมมติ)</text><text x="180" y="150" font-size="18" text-anchor="middle" fill="#333" font-family="sans-serif">โอนเงินสำเร็จ</text><text x="180" y="220" font-size="34" text-anchor="middle" fill="#111" font-family="sans-serif">' + n + ' บาท</text><text x="180" y="300" font-size="15" text-anchor="middle" fill="#666" font-family="sans-serif">ภาพนี้สร้างขึ้นเพื่อทดสอบหน้าจอเท่านั้น</text></svg>');
+  const DEMO = {
+    user: 'ผู้ดูแลระบบ (ตัวอย่าง)',
+    donations: [
+      { id: 1008, submittedAt: '2026-10-07T09:12:00+07:00', transferDate: '2026-10-07', donorType: 'person', name: 'นางสาวสมมติ ใจดี', org: '', amount: 500, email: 'sommuti@example.com', phone: '', taxId: '', wantEDonation: false, anonymous: false, allowPromotion: true, status: 'pending' },
+      { id: 1007, submittedAt: '2026-10-06T16:40:00+07:00', donorType: 'entity', transferDate: '2026-10-06', entityName: 'บริษัท ตัวอย่างวิทยาศาสตร์ จำกัด', amount: 50000, email: 'account@example.com', phone: '02-000-0000', taxId: '0105500000000', wantEDonation: true, anonymous: false, allowPromotion: true, status: 'pending' },
+      { id: 1006, submittedAt: '2026-10-06T11:05:00+07:00', transferDate: '2026-10-05', donorType: 'person', name: 'นายตัวอย่าง ทดสอบ', org: 'ฝ่ายทดสอบ', amount: 1000, email: 'tester@example.com', phone: '', taxId: '1234567890121', wantEDonation: true, anonymous: true, allowPromotion: true, status: 'pending' },
+      { id: 1005, submittedAt: '2026-10-05T19:20:00+07:00', transferDate: '2026-10-05', donorType: 'person', name: 'นายสมมติ ใจงาม', org: '', amount: 300, email: '', phone: '081-000-0000', taxId: '', wantEDonation: false, anonymous: false, allowPromotion: false, status: 'pending' },
+      { id: 1004, submittedAt: '2026-10-04T10:30:00+07:00', transferDate: '2026-10-04', donorType: 'person', name: 'ผู้ช่วยศาสตราจารย์ ตัวอย่าง สุขสันต์', org: '', amount: 2000, email: 'prof@example.com', phone: '', taxId: '1234567890121', wantEDonation: true, anonymous: false, allowPromotion: true, status: 'approved', decidedAt: '2026-10-04T14:00:00+07:00', autoEmailAt: '2026-10-04T10:30:30+07:00' },
+      { id: 1003, submittedAt: '2026-10-02T08:15:00+07:00', transferDate: '2026-10-01', donorType: 'person', name: 'นางทดสอบ สว่างวงศ์', org: '', amount: 600, email: 'sawang@example.com', phone: '', taxId: '', wantEDonation: false, anonymous: false, allowPromotion: true, status: 'approved', decidedAt: '2026-10-02T09:00:00+07:00', emailSentAt: '2026-10-02T09:05:00+07:00' },
+      { id: 1002, submittedAt: '2026-10-01T13:50:00+07:00', transferDate: '2026-10-01', donorType: 'person', name: 'นายสมมติ ไม่ผ่าน', org: '', amount: 100, email: 'x@example.com', phone: '', taxId: '', wantEDonation: false, anonymous: false, allowPromotion: true, status: 'declined', decidedAt: '2026-10-01T15:00:00+07:00', declineReason: 'ยอดในสลิปไม่ตรงกับที่ระบุ' },
+      { id: 1001, submittedAt: '2026-09-30T17:25:00+07:00', transferDate: '2026-09-30', donorType: 'entity', entityName: '<b>ทดสอบ</b> จำกัด', amount: 7000, email: 'corp@example.com', phone: '', taxId: '0105500000001', wantEDonation: true, anonymous: false, allowPromotion: true, status: 'approved', decidedAt: '2026-10-01T09:00:00+07:00', emailSentAt: '2026-10-01T09:10:00+07:00', eDonationSentAt: '2026-10-02T10:00:00+07:00' }
+    ].map((d) => Object.assign(d, { slipUrl: svgSlip(d.amount.toLocaleString('th-TH')) })),
+    config: { images: {}, texts: { reviewDays: '', accountNumber: '' } }
+  };
+
+  /* ---------- ชั้นเรียก API (โหมดตัวอย่างทำงานในหน้านี้เท่านั้น) ---------- */
+  const demo = Site.demo;
+  const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+  const TOKEN_KEY = 'scholarship_admin_token';
+  let TOKEN = '';
+  try { TOKEN = sessionStorage.getItem(TOKEN_KEY) || ''; } catch (e) { TOKEN = ''; }
+  function setToken(t) { TOKEN = t || ''; try { if (t) sessionStorage.setItem(TOKEN_KEY, t); else sessionStorage.removeItem(TOKEN_KEY); } catch (e) { /* ไม่มี storage ก็ใช้ในหน่วยความจำ */ } }
+
+  async function demoApi(action, payload) {
+    await wait(250);
+    const find = () => DEMO.donations.find((x) => x.id === payload.id);
+    if (action === 'login') return { token: 'demo' };
+    if (action === 'logout') return {};
+    if (action === 'init') return JSON.parse(JSON.stringify({ user: 'Admin (ตัวอย่าง)', sender: { name: 'Admin', email: CONFIG.senderEmail }, certReady: true, telegramReady: true, donations: DEMO.donations, config: DEMO.config, templates: DEMO.templates || null }));
+    if (action === 'getSlip') { const d = find(); return { slip: { mime: 'image/svg+xml', url: d.slipUrl } }; }
+    if (action === 'decide') { const d = find(); d.status = payload.decision; d.decidedAt = new Date().toISOString(); d.declineReason = payload.reason || ''; return { decidedAt: d.decidedAt }; }
+    if (action === 'sendEmail') { const d = find(); const t = new Date().toISOString(); d[KINDS[payload.kind].field] = t; return { sentAt: t }; }
+    if (action === 'testEmail') return { to: CONFIG.senderEmail };
+    if (action === 'saveConfig') { DEMO.config.texts = payload.texts; return { images: {} }; }
+    if (action === 'saveTemplates') { DEMO.templates = payload.templates; return { ok: true }; }
+    if (action === 'exportCsv') return demoCsv(payload.filters || {});
+    if (action === 'changePassword') return { token: 'demo' };
+    return {};
+  }
+
+  /* ทุกคำสั่งแนบ token; ถ้าหมดเวลา (AUTH) กลับไปหน้าเข้าสู่ระบบ */
+  async function api(action, payload) {
+    if (demo) return demoApi(action, payload || {});
+    try {
+      return await Site.post(action, Object.assign({ token: TOKEN }, payload || {}));
+    } catch (e) {
+      if (e.code === 'AUTH') { setToken(''); showLogin(e.message); }
+      throw e;
+    }
+  }
+
+  /* ---------- ตัวช่วย ---------- */
+  const $ = (s) => document.querySelector(s);
+  const el = (tag, props, kids) => { const e = document.createElement(tag); Object.assign(e, props || {}); (kids || []).forEach((k) => e.append(k)); return e; };
+  const baht = (n) => Number(n).toLocaleString('th-TH');
+  const fmtDT = (iso) => { if (!iso) return ''; const d = new Date(iso); return d.toLocaleDateString('th-TH', { day: 'numeric', month: 'short', year: 'numeric' }) + ' ' + d.toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' }) + ' น.'; };
+  const fmtD = (iso) => { if (!iso) return ''; const p = iso.split('-').map(Number); return new Date(p[0], p[1] - 1, p[2]).toLocaleDateString('th-TH', { day: 'numeric', month: 'long', year: 'numeric' }); };
+  const nameOf = (d) => (d.donorType === 'entity' ? d.entityName : d.name) || '(ไม่ระบุชื่อ)';
+  const STATUS = { pending: 'รอตรวจสอบ', approved: 'ผ่านแล้ว', declined: 'ไม่ผ่าน' };
+  let toastTimer;
+  function toast(msg, bad) {
+    const box = $('#toast'); box.replaceChildren(el('div', { className: bad ? 'bad' : '', textContent: msg }));
+    clearTimeout(toastTimer); toastTimer = setTimeout(() => box.replaceChildren(), 7000);
+  }
+
+  /* dialog ยืนยัน (คืนค่า Promise<boolean>) */
+  function ask(title, nodes, okLabel, danger) {
+    return new Promise((resolve) => {
+      const dlg = $('#confirmDlg'); $('#cfTitle').textContent = title; $('#cfBody').replaceChildren(...nodes);
+      const yes = $('#cfYes'); yes.textContent = okLabel || 'ยืนยัน'; yes.className = 'btn ' + (danger ? 'danger' : 'primary');
+      const done = (v) => { dlg.removeEventListener('close', onClose); $('#cfYes').onclick = $('#cfNo').onclick = $('#cfX').onclick = null; if (dlg.open) dlg.close(); resolve(v); };
+      const onClose = () => done(false);
+      dlg.addEventListener('close', onClose);
+      $('#cfYes').onclick = () => done(true); $('#cfNo').onclick = () => done(false); $('#cfX').onclick = () => done(false);
+      dlg.showModal();
+    });
+  }
+
+  /* ---------- แท็บ ---------- */
+  const tabs = ['review', 'config', 'mail'];
+  function selectTab(name, focus) {
+    tabs.forEach((t) => {
+      const on = t === name; const b = $('#tab-' + t);
+      b.setAttribute('aria-selected', String(on)); b.tabIndex = on ? 0 : -1; $('#panel-' + t).hidden = !on;
+      if (on && focus) b.focus();
+    });
+    if (name === 'mail' && typeof refreshPreviews === 'function') refreshPreviews();
+  }
+  tabs.forEach((t) => $('#tab-' + t).addEventListener('click', () => selectTab(t)));
+  document.querySelector('.tabs').addEventListener('keydown', (e) => {
+    if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+    const cur = tabs.findIndex((t) => $('#tab-' + t).getAttribute('aria-selected') === 'true');
+    selectTab(tabs[(cur + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length], true);
+  });
+
+  /* =====================================================
+     เมนู 2: ตรวจสอบรายการ
+     ===================================================== */
+  let DONATIONS = [];
+  let statusFilter = 'all';
+
+  function pendingCount() { return DONATIONS.filter((d) => d.status === 'pending').length; }
+  function refreshCounts() {
+    const n = pendingCount(); const c = $('#cntPending');
+    c.textContent = n; c.classList.toggle('zero', n === 0);
+    const seg = $('#statusSeg'); seg.replaceChildren();
+    [['all', 'ทั้งหมด'], ['pending', 'รอตรวจสอบ'], ['approved', 'ผ่านแล้ว'], ['declined', 'ไม่ผ่าน']].forEach(([v, label]) => {
+      const cnt = v === 'all' ? DONATIONS.length : DONATIONS.filter((d) => d.status === v).length;
+      const inp = el('input', { type: 'radio', name: 'st', value: v, checked: v === statusFilter });
+      inp.addEventListener('change', () => { statusFilter = v; renderRows(); });
+      seg.append(el('label', { className: 'seg-opt' }, [inp, el('span', {}, [label, el('small', { textContent: '(' + cnt + ')' })])]));
+    });
+  }
+
+  /* ชนิดอีเมลที่ Admin ส่งได้ */
+  const KINDS = {
+    email: { label: 'Email', field: 'emailSentAt', tpl: 'thanks', type: 'แจ้งการบริจาคสำเร็จ (พร้อมใบประกาศขอบคุณ)', done: 'อีเมลขอบคุณ' },
+    edonation: { label: 'e-Donation', field: 'eDonationSentAt', tpl: 'edonation', type: 'แจ้งการบันทึก e-Donation', done: 'อีเมล e-Donation' },
+    declined: { label: 'แจ้งไม่ผ่าน', field: 'declineEmailSentAt', tpl: 'declined', type: 'แจ้งผลการตรวจสอบไม่ผ่าน', done: 'อีเมลแจ้งผลไม่ผ่าน' }
+  };
+  const anySent = (d) => !!(d.emailSentAt || d.eDonationSentAt || d.declineEmailSentAt);
+
+  function emailBtn(d, kind) {
+    const K = KINDS[kind]; const sentAt = d[K.field];
+    const b = el('button', { type: 'button', className: 'btn sm' + (sentAt ? ' sent' : (kind === 'declined' ? ' danger' : ' teal')) });
+    b.dataset.act = kind; b.dataset.id = d.id;
+    b.append(K.label);
+    let why = '';
+    if (kind === 'declined') { if (d.status !== 'declined') why = 'ส่งได้เฉพาะรายการที่ Decline แล้ว'; }
+    else if (d.status !== 'approved') why = 'ต้อง Accept ก่อนจึงส่งอีเมลได้';
+    if (!why && !d.email) why = 'ผู้บริจาคไม่ได้ระบุอีเมล';
+    if (sentAt) b.append(el('span', { className: 'sent-at', textContent: 'ส่งแล้ว ' + fmtDT(sentAt) }));
+    b.disabled = !!why;
+    if (why) b.title = why;
+    return { b, why };
+  }
+
+  function rowEl(d) {
+    const li = el('li', { className: 'row' });
+    li.dataset.id = d.id;
+    li.append(el('div', { className: 'when' }, [el('b', { textContent: fmtDT(d.submittedAt) }), 'รายการ #' + d.id]));
+    const chips = el('div', { className: 'chips' });
+    chips.append(el('span', { className: 'chip', textContent: d.donorType === 'entity' ? 'นิติบุคคล' : 'บุคคลธรรมดา' }));
+    if (d.dupOf) chips.append(el('span', { className: 'chip warn', textContent: 'อาจซ้ำกับรายการ #' + d.dupOf }));
+    if (d.wantEDonation) chips.append(el('span', { className: 'chip', textContent: 'ขอ e-Donation' }));
+    if (d.anonymous) chips.append(el('span', { className: 'chip', textContent: 'ไม่ประสงค์ออกนาม' }));
+    if (!d.allowPromotion) chips.append(el('span', { className: 'chip', textContent: 'ไม่อนุญาตเผยแพร่' }));
+    if (d.autoEmailAt) chips.append(el('span', { className: 'chip', textContent: 'ส่งอีเมลรับข้อมูลอัตโนมัติแล้ว' }));
+    li.append(el('div', {}, [el('div', { className: 'who-name', textContent: nameOf(d) }), chips]));
+    li.append(el('div', { className: 'amt' }, [baht(d.amount), el('small', { textContent: 'บาท' })]));
+    li.append(el('div', {}, [el('span', { className: 'badge ' + d.status, textContent: STATUS[d.status] })]));
+    const acts = el('div', { className: 'acts' });
+    const chk = el('button', { type: 'button', className: 'btn sm', textContent: 'Check' }); chk.dataset.act = 'check'; chk.dataset.id = d.id;
+    acts.append(chk);
+    if (d.status === 'declined') acts.append(emailBtn(d, 'declined').b);
+    else {
+      acts.append(emailBtn(d, 'email').b);
+      if (d.wantEDonation) acts.append(emailBtn(d, 'edonation').b);   // ไม่ขอ e-Donation = ไม่แสดงปุ่ม
+    }
+    li.append(acts);
+    const notes = [];
+    if (d.status === 'pending') notes.push('ตรวจสอบและ Accept ก่อน จึงจะส่งอีเมลได้');
+    else if (d.status === 'declined') {
+      notes.push('ไม่ผ่านการตรวจสอบ' + (d.declineReason ? ': ' + d.declineReason : ''));
+      if (!d.email) notes.push('ผู้บริจาคไม่ได้ระบุอีเมล จึงส่งอีเมลแจ้งไม่ได้');
+    } else {
+      if (!d.email) notes.push('ผู้บริจาคไม่ได้ระบุอีเมล จึงส่งอีเมลไม่ได้');
+      if (!d.allowPromotion) notes.push('ผู้บริจาคไม่อนุญาตให้เผยแพร่ จึงไม่แสดงในหน้ารายนาม');
+    }
+    if (notes.length) li.append(el('p', { className: 'row-note', textContent: notes.join(' · ') }));
+    return li;
+  }
+
+  function renderRows() {
+    refreshCounts();
+    const term = $('#q').value.trim().toLowerCase(); const dir = $('#sort').value === 'asc' ? 1 : -1;
+    const list = DONATIONS.filter((d) => (statusFilter === 'all' || d.status === statusFilter) && (!term || nameOf(d).toLowerCase().indexOf(term) >= 0))
+      .sort((a, b) => dir * (new Date(a.submittedAt) - new Date(b.submittedAt)));
+    const f = document.createDocumentFragment(); list.forEach((d) => f.appendChild(rowEl(d)));
+    $('#rows').replaceChildren(f);
+    $('#rowsEmpty').hidden = list.length > 0;
+    $('#listStatus').textContent = 'แสดง ' + list.length + ' จาก ' + DONATIONS.length + ' รายการ';
+  }
+  $('#q').addEventListener('input', renderRows);
+  $('#sort').addEventListener('change', renderRows);
+
+  /* ----- Check dialog ----- */
+  let curId = null; let declineStage = false; let revealed = false; let slipReq = 0;
+  const byId = (id) => DONATIONS.find((d) => String(d.id) === String(id));
+  function fmtTax(s) { return s.length === 13 ? [s[0], s.slice(1, 5), s.slice(5, 10), s.slice(10, 12), s[12]].join('-') : s; }
+  function maskTax(s) { return s.length === 13 ? '•-••••-•••••-' + s.slice(10, 12) + '-' + s[12] : '•'.repeat(Math.max(s.length - 3, 0)) + s.slice(-3); }
+  const IMG_DATA_MIME = ['image/jpeg', 'image/png', 'image/webp'];
+  const dataUrl = (f) => (f && IMG_DATA_MIME.indexOf(f.mime) >= 0 && /^[A-Za-z0-9+/=]+$/.test(f.data || '') ? 'data:' + f.mime + ';base64,' + f.data : '');
+  let slipCache = {};
+
+  async function loadSlip(d) {
+    const my = ++slipReq;
+    const img = $('#slipImg'); const cap = $('#slipCap');
+    const cached = slipCache[d.id];
+    const show = (r) => {
+      if (my !== slipReq) return;
+      const src = (r.slip && (r.slip.url || dataUrl(r.slip))) || '';
+      if (src) { img.src = src; img.hidden = false; cap.textContent = ''; } else { img.hidden = true; cap.textContent = 'ไม่พบไฟล์หลักฐานการโอนเงิน'; }
+      const lg = dataUrl(r.logo); const box = $('#chkLogo');
+      if (box) { box.replaceChildren(); if (lg) box.append(el('img', { src: lg, alt: 'โลโก้ที่ผู้บริจาคแนบ', className: 'entity-logo' })); }
+    };
+    if (cached) { show(cached); return; }
+    img.hidden = true; img.removeAttribute('src'); cap.textContent = 'กำลังโหลดหลักฐานการโอนเงิน…';
+    try { const r = await api('getSlip', { id: d.id }); slipCache[d.id] = r; show(r); }
+    catch (e) { if (my === slipReq && e.code !== 'AUTH') cap.textContent = 'โหลดหลักฐานการโอนเงินไม่สำเร็จ โปรดปิดแล้วกด Check อีกครั้ง'; }
+  }
+
+  function fillCheck() {
+    const d = byId(curId); if (!d) return;
+    $('#chkTitle').textContent = 'ตรวจสอบรายการ #' + d.id;
+    const info = $('#chkInfo'); info.replaceChildren();
+    const add = (k, v, node) => { info.append(el('dt', { textContent: k })); const dd = el('dd'); if (node) dd.append(node); else dd.textContent = v; info.append(dd); };
+    add('เวลาที่ส่งข้อมูล', fmtDT(d.submittedAt));
+    add('วันที่โอนเงิน (ผู้บริจาคระบุ)', fmtD(d.transferDate));
+    add('จำนวนเงินที่ผู้บริจาคกรอก', baht(d.amount) + ' บาท');
+    add(d.donorType === 'entity' ? 'ชื่อนิติบุคคล' : 'ชื่อ-นามสกุล', nameOf(d));
+    if (d.donorType !== 'entity' && d.org) add('หน่วยงาน', d.org);
+    if (d.donorType === 'entity' && d.hasLogo) { const box = el('span'); box.id = 'chkLogo'; add('โลโก้นิติบุคคล', '', box); }
+    add('อีเมล', d.email || '– (ไม่ได้ระบุ)');
+    add('โทรศัพท์', d.phone || '– (ไม่ได้ระบุ)');
+    if (d.message) add('ข้อความถึงนักศึกษา', d.message);
+    add('ขอ e-Donation', d.wantEDonation ? 'ใช่' : 'ไม่');
+    if (d.dupOf) add('ข้อสังเกต', 'อาจซ้ำกับรายการ #' + d.dupOf + ' (จำนวนเงินและผู้บริจาคตรงกัน ส่งภายใน 10 นาที)');
+    if (d.taxId) {
+      const span = el('span', { className: 'mask', textContent: revealed ? fmtTax(d.taxId) : maskTax(d.taxId) });
+      const tg = el('button', { type: 'button', className: 'link', textContent: revealed ? 'ซ่อนเลข' : 'แสดงเลขเต็ม' });
+      tg.id = 'taxToggle'; tg.addEventListener('click', () => { revealed = !revealed; fillCheck(); $('#taxToggle').focus(); });
+      add(d.donorType === 'entity' ? 'เลขประจำตัวผู้เสียภาษี' : 'เลขบัตรประชาชน', '', el('span', {}, [span, ' ', tg]));
+    }
+    const shown = d.allowPromotion ? (d.anonymous ? 'แสดงในรายนามเป็น “ผู้ไม่ประสงค์ออกนาม”' : 'แสดงชื่อในรายนาม') : 'ไม่แสดงในรายนาม (ผู้บริจาคไม่อนุญาตให้เผยแพร่)';
+    $('#chkPublish').textContent = 'เมื่อ Accept: ' + shown + (d.allowPromotion ? ' ทันที' : '');
+    const locked = anySent(d) && d.status !== 'pending';
+    $('#chkLock').hidden = !locked; $('#chkLock').textContent = 'ส่งอีเมลให้ผู้บริจาคแล้ว จึงเปลี่ยนผลการตรวจสอบไม่ได้';
+    $('#acceptBtn').disabled = d.status === 'approved' || locked;
+    $('#declineBtn').disabled = d.status === 'declined' || locked;
+    $('#declineBtn').textContent = declineStage ? 'ยืนยัน Decline' : 'Decline';
+    $('#declineBox').hidden = !declineStage;
+    $('#acceptBtn').textContent = d.status === 'approved' ? 'Accept แล้ว' : 'Accept';
+    if (slipCache[d.id]) { const lg = dataUrl(slipCache[d.id].logo); const box = $('#chkLogo'); if (box && lg) box.replaceChildren(el('img', { src: lg, alt: 'โลโก้ที่ผู้บริจาคแนบ', className: 'entity-logo' })); }
+  }
+  function openCheck(id) {
+    curId = id; declineStage = false; revealed = false; $('#declineReason').value = ''; $('#chkErr').textContent = '';
+    fillCheck(); $('#checkDlg').showModal(); loadSlip(byId(id));
+  }
+  async function decide(decision) {
+    const d = byId(curId); const reason = $('#declineReason').value.trim();
+    $('#chkErr').textContent = '';
+    $('#acceptBtn').disabled = $('#declineBtn').disabled = true;
+    try {
+      const r = await api('decide', { id: d.id, decision, reason });
+      d.status = decision; d.decidedAt = (r && r.decidedAt) || new Date().toISOString(); d.declineReason = decision === 'declined' ? reason : '';
+      $('#checkDlg').close(); renderRows();
+      let msg = decision === 'approved'
+        ? (d.allowPromotion ? 'บันทึกผล Accept แล้ว รายการ #' + d.id + ' แสดงในหน้ารายนามผู้บริจาคทันที' : 'บันทึกผล Accept แล้ว รายการนี้ไม่แสดงในรายนามเพราะผู้บริจาคไม่อนุญาตให้เผยแพร่')
+        : 'บันทึกผล Decline แล้ว รายการ #' + d.id + ' ไม่แสดงในหน้ารายนาม' + (d.email ? ' กดปุ่ม “แจ้งไม่ผ่าน” หากต้องการส่งอีเมลแจ้งผู้บริจาค' : '');
+      if (r && r.warning) msg += ' (' + r.warning + ')';
+      toast(msg, !!(r && r.warning));
+    } catch (e) { if (e.code !== 'AUTH') { $('#chkErr').textContent = e.code === 'LOCKED_DECISION' ? e.message : 'ไม่สามารถบันทึกผลได้ โปรดลองใหม่อีกครั้ง'; fillCheck(); } }
+  }
+  $('#acceptBtn').addEventListener('click', () => decide('approved'));
+  $('#declineBtn').addEventListener('click', () => { if (!declineStage) { declineStage = true; fillCheck(); $('#declineReason').focus(); } else decide('declined'); });
+  $('#chkClose').addEventListener('click', () => $('#checkDlg').close());
+  $('#chkX').addEventListener('click', () => $('#checkDlg').close());
+  $('#checkDlg').addEventListener('close', () => { revealed = false; slipReq++; $('#slipImg').removeAttribute('src'); });
+
+  /* ----- ส่งอีเมล (ข้อความจากเมนูแม่แบบอีเมล) ----- */
+  function contactText() {
+    const p = (window.__cfgTexts && window.__cfgTexts.contactPhone) || ''; const m = (window.__cfgTexts && window.__cfgTexts.contactEmail) || '';
+    const parts = []; if (p) parts.push('โทร ' + p); if (m) parts.push('อีเมล ' + m);
+    return parts.length ? parts.join(' หรือ ') : '[ช่องทางติดต่อ ยังไม่ได้ตั้งค่า]';
+  }
+  function draftOf(kind, d) {
+    const t = TEMPLATES[KINDS[kind] ? KINDS[kind].tpl : kind];
+    return { subject: fillSubject(t.subject, d), body: fillTpl(t.body, d) };
+  }
+  const SERVER_MSG = ['CERT_NOT_SETUP', 'CERT_FAILED', 'MAIL_QUOTA', 'VALIDATION', 'NOT_FOUND', 'SHARING_BLOCKED', 'LOCKED_DECISION'];
+  async function sendMail(id, kind) {
+    const d = byId(id); const K = KINDS[kind]; const dr = draftOf(kind, d);
+    const already = d[K.field];
+    const info = [el('dt', { textContent: 'จาก' }), el('dd', { textContent: CONFIG.senderName + ' <' + CONFIG.senderEmail + '>' }), el('dt', { textContent: 'ถึง' }), el('dd', { textContent: d.email }), el('dt', { textContent: 'ประเภท' }), el('dd', { textContent: K.type })];
+    if (kind === 'email') info.push(el('dt', { textContent: 'ไฟล์แนบ' }), el('dd', { textContent: CONFIG.certFileName + ' (ใบประกาศขอบคุณ ระบุชื่อ ' + nameOf(d) + ' สร้างอัตโนมัติ)' }));
+    const nodes = [
+      el('dl', { className: 'dl' }, info),
+      el('div', { className: 'draft' }, [el('p', { className: 'subj', textContent: 'หัวเรื่อง: ' + dr.subject }), el('p', { textContent: dr.body })]),
+      el('p', { className: 'notice', textContent: 'ข้อความนี้สร้างจากแม่แบบในเมนู “แม่แบบอีเมล” ระบบเติมชื่อและจำนวนเงินของผู้บริจาคให้อัตโนมัติ' })
+    ];
+    if (kind === 'email' && !SERVER.certReady) nodes.unshift(el('p', { className: 'notice warn', textContent: 'ยังไม่ได้ตั้งค่าแม่แบบใบประกาศขอบคุณ (CERT_SLIDE_ID) ในระบบหลังบ้าน การส่งอีเมลนี้จะไม่สำเร็จจนกว่าจะตั้งค่า' }));
+    if (already) nodes.unshift(el('p', { className: 'notice warn', textContent: 'เคยส่งอีเมลนี้แล้วเมื่อ ' + fmtDT(already) + ' การส่งซ้ำจะทำให้ผู้บริจาคได้รับอีเมลซ้ำ' }));
+    const ok = await ask(already ? 'ส่งอีเมลซ้ำ?' : 'ยืนยันการส่งอีเมล', nodes, already ? 'ส่งซ้ำ' : 'ส่งอีเมล');
+    if (!ok) return;
+    const btn = document.querySelector('[data-act="' + kind + '"][data-id="' + id + '"]'); if (btn) { btn.disabled = true; btn.textContent = 'กำลังส่ง…'; }
+    try {
+      const r = await api('sendEmail', { id: d.id, kind });
+      d[K.field] = (r && r.sentAt) || new Date().toISOString();
+      toast(r && r.warning ? r.warning : 'ส่ง' + K.done + 'ถึง ' + d.email + ' เรียบร้อยแล้ว', !!(r && r.warning));
+    } catch (e) {
+      if (e.code !== 'AUTH') toast((SERVER_MSG.indexOf(e.code) >= 0 ? e.message + ' ' : 'ส่งอีเมลไม่สำเร็จ ') + 'ยังไม่มีการบันทึกว่าส่งแล้ว', true);
+    }
+    renderRows();
+  }
+
+  $('#rows').addEventListener('click', (e) => {
+    const b = e.target.closest('button[data-act]'); if (!b || b.disabled) return;
+    if (b.dataset.act === 'check') openCheck(b.dataset.id); else sendMail(b.dataset.id, b.dataset.act);
+  });
+
+  /* ----- Export CSV ----- */
+  function csvDownload(filename, csv) {
+    const blob = new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = el('a', { href: url, download: filename }); document.body.append(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 2000);
+  }
+  function demoCsv(f) {
+    const list = DEMO.donations.filter((d) => (!f.status || f.status === 'all' || d.status === f.status));
+    const q = (s) => '"' + String(s == null ? '' : s).replace(/"/g, '""') + '"';
+    const rows = [['เลขที่รายการ', 'วันที่โอนเงิน', 'จำนวนเงิน (บาท)', 'ชื่อ', 'สถานะ'].map(q).join(',')].concat(list.map((d) => [d.id, d.transferDate, d.amount, q(nameOf(d)), q(STATUS[d.status])].join(',')));
+    return { filename: 'donations_demo.csv', count: list.length, csv: rows.join('\r\n') + '\r\n' };
+  }
+  $('#exportBtn').addEventListener('click', async () => {
+    const sel = el('select', { id: 'csvStatus' });
+    [['all', 'ทั้งหมด'], ['approved', 'ผ่านแล้ว'], ['pending', 'รอตรวจสอบ'], ['declined', 'ไม่ผ่าน']].forEach(([v, t]) => sel.append(el('option', { value: v, textContent: t })));
+    const from = el('input', { type: 'date', id: 'csvFrom' }); const to = el('input', { type: 'date', id: 'csvTo' });
+    const lab = (f, t) => { const l = el('label', { textContent: t }); l.htmlFor = f.id; return l; };
+    const nodes = [
+      el('div', { className: 'form-grid' }, [
+        el('div', {}, [lab(sel, 'สถานะ'), sel]),
+        el('div', { className: 'two' }, [el('div', {}, [lab(from, 'ส่งข้อมูลตั้งแต่วันที่ (ไม่บังคับ)'), from]), el('div', {}, [lab(to, 'ถึงวันที่ (ไม่บังคับ)'), to])])
+      ]),
+      el('p', { className: 'notice warn', textContent: 'ไฟล์นี้มีข้อมูลส่วนบุคคล (เลขประจำตัว อีเมล โทรศัพท์) โปรดเก็บรักษาอย่างปลอดภัย ไม่ส่งต่อหรือเผยแพร่ ระบบบันทึกการ Export ทุกครั้ง' })
+    ];
+    const ok = await ask('Export ข้อมูลการบริจาคเป็น CSV', nodes, 'ดาวน์โหลด CSV');
+    if (!ok) return;
+    if (from.value && to.value && from.value > to.value) { toast('วันที่เริ่มต้นต้องไม่หลังวันที่สิ้นสุด', true); return; }
+    const btn = $('#exportBtn'); btn.disabled = true; btn.textContent = 'กำลังสร้างไฟล์…';
+    try {
+      const r = await api('exportCsv', { filters: { status: sel.value, from: from.value, to: to.value } });
+      csvDownload(r.filename, r.csv);
+      toast('ดาวน์โหลด ' + r.filename + ' แล้ว (' + baht(r.count) + ' รายการ)');
+    } catch (e) { if (e.code !== 'AUTH') toast(e.code === 'VALIDATION' ? e.message : 'Export ไม่สำเร็จ โปรดลองใหม่อีกครั้ง', true); }
+    btn.disabled = false; btn.textContent = 'Export CSV';
+  });
+
+  /* =====================================================
+     เมนู 1: ตั้งค่าหน้าเว็บ
+     ===================================================== */
+  const imgState = {};
+  let dirty = false;
+  function setDirty(v) {
+    dirty = v; const s = $('#saveState');
+    s.textContent = v ? 'มีการแก้ไขที่ยังไม่ได้บันทึก' : 'ยังไม่มีการแก้ไข'; s.classList.toggle('dirty', v);
+  }
+  window.addEventListener('beforeunload', (e) => { if (dirty || mailDirty) { e.preventDefault(); e.returnValue = ''; } });
+
+  function buildImages() {
+    const box = $('#imgRows'); box.replaceChildren();
+    IMAGES.forEach((im) => {
+      imgState[im.k] = { src: '', file: null, removed: false };
+      const thumb = el('div', { className: 'thumb', textContent: 'ยังไม่มีรูป' }); thumb.id = 'th-' + im.k;
+      const input = el('input', { type: 'file', id: 'file-' + im.k, className: 'file-in', accept: IMG_TYPES.join(',') });
+      const pick = el('label', { className: 'btn sm', textContent: 'เลือกไฟล์รูป' }); pick.htmlFor = input.id;
+      const rm = el('button', { type: 'button', className: 'btn sm danger', textContent: 'ลบรูป', hidden: true }); rm.id = 'rm-' + im.k;
+      const fname = el('span', { className: 'fname' }); fname.id = 'fn-' + im.k;
+      const err = el('p', { className: 'err' }); err.id = 'err-' + im.k; err.setAttribute('role', 'alert');
+      input.addEventListener('change', () => {
+        const f = input.files[0]; err.textContent = '';
+        if (!f) return;
+        if (IMG_TYPES.indexOf(f.type) < 0) { input.value = ''; err.textContent = 'ไฟล์ต้องเป็น PNG, JPG หรือ WebP เท่านั้น'; return; }
+        if (f.size > im.max * 1024 * 1024) { input.value = ''; err.textContent = 'ไฟล์ต้องมีขนาดไม่เกิน ' + im.max + ' MB โปรดเลือกไฟล์ใหม่'; return; }
+        const rd = new FileReader();
+        rd.onload = () => { imgState[im.k] = { src: String(rd.result), file: f, removed: false }; paintImg(im.k); setDirty(true); };
+        rd.onerror = () => { err.textContent = 'ไม่สามารถอ่านไฟล์ได้ โปรดเลือกไฟล์ใหม่'; };
+        rd.readAsDataURL(f);
+      });
+      rm.addEventListener('click', () => { input.value = ''; imgState[im.k] = { src: '', file: null, removed: true }; paintImg(im.k); setDirty(true); pick.focus(); });
+      box.append(el('div', { className: 'img-row' }, [thumb, el('div', {}, [el('h3', { textContent: im.t }), el('p', { className: 'hint', textContent: im.h }), el('div', { className: 'img-actions' }, [input, pick, rm, fname]), err])]));
+    });
+  }
+  function paintImg(k) {
+    const st = imgState[k]; const th = $('#th-' + k);
+    th.className = 'thumb' + (st.src ? ' has' : ''); th.style.backgroundImage = ''; th.replaceChildren();
+    if (st.src) {
+      if (k === 'background') { th.style.backgroundImage = 'url("' + st.src + '")'; th.setAttribute('role', 'img'); th.setAttribute('aria-label', 'ตัวอย่างภาพพื้นหลัง'); }
+      else th.append(el('img', { src: st.src, alt: 'ตัวอย่าง' + IMAGES.find((i) => i.k === k).t }));
+    } else th.textContent = st.removed ? 'ลบแล้ว (ใช้ค่าเริ่มต้น)' : 'ยังไม่มีรูป';
+    $('#rm-' + k).hidden = !st.src;
+    $('#fn-' + k).textContent = st.file ? st.file.name : '';
+    if (k === 'smallLogo') {
+      const m = $('#smallMark'); m.replaceChildren();
+      if (st.src) m.append(el('img', { src: st.src, alt: '' })); else m.innerHTML = MARK_SVG;
+    }
+  }
+  const MARK_SVG = document.querySelector('#smallMark').innerHTML;
+
+  function buildTexts(texts) {
+    const root = $('#txtGroups'); root.replaceChildren();
+    GROUPS.forEach((g) => {
+      const det = el('details', { className: 'grp', open: !!g.open }); det.id = 'grp-' + g.id;
+      const sum = el('summary', {}, [g.title, el('span', { className: 'miss', hidden: true })]); det.append(sum);
+      const body = el('div', { className: 'grp-body' });
+      g.fields.forEach((f) => {
+        const id = 'f-' + f.k; const val = Object.prototype.hasOwnProperty.call(texts, f.k) ? texts[f.k] : f.d;
+        const input = f.area ? el('textarea', { id, value: val, maxLength: 600 }) : el('input', { id, type: 'text', value: val, maxLength: 200 });
+        input.dataset.k = f.k; input.setAttribute('aria-describedby', 'hp-' + f.k + ' er-' + f.k);
+        input.addEventListener('input', () => { setDirty(true); input.removeAttribute('aria-invalid'); $('#er-' + f.k).textContent = ''; updateMissing(); });
+        const need = el('span', { className: 'need', textContent: 'ยังไม่ได้กรอก' }); need.id = 'nd-' + f.k;
+        const help = el('p', { className: 'help', textContent: f.h || '' }); help.id = 'hp-' + f.k;
+        const er = el('p', { className: 'err' }); er.id = 'er-' + f.k; er.setAttribute('role', 'alert');
+        body.append(el('div', { className: 'fld' }, [el('label', { htmlFor: id }, [f.l, need]), input, help, er]));
+      });
+      det.append(body); root.append(det);
+    });
+    updateMissing();
+  }
+  function textVal(k) { const e = $('#f-' + k); return e ? e.value.trim() : ''; }
+  function updateMissing() {
+    let total = 0;
+    GROUPS.forEach((g) => {
+      let n = 0;
+      g.fields.forEach((f) => { const miss = !!f.need && !textVal(f.k); $('#nd-' + f.k).hidden = !miss; if (miss) n++; });
+      const m = $('#grp-' + g.id + ' .miss'); m.hidden = n === 0; m.textContent = 'ยังไม่ได้กรอก ' + n + ' รายการ'; total += n;
+    });
+    const c = $('#cntMissing'); c.textContent = total; c.classList.toggle('zero', total === 0);
+    window.__cfgTexts = { contactPhone: textVal('contactPhone'), contactEmail: textVal('contactEmail') };
+    return total;
+  }
+
+  function validateTexts() {
+    let first = null; const bad = (k, msg) => { const e = $('#f-' + k); e.setAttribute('aria-invalid', 'true'); $('#er-' + k).textContent = msg; if (!first) first = e; };
+    FIELDS.forEach((f) => { const e = $('#f-' + f.k); e.removeAttribute('aria-invalid'); $('#er-' + f.k).textContent = ''; });
+    FIELDS.forEach((f) => {
+      const v = textVal(f.k); if (!v) { if (['orgLine1', 'heroTitle', 'thankTitle', 'donorsTitle'].indexOf(f.k) >= 0) bad(f.k, 'โปรดระบุข้อความ ช่องนี้ใช้เป็นหัวข้อของหน้าเว็บจึงเว้นว่างไม่ได้'); return; }
+      if (f.kind === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) bad(f.k, 'รูปแบบอีเมลไม่ถูกต้อง โปรดตรวจสอบอีกครั้ง');
+      if (f.kind === 'url' && !/^https:\/\/[^\s]+$/i.test(v)) bad(f.k, 'ลิงก์ต้องขึ้นต้นด้วย https:// และไม่มีช่องว่าง');
+      if (f.kind === 'acct') { const digits = v.replace(/-/g, ''); if (!/^[\d-]+$/.test(v) || digits.length < 10 || digits.length > 15) bad(f.k, 'เลขที่บัญชีต้องเป็นตัวเลข 10–15 หลัก (ใส่เครื่องหมายขีดได้)'); }
+      if (f.kind === 'days' && !(/^\d+$/.test(v) && +v >= 1 && +v <= 60)) bad(f.k, 'โปรดระบุตัวเลขจำนวนวันทำการระหว่าง 1 ถึง 60');
+    });
+    return first;
+  }
+
+  async function saveConfig() {
+    const firstBad = validateTexts();
+    if (firstBad) { const det = firstBad.closest('details'); if (det) det.open = true; firstBad.focus(); toast('มีข้อมูลที่ไม่ถูกต้อง โปรดแก้ไขช่องที่ทำเครื่องหมายไว้ก่อนบันทึก', true); return; }
+    const miss = updateMissing();
+    if (miss > 0) {
+      const ok = await ask('ยังมีข้อมูลสำคัญที่ยังไม่ได้กรอก', [el('p', { textContent: 'ยังไม่ได้กรอก ' + miss + ' รายการ (เช่น เลขที่บัญชี ช่องทางติดต่อ) หากเผยแพร่ตอนนี้ หน้าเว็บจะแสดงข้อความแทนที่ไฮไลต์สีเหลืองต่อไป ต้องการบันทึกและเผยแพร่ต่อหรือไม่' })], 'บันทึกและเผยแพร่');
+      if (!ok) return;
+    }
+    const texts = {}; FIELDS.forEach((f) => { texts[f.k] = textVal(f.k); });
+    const btn = $('#saveBtn'); btn.disabled = true; btn.textContent = 'กำลังบันทึก…';
+    try {
+      const images = {};
+      for (const im of IMAGES) {
+        const st = imgState[im.k];
+        if (st.file) { const z = await Site.compressImage(st.file, im.z); images[im.k] = { type: z.type, data: z.data }; }
+        else if (st.removed) images[im.k] = null;
+      }
+      const r = await api('saveConfig', { texts, images });
+      IMAGES.forEach((im) => {
+        if (r && r.images && Object.prototype.hasOwnProperty.call(r.images, im.k)) { imgState[im.k] = { src: r.images[im.k], file: null, removed: !r.images[im.k] }; $('#file-' + im.k).value = ''; paintImg(im.k); }
+        else if (imgState[im.k].file) { imgState[im.k].file = null; $('#file-' + im.k).value = ''; paintImg(im.k); }
+      });
+      setDirty(false); toast(demo ? 'บันทึกแล้ว (โหมดตัวอย่าง: ยังไม่ได้เผยแพร่จริง)' : 'บันทึกและเผยแพร่เรียบร้อยแล้ว หน้าเว็บจะแสดงข้อมูลใหม่ภายในไม่กี่นาที');
+    } catch (e) {
+      if (e.code !== 'AUTH') toast((['VALIDATION', 'SHARING_BLOCKED', 'IMAGE'].indexOf(e.code) >= 0 ? e.message + ' ' : 'บันทึกไม่สำเร็จ โปรดตรวจสอบการเชื่อมต่อและลองใหม่ ') + 'ข้อมูลที่กรอกยังอยู่ครบถ้วน', true);
+    }
+    btn.disabled = false; btn.textContent = 'บันทึกและเผยแพร่';
+  }
+  $('#saveBtn').addEventListener('click', saveConfig);
+  $('#resetBtn').addEventListener('click', async () => {
+    const ok = await ask('คืนค่าเริ่มต้น?', [el('p', { textContent: 'ข้อความทั้งหมดจะกลับเป็นค่าเริ่มต้น และรูปที่เลือกไว้จะถูกลบ ข้อมูลที่ตั้งไว้ก่อนหน้านี้ที่บันทึกแล้วจะยังไม่เปลี่ยนจนกว่าจะกด “บันทึกและเผยแพร่”' })], 'คืนค่าเริ่มต้น', true);
+    if (!ok) return;
+    buildTexts({}); IMAGES.forEach((im) => { $('#file-' + im.k).value = ''; imgState[im.k] = { src: '', file: null, removed: true }; paintImg(im.k); }); setDirty(true);
+  });
+  $('#cfgForm').addEventListener('submit', (e) => e.preventDefault());
+
+
+  /* =====================================================
+     เมนู 3: แม่แบบอีเมล
+     ===================================================== */
+  const VARS = [
+    ['ชื่อ', 'ชื่อผู้บริจาค หรือชื่อนิติบุคคล', 'นางสาวสมมติ ใจดี'],
+    ['จำนวนเงิน', 'จำนวนเงินที่ผู้บริจาคกรอก (ไม่รวมคำว่า “บาท”)', '1,500'],
+    ['วันที่โอน', 'วันที่โอนเงินที่ผู้บริจาคระบุ', '7 ตุลาคม 2569'],
+    ['เลขที่รายการ', 'เลขที่รายการบริจาค', '1008'],
+    ['ช่องทางติดต่อ', 'โทรศัพท์และอีเมลติดต่อจากเมนู “ตั้งค่าหน้าเว็บ”', null],
+    ['เหตุผล', 'เหตุผลที่ไม่ผ่านการตรวจสอบ ที่กรอกตอนกด Decline (ใช้ในแม่แบบที่ 4)', 'ยอดเงินในสลิปไม่ตรงกับจำนวนที่ระบุ']
+  ];
+  const TPL_META = [
+    { k: 'received', n: 1, title: 'อีเมลอัตโนมัติ: แจ้งว่าคณะได้รับข้อมูล', when: 'ส่งอัตโนมัติทันทีที่ผู้บริจาคกดส่งข้อมูลการบริจาค (เฉพาะผู้ที่ระบุอีเมล) เพื่อแจ้งว่าคณะได้รับข้อมูลแล้วและอยู่ระหว่างการตรวจสอบ', toggle: true },
+    { k: 'thanks', n: 2, title: 'ปุ่ม Email: แจ้งการบริจาคสำเร็จ', when: 'ส่งเมื่อเจ้าหน้าที่ Accept รายการแล้วกดปุ่ม Email ในเมนูตรวจสอบรายการบริจาค' },
+    { k: 'edonation', n: 3, title: 'ปุ่ม e-Donation: แจ้งการบันทึก e-Donation', when: 'ส่งเมื่อเจ้าหน้าที่กดปุ่ม e-Donation ในเมนูตรวจสอบรายการบริจาค (แสดงเฉพาะผู้ที่ขอ e-Donation)' },
+    { k: 'declined', n: 4, title: 'ปุ่มแจ้งไม่ผ่าน: แจ้งผลการตรวจสอบไม่ผ่าน', when: 'ส่งเมื่อเจ้าหน้าที่ Decline รายการแล้วกดปุ่ม “แจ้งไม่ผ่าน” ในเมนูตรวจสอบรายการบริจาค' }
+  ];
+  const TPL_DEFAULT = {
+    received: { enabled: true, subject: 'คณะได้รับข้อมูลการบริจาคของท่านแล้ว', body: 'เรียน {ชื่อ}\n\nคณะวิทยาศาสตร์และเทคโนโลยี ได้รับข้อมูลการบริจาคทุนการศึกษาจำนวน {จำนวนเงิน} บาท ของท่านเรียบร้อยแล้ว (เลขที่รายการ {เลขที่รายการ}) ขณะนี้อยู่ระหว่างการตรวจสอบหลักฐานการโอนเงินโดยเจ้าหน้าที่ และจะแจ้งผลให้ท่านทราบทางอีเมลนี้\n\nขอขอบพระคุณในความอนุเคราะห์ของท่าน' },
+    thanks: { enabled: true, subject: 'ขอขอบพระคุณสำหรับการบริจาคทุนการศึกษา', body: 'เรียน {ชื่อ}\n\nคณะวิทยาศาสตร์และเทคโนโลยี ได้ตรวจสอบและรับการบริจาคจำนวน {จำนวนเงิน} บาท เมื่อวันที่ {วันที่โอน} เรียบร้อยแล้ว\n\nขอขอบพระคุณในความอนุเคราะห์ของท่านที่ร่วมสนับสนุนทุนการศึกษา' },
+    edonation: { enabled: true, subject: 'แจ้งการบันทึกข้อมูล e-Donation', body: 'เรียน {ชื่อ}\n\nคณะวิทยาศาสตร์และเทคโนโลยี ได้ทำการบันทึกข้อมูล e-Donation ต่อกรมสรรพากรเรียบร้อยแล้ว สำหรับการบริจาคจำนวน {จำนวนเงิน} บาท เมื่อวันที่ {วันที่โอน} ท่านสามารถตรวจสอบได้\n\nหากต้องการใบเสร็จรับเงินบริจาค ให้ท่านติดต่อ {ช่องทางติดต่อ}' },
+    declined: { enabled: true, subject: 'แจ้งผลการตรวจสอบข้อมูลการบริจาค', body: 'เรียน {ชื่อ}\n\nคณะวิทยาศาสตร์และเทคโนโลยี ขอแจ้งว่า ไม่สามารถยืนยันการบริจาคเลขที่รายการ {เลขที่รายการ} จำนวน {จำนวนเงิน} บาท ได้ เนื่องจาก {เหตุผล}\n\nหากท่านได้โอนเงินแล้ว หรือต้องการสอบถามข้อมูลเพิ่มเติม โปรดติดต่อ {ช่องทางติดต่อ}\n\nขอขอบพระคุณในความอนุเคราะห์ของท่าน' }
+  };
+  let TEMPLATES = JSON.parse(JSON.stringify(TPL_DEFAULT));
+  let mailDirty = false;
+  const lastField = {};
+  function setMailDirty(v) {
+    mailDirty = v; const s = $('#mailState');
+    s.textContent = v ? 'มีการแก้ไขที่ยังไม่ได้บันทึก' : 'ยังไม่มีการแก้ไข'; s.classList.toggle('dirty', v);
+  }
+  const SAMPLE_DONOR = { id: 1008, donorType: 'person', name: 'นางสาวสมมติ ใจดี', amount: 1500, transferDate: '2026-10-07', declineReason: 'ยอดเงินในสลิปไม่ตรงกับจำนวนที่ระบุ' };
+
+  /* เติมตัวแปร: แทนค่าครั้งเดียว (ค่าที่แทนแล้วจะไม่ถูกแปลความซ้ำ) ตัวแปรที่ไม่รู้จักคงไว้ตามเดิม */
+  function fillTpl(str, d) {
+    const vals = { 'ชื่อ': nameOf(d), 'จำนวนเงิน': baht(d.amount), 'วันที่โอน': fmtD(d.transferDate), 'เลขที่รายการ': String(d.id), 'ช่องทางติดต่อ': contactText(), 'เหตุผล': d.declineReason || 'ไม่พบหลักฐานการโอนเงินที่สอดคล้องกับข้อมูลที่แจ้ง' };
+    return String(str).replace(/\{([^{}\n]*)\}/g, (m, k) => (Object.prototype.hasOwnProperty.call(vals, k) ? vals[k] : m));
+  }
+  const fillSubject = (str, d) => fillTpl(str, d).replace(/[\r\n]+/g, ' ').trim();
+
+  function buildVars() {
+    const dl = $('#varsList'); dl.replaceChildren();
+    VARS.forEach(([k, desc]) => { dl.append(el('dt', {}, [el('code', { textContent: '{' + k + '}' })]), el('dd', { textContent: desc })); });
+  }
+  function buildTemplates() {
+    const root = $('#tplRoot'); root.replaceChildren();
+    TPL_META.forEach((m) => {
+      const t = TEMPLATES[m.k]; const k = m.k;
+      const subj = el('input', { type: 'text', id: 'tp-' + k + '-subject', maxLength: 150, value: t.subject });
+      const body = el('textarea', { id: 'tp-' + k + '-body', maxLength: 3000, value: t.body, rows: 11 });
+      [subj, body].forEach((f) => { f.setAttribute('aria-describedby', 'er-tp-' + k); f.addEventListener('focus', () => { lastField[k] = f; }); f.addEventListener('input', () => { f.removeAttribute('aria-invalid'); $('#er-tp-' + k).textContent = ''; setMailDirty(true); updatePreview(k); }); });
+      lastField[k] = body;
+      const btns = el('div', { className: 'var-btns', role: 'group' }); btns.setAttribute('aria-label', 'แทรกตัวแปรในแม่แบบที่ ' + m.n);
+      VARS.forEach(([name]) => { const b = el('button', { type: 'button', className: 'var-btn', textContent: '+ {' + name + '}' }); b.addEventListener('click', () => insertVar(k, name)); btns.append(b); });
+      const err = el('p', { className: 'err' }); err.id = 'er-tp-' + k; err.setAttribute('role', 'alert');
+      const rst = el('button', { type: 'button', className: 'btn sm', textContent: 'คืนค่าเริ่มต้น' }); rst.addEventListener('click', () => resetTemplate(k));
+      const tst = el('button', { type: 'button', className: 'btn sm teal', textContent: 'ส่งอีเมลทดสอบถึงตัวเอง' }); tst.id = 'test-' + k; tst.addEventListener('click', () => testTemplate(k));
+      const left = el('div', {}, [
+        el('label', { className: 'l', htmlFor: subj.id, textContent: 'หัวเรื่องอีเมล' }), subj,
+        el('label', { className: 'l', htmlFor: body.id, textContent: 'ข้อความในอีเมล' }), body, btns, err
+      ]);
+      const pv = el('div', { className: 'mail-prev' }, [
+        el('p', { className: 'cap', textContent: 'ตัวอย่างอีเมล (ใช้ข้อมูลสมมติ)' }),
+        el('div', { className: 'hd' }), el('p', { className: 'sj' }), el('p', { className: 'bd' })
+      ].concat(k === 'thanks' ? [el('p', { className: 'att', textContent: '📎 ไฟล์แนบ: ' + CONFIG.certFileName })] : []));
+      pv.id = 'pv-' + k; pv.setAttribute('aria-live', 'off');
+      const head = el('div', { className: 'tpl-head' }, [el('div', {}, [el('h2', { textContent: m.n + '. ' + m.title }), el('p', { className: 'sub', textContent: m.when, style: 'margin:0' })]), el('div', { className: 'tpl-actions' }, [tst, rst])]);
+      const card = el('div', { className: 'card' }, [head]);
+      if (m.toggle) {
+        const en = el('input', { type: 'checkbox', id: 'tp-' + k + '-enabled', checked: t.enabled !== false });
+        en.addEventListener('change', () => setMailDirty(true));
+        card.append(el('label', { className: 'check-line', style: 'margin-top:12px' }, [en, el('span', { textContent: 'ส่งอีเมลนี้อัตโนมัติเมื่อผู้บริจาคส่งข้อมูล (ปิดไว้ = ไม่ส่ง)' })]));
+      }
+      if (k === 'thanks') card.append(el('p', { className: 'notice', style: 'margin-top:12px', textContent: 'อีเมลนี้จะแนบไฟล์ PDF “' + CONFIG.certFileName + '” ซึ่งระบบสร้างจากแม่แบบใบประกาศขอบคุณใน Google Slides โดยเติมชื่อ จำนวนเงิน และวันที่ให้อัตโนมัติ' }));
+      card.append(el('div', { className: 'tpl-grid' }, [left, pv]));
+      root.append(card); updatePreview(k);
+    });
+  }
+  function updatePreview(k) {
+    const pv = $('#pv-' + k); if (!pv) return;
+    pv.querySelector('.hd').textContent = 'จาก: ' + CONFIG.senderName + ' <' + CONFIG.senderEmail + '>   ถึง: ' + SAMPLE_DONOR.name + ' <ตัวอย่าง@example.com>';
+    pv.querySelector('.sj').textContent = fillSubject($('#tp-' + k + '-subject').value, SAMPLE_DONOR);
+    pv.querySelector('.bd').textContent = fillTpl($('#tp-' + k + '-body').value, SAMPLE_DONOR);
+  }
+  function refreshPreviews() { TPL_META.forEach((m) => updatePreview(m.k)); }
+  function insertVar(k, name) {
+    const f = lastField[k] || $('#tp-' + k + '-body'); const txt = '{' + name + '}';
+    const a = f.selectionStart == null ? f.value.length : f.selectionStart; const b = f.selectionEnd == null ? a : f.selectionEnd;
+    if (f.maxLength > 0 && f.value.length - (b - a) + txt.length > f.maxLength) { $('#er-tp-' + k).textContent = 'ข้อความยาวเกินกำหนด แทรกตัวแปรเพิ่มไม่ได้'; return; }
+    f.value = f.value.slice(0, a) + txt + f.value.slice(b);
+    f.focus(); f.setSelectionRange(a + txt.length, a + txt.length);
+    f.dispatchEvent(new Event('input', { bubbles: true }));
+  }
+  /* ส่งอีเมลทดสอบด้วยข้อความที่กำลังแก้ (ยังไม่บันทึกก็ได้) ไปที่บัญชีระบบ */
+  async function testTemplate(k) {
+    validateTemplates();
+    const errBox = $('#er-tp-' + k);
+    if (errBox.textContent) { const bad = document.querySelector('#tp-' + k + '-subject[aria-invalid="true"], #tp-' + k + '-body[aria-invalid="true"]'); if (bad) bad.focus(); return; }
+    TPL_META.forEach((m) => { if (m.k !== k) { $('#er-tp-' + m.k).textContent = ''; $('#tp-' + m.k + '-subject').removeAttribute('aria-invalid'); $('#tp-' + m.k + '-body').removeAttribute('aria-invalid'); } });
+    const btn = $('#test-' + k); btn.disabled = true; btn.textContent = 'กำลังส่ง…';
+    try {
+      const r = await api('testEmail', { kind: k, template: { subject: $('#tp-' + k + '-subject').value.trim(), body: $('#tp-' + k + '-body').value.replace(/\r\n/g, '\n').trim() } });
+      toast((demo ? 'โหมดตัวอย่าง: ' : '') + 'ส่งอีเมลทดสอบไปที่ ' + ((r && r.to) || CONFIG.senderEmail) + ' แล้ว โปรดตรวจสอบกล่องจดหมาย' + (r && r.certNote ? ' (หมายเหตุ: ' + r.certNote + ')' : ''), !!(r && r.certNote));
+    } catch (e) { if (e.code !== 'AUTH') toast((['VALIDATION', 'MAIL_QUOTA'].indexOf(e.code) >= 0 ? e.message : 'ส่งอีเมลทดสอบไม่สำเร็จ โปรดลองใหม่อีกครั้ง'), true); }
+    btn.disabled = false; btn.textContent = 'ส่งอีเมลทดสอบถึงตัวเอง';
+  }
+  async function resetTemplate(k) {
+    const ok = await ask('คืนค่าเริ่มต้นของแม่แบบนี้?', [el('p', { textContent: 'หัวเรื่องและข้อความของแม่แบบนี้จะกลับเป็นค่าเริ่มต้น จนกว่าจะกด “บันทึกแม่แบบอีเมล” ระบบยังใช้ข้อความที่บันทึกไว้เดิม' })], 'คืนค่าเริ่มต้น', true);
+    if (!ok) return;
+    $('#tp-' + k + '-subject').value = TPL_DEFAULT[k].subject; $('#tp-' + k + '-body').value = TPL_DEFAULT[k].body;
+    const en = $('#tp-' + k + '-enabled'); if (en) en.checked = true;
+    $('#er-tp-' + k).textContent = ''; updatePreview(k); setMailDirty(true);
+  }
+  function validateTemplates() {
+    let first = null; const known = VARS.map((v) => v[0]);
+    TPL_META.forEach((m) => {
+      const k = m.k; const subj = $('#tp-' + k + '-subject'); const body = $('#tp-' + k + '-body'); const err = $('#er-tp-' + k);
+      subj.removeAttribute('aria-invalid'); body.removeAttribute('aria-invalid'); err.textContent = '';
+      let msg = '', bad = null;
+      if (!subj.value.trim()) { msg = 'โปรดระบุหัวเรื่องอีเมล'; bad = subj; }
+      else if (/[\r\n]/.test(subj.value)) { msg = 'หัวเรื่องต้องอยู่ในบรรทัดเดียว'; bad = subj; }
+      else if (!body.value.trim()) { msg = 'โปรดระบุข้อความในอีเมล'; bad = body; }
+      else {
+        for (const f of [subj, body]) {
+          const names = (f.value.match(/\{[^{}\n]*\}/g) || []).map((x) => x.slice(1, -1));
+          const unknown = names.filter((n) => known.indexOf(n) < 0);
+          if (unknown.length) { msg = 'ไม่รู้จักตัวแปร {' + unknown[0] + '} ใช้ได้เฉพาะ ' + known.map((x) => '{' + x + '}').join(' ') ; bad = f; break; }
+          if (/[{}]/.test(f.value.replace(/\{[^{}\n]*\}/g, ''))) { msg = 'มีวงเล็บปีกกาไม่ครบคู่ โปรดตรวจสอบตัวแปรให้อยู่ในรูป {ชื่อ}'; bad = f; break; }
+        }
+      }
+      if (bad) { bad.setAttribute('aria-invalid', 'true'); err.textContent = msg; if (!first) first = bad; }
+    });
+    return first;
+  }
+  async function saveTemplates() {
+    const bad = validateTemplates();
+    if (bad) { bad.focus(); toast('มีข้อมูลที่ไม่ถูกต้อง โปรดแก้ไขช่องที่ทำเครื่องหมายไว้ก่อนบันทึก', true); return; }
+    const templates = {};
+    TPL_META.forEach((m) => { const en = $('#tp-' + m.k + '-enabled'); templates[m.k] = { subject: $('#tp-' + m.k + '-subject').value.trim(), body: $('#tp-' + m.k + '-body').value.replace(/\r\n/g, '\n').trim() }; if (en) templates[m.k].enabled = en.checked; });
+    const btn = $('#saveMailBtn'); btn.disabled = true; btn.textContent = 'กำลังบันทึก…';
+    try { await api('saveTemplates', { templates }); TEMPLATES = Object.assign({}, TEMPLATES, templates); setMailDirty(false); toast(demo ? 'บันทึกแล้ว (โหมดตัวอย่าง: ยังไม่ได้ใช้กับการส่งอีเมลจริง)' : 'บันทึกแม่แบบอีเมลเรียบร้อยแล้ว'); }
+    catch (e) { if (e.code !== 'AUTH') toast((e.code === 'VALIDATION' ? e.message + ' ' : 'บันทึกไม่สำเร็จ โปรดตรวจสอบการเชื่อมต่อและลองใหม่ ') + 'ข้อมูลที่กรอกยังอยู่ครบถ้วน', true); }
+    btn.disabled = false; btn.textContent = 'บันทึกแม่แบบอีเมล';
+  }
+  $('#saveMailBtn').addEventListener('click', saveTemplates);
+
+  /* ---------- เข้าสู่ระบบ / ออกจากระบบ ---------- */
+  function showLogin(msg) {
+    document.querySelectorAll('dialog[open]').forEach((d) => d.close());
+    $('#main').hidden = true; $('#headRight').hidden = true; $('#loginView').hidden = false;
+    $('#loginDemo').hidden = !demo;
+    $('#loginErr').textContent = msg || '';
+    $('#loginPw').value = '';
+    $('#loginPw').focus();
+  }
+  function showApp() {
+    $('#loginView').hidden = true; $('#main').hidden = false; $('#headRight').hidden = false;
+  }
+  $('#loginShow').addEventListener('click', () => {
+    const f = $('#loginPw'); const show = f.type === 'password';
+    f.type = show ? 'text' : 'password'; $('#loginShow').textContent = show ? 'ซ่อน' : 'แสดง'; $('#loginShow').setAttribute('aria-pressed', String(show));
+  });
+  $('#loginForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const pw = $('#loginPw').value;
+    if (!pw) { $('#loginErr').textContent = 'โปรดใส่รหัสผ่าน'; $('#loginPw').focus(); return; }
+    const btn = $('#loginBtn'); btn.disabled = true; btn.textContent = 'กำลังตรวจสอบ…'; $('#loginErr').textContent = '';
+    try {
+      const r = demo ? await demoApi('login', {}) : await Site.post('login', { password: pw });
+      setToken(r.token); $('#loginPw').value = '';
+      showApp(); init();
+    } catch (err) {
+      $('#loginErr').textContent = err.code === 'BAD_PASSWORD' ? 'รหัสผ่านไม่ถูกต้อง โปรดลองใหม่อีกครั้ง' : err.message;
+      $('#loginPw').select();
+    }
+    btn.disabled = false; btn.textContent = 'เข้าสู่ระบบ';
+  });
+  $('#logoutBtn').addEventListener('click', async () => {
+    if (dirty || mailDirty) {
+      const ok = await ask('ออกจากระบบ?', [el('p', { textContent: 'มีการแก้ไขที่ยังไม่ได้บันทึก หากออกจากระบบตอนนี้ การแก้ไขดังกล่าวจะหายไป' })], 'ออกจากระบบ', true);
+      if (!ok) return;
+    }
+    try { if (!demo) await Site.post('logout', { token: TOKEN }); } catch (e) { /* ไม่เป็นไร */ }
+    setToken(''); dirty = false; mailDirty = false;
+    showLogin('ออกจากระบบเรียบร้อยแล้ว');
+  });
+
+  /* ---------- เปลี่ยนรหัสผ่าน ---------- */
+  $('#pwBtn').addEventListener('click', () => {
+    ['#pwOld', '#pwNew', '#pwNew2'].forEach((x) => { $(x).value = ''; $(x).removeAttribute('aria-invalid'); });
+    $('#pwErr').textContent = ''; $('#pwDlg').showModal(); $('#pwOld').focus();
+  });
+  ['#pwX', '#pwCancel'].forEach((x) => $(x).addEventListener('click', () => $('#pwDlg').close()));
+  $('#pwForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const o = $('#pwOld').value; const n = $('#pwNew').value; const n2 = $('#pwNew2').value;
+    const bad = (sel, msg) => { $(sel).setAttribute('aria-invalid', 'true'); $('#pwErr').textContent = msg; $(sel).focus(); };
+    ['#pwOld', '#pwNew', '#pwNew2'].forEach((x) => $(x).removeAttribute('aria-invalid'));
+    if (!o) return bad('#pwOld', 'โปรดใส่รหัสผ่านปัจจุบัน');
+    if (n.length < 8) return bad('#pwNew', 'รหัสผ่านใหม่ต้องมีอย่างน้อย 8 ตัวอักษร');
+    if (n === o) return bad('#pwNew', 'รหัสผ่านใหม่ต้องไม่ซ้ำกับรหัสผ่านเดิม');
+    if (n !== n2) return bad('#pwNew2', 'ยืนยันรหัสผ่านใหม่ไม่ตรงกัน');
+    const btn = $('#pwSave'); btn.disabled = true; btn.textContent = 'กำลังบันทึก…';
+    try {
+      const r = await api('changePassword', { oldPassword: o, newPassword: n });
+      setToken(r.token); $('#pwDlg').close();
+      if (/รหัสผ่านเริ่มต้น/.test($('#setupNote').textContent)) { const rest = $('#setupNote').textContent.split(' · ').filter((x) => !/รหัสผ่านเริ่มต้น/.test(x)); $('#setupNote').textContent = rest.join(' · '); $('#setupNote').hidden = !rest.length; }
+      toast(demo ? 'โหมดตัวอย่าง: ยังไม่ได้เปลี่ยนรหัสผ่านจริง' : 'เปลี่ยนรหัสผ่านเรียบร้อยแล้ว');
+    } catch (err) {
+      if (err.code === 'BAD_PASSWORD') bad('#pwOld', 'รหัสผ่านปัจจุบันไม่ถูกต้อง');
+      else if (err.code !== 'AUTH') $('#pwErr').textContent = err.message;
+    }
+    btn.disabled = false; btn.textContent = 'เปลี่ยนรหัสผ่าน';
+  });
+
+  /* ---------- เริ่มต้น ---------- */
+  $('#demoBanner').hidden = !demo;
+  $('#viewDonate').href = Site.pages.donate; $('#viewDonors').href = Site.pages.donors;
+  async function init() {
+    $('#loadErr').hidden = true;
+    try {
+      const data = await api('init');
+      DONATIONS = data.donations || []; $('#adminName').textContent = data.user || 'Admin';
+      SERVER = { certReady: data.certReady !== false, telegramReady: data.telegramReady !== false };
+      if (data.sender) { CONFIG.senderName = data.sender.name || CONFIG.senderName; CONFIG.senderEmail = data.sender.email || CONFIG.senderEmail; }
+      const missing = [];
+      if (!SERVER.certReady) missing.push('แม่แบบใบประกาศขอบคุณ (CERT_SLIDE_ID) ทำให้ยังส่งปุ่ม Email ไม่ได้');
+      if (!SERVER.telegramReady) missing.push('การแจ้งเตือน Telegram (TELEGRAM_BOT_TOKEN / TELEGRAM_CHAT_ID)');
+      const notes = [];
+      if (data.pwDefault) notes.push('ยังใช้รหัสผ่านเริ่มต้นอยู่ โปรดกด “เปลี่ยนรหัสผ่าน” มุมขวาบนทันที');
+      if (missing.length) notes.push('ระบบหลังบ้านยังไม่ได้ตั้งค่า: ' + missing.join(' และ ') + ' โปรดให้เจ้าของระบบตั้งค่าใน Apps Script > Project Settings > Script properties');
+      $('#setupNote').hidden = !notes.length;
+      $('#setupNote').textContent = notes.join(' · ');
+      slipCache = {};
+      buildImages(); buildTexts((data.config && data.config.texts) || {});
+      TEMPLATES = Object.assign(JSON.parse(JSON.stringify(TPL_DEFAULT)), data.templates || {});
+      buildVars(); buildTemplates(); setMailDirty(false); setDirty(false);
+      IMAGES.forEach((im) => { const u = data.config && data.config.images && data.config.images[im.k]; if (u) { imgState[im.k].src = u; paintImg(im.k); } });
+      renderRows();
+    } catch (e) { if (e.code !== 'AUTH') { $('#loadErr').hidden = false; $('#rowsEmpty').hidden = true; } }
+  }
+  $('#reload').addEventListener('click', init);
+  if (!demo && TOKEN) { showApp(); init(); } else showLogin('');
+</script>
+</body>
+</html>
