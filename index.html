@@ -441,7 +441,7 @@
 
         <div class="field">
           <label for="taxId"><span id="taxLabelText">เลขบัตรประชาชน</span></label>
-          <input id="taxId" name="taxId" type="text" inputmode="numeric" autocomplete="off" maxlength="13" placeholder="ตัวเลข 13 หลัก" aria-describedby="tax-hint err-taxId">
+          <input id="taxId" name="taxId" type="text" inputmode="numeric" autocomplete="off" placeholder="ตัวเลข 13 หลัก" aria-describedby="tax-hint err-taxId">
           <p class="tax-hint" id="tax-hint">ใช้สำหรับการดำเนินการ e-Donation เท่านั้น และจะไม่เปิดเผยในรายนามผู้บริจาค</p>
           <p class="err" id="err-taxId" role="alert"></p>
         </div>
@@ -594,10 +594,21 @@
     if (!receiptBox.checked) setError('taxId', '');
   }
   receiptBox.addEventListener('change', syncReceipt);
-  taxInput.addEventListener('input', () => {
-    taxInput.value = taxInput.value.replace(/\D/g, '').slice(0, 13);
-    if (taxInput.value.length === 13) setError('taxId', '');
+  /* รับเลขไทย (๐-๙) และเลขเต็มความกว้าง (０-９) แปลงเป็นเลขอารบิก; ตัดขีด/เว้นวรรคที่วางมา
+     (ไม่ใช้ maxlength เพราะจะตัดข้อความที่วางแบบมีขีดก่อนถึงตัวกรอง ทำให้เลขหายไปบางหลัก) */
+  function cleanDigits(s) {
+    return String(s)
+      .replace(/[๐-๙]/g, (c) => String(c.charCodeAt(0) - 0x0E50))
+      .replace(/[０-９]/g, (c) => String(c.charCodeAt(0) - 0xFF10))
+      .replace(/\D/g, '').slice(0, 13);
+  }
+  taxInput.addEventListener('input', (e) => {
+    if (e.isComposing) return;
+    const v = cleanDigits(taxInput.value);
+    if (v !== taxInput.value) taxInput.value = v;
+    if (v.length === 13) setError('taxId', '');
   });
+  taxInput.addEventListener('compositionend', () => { taxInput.value = cleanDigits(taxInput.value); });
   function validThaiId(s) {
     if (!/^\d{13}$/.test(s)) return false;
     let sum = 0;
@@ -654,7 +665,7 @@
     let taxMsg = '';
     if (tax) {
       if (tax.length !== 13) taxMsg = 'โปรดระบุให้ครบ 13 หลัก (ระบุแล้ว ' + tax.length + ' หลัก)';
-      else if (!ent && !validThaiId(tax)) taxMsg = 'เลขบัตรประชาชนไม่ถูกต้อง โปรดตรวจสอบอีกครั้ง';
+      else if (!ent && !validThaiId(tax)) taxMsg = 'เลขบัตรประชาชนไม่ถูกต้อง โปรดตรวจสอบอีกครั้ง (หากเป็นผู้ถือเลขประจำตัวประเภทอื่น เช่น ชาวต่างชาติ โปรดติดต่อเจ้าหน้าที่)';
     } else if (receiptBox.checked) {
       taxMsg = ent ? 'โปรดระบุเลขประจำตัวผู้เสียภาษี 13 หลัก เพื่อใช้ในการดำเนินการ e-Donation'
                    : 'โปรดระบุเลขบัตรประชาชน 13 หลัก เพื่อใช้ในการดำเนินการ e-Donation';
