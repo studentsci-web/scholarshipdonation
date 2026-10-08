@@ -441,8 +441,8 @@
 
         <div class="field">
           <label for="taxId"><span id="taxLabelText">เลขบัตรประชาชน</span></label>
-          <input id="taxId" name="taxId" type="text" inputmode="numeric" autocomplete="off" placeholder="ตัวเลข 13 หลัก" aria-describedby="tax-hint err-taxId">
-          <p class="tax-hint" id="tax-hint">ใช้สำหรับการดำเนินการ e-Donation เท่านั้น และจะไม่เปิดเผยในรายนามผู้บริจาค</p>
+          <input id="taxId" name="taxId" type="text" inputmode="text" autocapitalize="characters" autocomplete="off" spellcheck="false" placeholder="เช่น 1-2345-67890-12-3" aria-describedby="tax-hint err-taxId">
+          <p class="tax-hint" id="tax-hint">ใช้สำหรับการดำเนินการ e-Donation เท่านั้น และจะไม่เปิดเผยในรายนามผู้บริจาค ผู้บริจาคชาวต่างชาติสามารถระบุเลขหนังสือเดินทางหรือเลขประจำตัวอื่นได้</p>
           <p class="err" id="err-taxId" role="alert"></p>
         </div>
 
@@ -469,6 +469,7 @@
 
         <div class="field">
           <label class="check"><input type="checkbox" id="promote" name="promote"><span>อนุญาตให้คณะวิทยาศาสตร์และเทคโนโลยีเผยแพร่ข้อมูลการบริจาคของท่าน เพื่อการประชาสัมพันธ์ผ่านเว็บไซต์และ/หรือเว็บเพจของคณะ <span class="opt">(ไม่บังคับ)</span></span></label>
+          <p class="tax-hint">ชื่อของท่านจะปรากฏในหน้ารายนามผู้บริจาคอยู่แล้วเมื่อเจ้าหน้าที่ตรวจสอบเรียบร้อย การติ๊กช่องนี้เป็นการอนุญาตให้คณะนำข้อมูลไปเผยแพร่ในสื่ออื่นเพิ่มเติม</p>
         </div>
 
         <div class="field">
@@ -581,12 +582,12 @@
     const ent = donorType() === 'entity';
     $('#personFields').hidden = ent;
     $('#entityFields').hidden = !ent;
-    $('#taxLabelText').textContent = ent ? 'เลขประจำตัวผู้เสียภาษี' : 'เลขบัตรประชาชน';
+    $('#taxLabelText').textContent = ent ? 'เลขประจำตัวผู้เสียภาษี' : 'เลขบัตรประชาชน / เลขหนังสือเดินทาง';
     ['name', 'entityName', 'entityLogo', 'taxId'].forEach((id) => setError(id, ''));
   }
   document.querySelectorAll('input[name="donorType"]').forEach((r) => r.addEventListener('change', syncType));
 
-  /* e-Donation และเลขประจำตัว 13 หลัก */
+  /* e-Donation และเลขประจำตัว */
   const receiptBox = $('#receipt');
   const taxInput = $('#taxId');
   function syncReceipt() {
@@ -594,27 +595,38 @@
     if (!receiptBox.checked) setError('taxId', '');
   }
   receiptBox.addEventListener('change', syncReceipt);
-  /* รับเลขไทย (๐-๙) และเลขเต็มความกว้าง (０-９) แปลงเป็นเลขอารบิก; ตัดขีด/เว้นวรรคที่วางมา
-     (ไม่ใช้ maxlength เพราะจะตัดข้อความที่วางแบบมีขีดก่อนถึงตัวกรอง ทำให้เลขหายไปบางหลัก) */
-  function cleanDigits(s) {
+  /* เลขประจำตัว: รับตัวเลขหรือตัวอักษร A-Z (เช่น หนังสือเดินทาง) ยาว 5-20 ตัว ไม่ตรวจรูปแบบบัตรไทย
+     - แปลงเลขไทย (๐-๙) และเลขเต็มความกว้าง (０-９) เป็นเลขอารบิก, ตัวอักษรเป็นตัวพิมพ์ใหญ่
+     - ถ้าเป็นตัวเลขล้วนไม่เกิน 13 หลัก ใส่ขีดอัตโนมัติแบบ 1-2345-67890-12-3 (ค่าที่ส่งไม่มีขีด)
+     - ไม่ใช้ maxlength เพราะจะตัดข้อความที่วางมาก่อนถึงตัวกรอง */
+  const TAX_MIN = 5, TAX_MAX = 20;
+  function cleanId(s) {
     return String(s)
       .replace(/[๐-๙]/g, (c) => String(c.charCodeAt(0) - 0x0E50))
       .replace(/[０-９]/g, (c) => String(c.charCodeAt(0) - 0xFF10))
-      .replace(/\D/g, '').slice(0, 13);
+      .toUpperCase().replace(/[^0-9A-Z]/g, '').slice(0, TAX_MAX);
   }
-  taxInput.addEventListener('input', (e) => {
-    if (e.isComposing) return;
-    const v = cleanDigits(taxInput.value);
-    if (v !== taxInput.value) taxInput.value = v;
-    if (v.length === 13) setError('taxId', '');
-  });
-  taxInput.addEventListener('compositionend', () => { taxInput.value = cleanDigits(taxInput.value); });
-  function validThaiId(s) {
-    if (!/^\d{13}$/.test(s)) return false;
-    let sum = 0;
-    for (let i = 0; i < 12; i++) sum += Number(s[i]) * (13 - i);
-    return (11 - (sum % 11)) % 10 === Number(s[12]);
+  function fmtId(raw) {
+    if (!/^\d+$/.test(raw) || raw.length > 13) return raw;
+    return [raw.slice(0, 1), raw.slice(1, 5), raw.slice(5, 10), raw.slice(10, 12), raw.slice(12, 13)].filter(Boolean).join('-');
   }
+  function refreshTax() {
+    const el = taxInput;
+    const caret = el.selectionStart == null ? null : el.selectionStart;
+    const before = caret == null ? 0 : cleanId(el.value.slice(0, caret)).length;
+    const raw = cleanId(el.value), shown = fmtId(raw);
+    if (shown !== el.value) {
+      el.value = shown;
+      if (caret != null && document.activeElement === el) {
+        let n = 0, pos = 0;
+        while (pos < shown.length && n < before) { if (/[0-9A-Z]/.test(shown[pos])) n++; pos++; }
+        try { el.setSelectionRange(pos, pos); } catch (e) { /* ignore */ }
+      }
+    }
+    if (raw.length >= TAX_MIN) setError('taxId', '');
+  }
+  taxInput.addEventListener('input', (e) => { if (!e.isComposing) refreshTax(); });
+  taxInput.addEventListener('compositionend', refreshTax);
   syncType();
   syncReceipt();
 
@@ -661,14 +673,13 @@
     const ent = donorType() === 'entity';
     if (ent) flag('entityName', $('#entityName').value.trim() ? '' : 'โปรดระบุชื่อนิติบุคคล');
     else flag('name', $('#name').value.trim() ? '' : 'โปรดระบุชื่อ-นามสกุล');
-    const tax = taxInput.value;
+    const tax = cleanId(taxInput.value);
     let taxMsg = '';
     if (tax) {
-      if (tax.length !== 13) taxMsg = 'โปรดระบุให้ครบ 13 หลัก (ระบุแล้ว ' + tax.length + ' หลัก)';
-      else if (!ent && !validThaiId(tax)) taxMsg = 'เลขบัตรประชาชนไม่ถูกต้อง โปรดตรวจสอบอีกครั้ง (หากเป็นผู้ถือเลขประจำตัวประเภทอื่น เช่น ชาวต่างชาติ โปรดติดต่อเจ้าหน้าที่)';
+      if (tax.length < TAX_MIN) taxMsg = 'เลขประจำตัวต้องมีอย่างน้อย ' + TAX_MIN + ' ตัว (ระบุแล้ว ' + tax.length + ' ตัว)';
     } else if (receiptBox.checked) {
-      taxMsg = ent ? 'โปรดระบุเลขประจำตัวผู้เสียภาษี 13 หลัก เพื่อใช้ในการดำเนินการ e-Donation'
-                   : 'โปรดระบุเลขบัตรประชาชน 13 หลัก เพื่อใช้ในการดำเนินการ e-Donation';
+      taxMsg = ent ? 'โปรดระบุเลขประจำตัวผู้เสียภาษี เพื่อใช้ในการดำเนินการ e-Donation'
+                   : 'โปรดระบุเลขบัตรประชาชนหรือเลขหนังสือเดินทาง เพื่อใช้ในการดำเนินการ e-Donation';
     }
     flag('taxId', taxMsg, taxInput);
     const email = $('#email').value.trim();
@@ -693,7 +704,7 @@
       org: ent ? '' : $('#org').value.trim(),
       entityName: ent ? $('#entityName').value.trim() : '',
       wantEDonation: receiptBox.checked,
-      taxId: taxInput.value,
+      taxId: cleanId(taxInput.value),
       email: $('#email').value.trim(),
       phone: $('#phone').value.trim(),
       message: $('#message').value.trim(),

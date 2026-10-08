@@ -98,7 +98,7 @@
 
   /* summary */
   .summary {
-    display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 0 0 22px; padding: 0;
+    display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin: 0 0 22px; padding: 0;
   }
   .summary > div {
     background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; text-align: center;
@@ -107,7 +107,8 @@
   .summary dd { margin: 2px 0 0; font-family: var(--serif); font-weight: 700; font-size: 1.7rem; line-height: 1.4; overflow-wrap: anywhere; }
   .summary dd small { font-family: var(--sans); font-weight: 500; font-size: 0.9375rem; margin-left: 4px; }
   .summary dd.date { font-size: 1.1rem; padding-top: 6px; }
-  @media (max-width: 640px) { .summary { grid-template-columns: 1fr; } }
+  @media (max-width: 980px) { .summary { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 460px) { .summary { grid-template-columns: 1fr; } }
 
   /* controls */
   .controls { display: grid; gap: 12px; margin-bottom: 22px; }
@@ -244,12 +245,12 @@
     <p data-cfg="donorsIntro">
       คณะวิทยาศาสตร์และเทคโนโลยีขอขอบพระคุณผู้มีอุปการคุณทุกท่านที่ร่วมสนับสนุนกองทุนการศึกษา
       โดยแสดงเฉพาะรายการที่เจ้าหน้าที่ตรวจสอบการโอนเงินเรียบร้อยแล้ว
-      และผู้บริจาคได้อนุญาตให้เผยแพร่
     </p>
   </section>
 
   <dl class="summary" id="summary" aria-label="สรุปผลการบริจาค" hidden>
-    <div><dt>จำนวนผู้บริจาค</dt><dd><span id="sumCount">–</span><small>ราย</small></dd></div>
+    <div><dt>ผู้บริจาคทั้งหมด</dt><dd><span id="sumCount">–</span><small>ราย</small></dd></div>
+    <div><dt>ผู้บริจาคไม่ประสงค์ออกนาม</dt><dd><span id="sumAnon">–</span><small>ราย</small></dd></div>
     <div id="sumTotalBox"><dt>ยอดบริจาครวม</dt><dd><span id="sumTotal">–</span><small>บาท</small></dd></div>
     <div><dt>ปรับปรุงข้อมูลล่าสุด</dt><dd class="date" id="sumUpdated">–</dd></div>
   </dl>
@@ -302,8 +303,8 @@
   </section>
 
   <p class="note" id="privacyNote" hidden>
-    รายนามนี้แสดงเฉพาะชื่อหรือชื่อนิติบุคคล (และโลโก้ของนิติบุคคลที่ให้ความยินยอม) ของผู้ที่อนุญาตให้เผยแพร่เท่านั้น
-    ผู้ที่ไม่ประสงค์ออกนามจะแสดงเป็น “ผู้ไม่ประสงค์ออกนาม” ทั้งนี้
+    รายนามนี้แสดงเฉพาะชื่อหรือชื่อนิติบุคคล (และโลโก้ของนิติบุคคลที่ให้ความยินยอม)
+    ผู้ที่ไม่ประสงค์ออกนามจะแสดงเป็น “ผู้ไม่ประสงค์ออกนาม” และนับรวมไว้ในสรุปด้านบน ทั้งนี้
     ข้อมูลเลขประจำตัว อีเมล และหมายเลขโทรศัพท์ของผู้บริจาคจะไม่ถูกเผยแพร่
   </p>
 </main>
@@ -320,7 +321,8 @@
 <script src="site.js"></script>
 <script>
   /* ตั้งค่าการแสดงผล (การเชื่อมต่อหลังบ้านตั้งใน config.js)
-     หลังบ้านส่งเฉพาะรายการที่ Admin Accept แล้วและผู้บริจาคอนุญาตให้เผยแพร่
+     หลังบ้านส่งเฉพาะรายการที่ Admin Accept แล้ว (ทุกรายการ ไม่ว่าจะติ๊กอนุญาตเผยแพร่หรือไม่
+     เพราะช่องนั้นใช้กับการประชาสัมพันธ์ในสื่ออื่นของคณะ)
      ไม่ส่งชื่อจริงของผู้ไม่ประสงค์ออกนาม เลขบัตร อีเมล เบอร์โทร และจำนวนเงินรายคน */
   const CONFIG = {
     showAmount: false,           // true = แสดงจำนวนเงินของแต่ละราย (ต้องเปิด PUBLIC_SHOW_AMOUNT ฝั่ง Apps Script ด้วย)
@@ -330,7 +332,7 @@
   };
   const ANON = 'ผู้ไม่ประสงค์ออกนาม';
 
-  /* ข้อมูลสมมติสำหรับโหมดตัวอย่าง (รายการ pending / ไม่อนุญาตเผยแพร่ ต้องไม่แสดง) */
+  /* ข้อมูลสมมติสำหรับโหมดตัวอย่าง (รายการ pending ต้องไม่แสดง) */
   const SAMPLE = { updatedAt: '2026-10-07', donors: [
     { id: 1,  status: 'approved', allowPromotion: true,  donorType: 'entity', displayName: 'บริษัท ตัวอย่างวิทยาศาสตร์ จำกัด', amount: 50000, date: '2026-10-05' },
     { id: 2,  status: 'approved', allowPromotion: true,  donorType: 'entity', displayName: 'มูลนิธิตัวอย่างเพื่อการศึกษา', amount: 30000, date: '2026-09-28' },
@@ -347,7 +349,7 @@
     { id: 13, status: 'approved', allowPromotion: true,  donorType: 'person', displayName: 'นางทดสอบ สว่างวงศ์', amount: 600, date: '2026-09-22' },
     { id: 14, status: 'approved', allowPromotion: true,  donorType: 'person', displayName: 'นายตัวอย่าง ศรีสุข', amount: 200, date: '2026-09-20' },
     { id: 90, status: 'pending',  allowPromotion: true,  donorType: 'person', displayName: 'รอตรวจสอบ ต้องไม่แสดง', amount: 999, date: '2026-10-07' },
-    { id: 91, status: 'approved', allowPromotion: false, donorType: 'person', displayName: 'ไม่อนุญาตเผยแพร่ ต้องไม่แสดง', amount: 999, date: '2026-10-07' }
+    { id: 91, status: 'approved', allowPromotion: false, donorType: 'person', displayName: 'นายไม่อนุญาตสื่ออื่น แต่แสดงในรายนาม', amount: 999, date: '2026-10-07' }
   ] };
 
   const $ = (s) => document.querySelector(s);
@@ -367,9 +369,9 @@
 
   const safeImg = Site.safeImg;
 
-  /* กรองซ้ำฝั่งหน้าเว็บ (ชั้นที่สอง): ต้องผ่านการตรวจสอบและอนุญาตเผยแพร่เท่านั้น */
+  /* กรองซ้ำฝั่งหน้าเว็บ (ชั้นที่สอง): ต้องผ่านการตรวจสอบของเจ้าหน้าที่แล้วเท่านั้น */
   function isShown(d) {
-    return !!d && d.status === 'approved' && d.allowPromotion === true;
+    return !!d && d.status === 'approved';
   }
   function normalize(d) {
     const anon = d.anonymous === true;
@@ -416,7 +418,9 @@
       $('#loading').hidden = true;
       if (!ALL.length) { $('#empty').hidden = false; return; }
       const total = typeof data.total === 'number' ? data.total : ALL.reduce((s, d) => s + d.amount, 0);
+      const anonCount = typeof data.anonCount === 'number' ? data.anonCount : ALL.filter((d) => d.anon).length;
       $('#sumCount').textContent = baht(ALL.length);
+      $('#sumAnon').textContent = baht(anonCount);
       $('#sumTotal').textContent = baht(total);
       $('#sumUpdated').textContent = thaiDate(UPDATED) || '–';
       $('#summary').hidden = false; $('#controls').hidden = false; $('#privacyNote').hidden = false;

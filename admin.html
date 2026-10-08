@@ -657,8 +657,8 @@
   /* ----- Check dialog ----- */
   let curId = null; let declineStage = false; let revealed = false; let slipReq = 0;
   const byId = (id) => DONATIONS.find((d) => String(d.id) === String(id));
-  function fmtTax(s) { return s.length === 13 ? [s[0], s.slice(1, 5), s.slice(5, 10), s.slice(10, 12), s[12]].join('-') : s; }
-  function maskTax(s) { return s.length === 13 ? '•-••••-•••••-' + s.slice(10, 12) + '-' + s[12] : '•'.repeat(Math.max(s.length - 3, 0)) + s.slice(-3); }
+  function fmtTax(s) { return /^\d{13}$/.test(s) ? [s[0], s.slice(1, 5), s.slice(5, 10), s.slice(10, 12), s[12]].join('-') : s; }
+  function maskTax(s) { return /^\d{13}$/.test(s) ? '•-••••-•••••-' + s.slice(10, 12) + '-' + s[12] : '•'.repeat(Math.max(s.length - 3, 0)) + s.slice(-3); }
   const IMG_DATA_MIME = ['image/jpeg', 'image/png', 'image/webp'];
   const dataUrl = (f) => (f && IMG_DATA_MIME.indexOf(f.mime) >= 0 && /^[A-Za-z0-9+/=]+$/.test(f.data || '') ? 'data:' + f.mime + ';base64,' + f.data : '');
   let slipCache = {};
